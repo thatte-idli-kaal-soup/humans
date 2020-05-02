@@ -9,6 +9,8 @@ from textwrap import wrap
 QnA = namedtuple("QnA", ["q", "a"], defaults=(None,))
 FADE_IN = "fade=t=in:st=0:d=0.5"
 FADE_OUT = "fade=t=out:st=2.5:d=0.5"
+HERE = os.path.dirname(os.path.basename(__file__))
+LOGO_FILE = os.path.join(HERE, "..", "logo_48x48.png")
 
 
 def compute_drawtext_param(
@@ -65,7 +67,7 @@ def draw_text(input_file, output_file, text):
     subprocess.check_call(command)
 
 
-def draw_logo(input_file, output_file, logo_file):
+def draw_logo(input_file, output_file):
     command = [
         "ffmpeg",
         "-y",
@@ -74,7 +76,7 @@ def draw_logo(input_file, output_file, logo_file):
         "-i",
         input_file,
         "-i",
-        logo_file,
+        LOGO_FILE,
         "-filter_complex",
         f"overlay=(main_w-overlay_w):10,{FADE_IN},{FADE_OUT}",
         output_file,
@@ -122,7 +124,7 @@ def concat_videos(input_1, input_2, output_file):
 def prepend_text_video(input_file, output_file, text):
     create_black_background(input_file, "black.mp4")
     draw_text("black.mp4", "intro.mp4", text)
-    draw_logo("intro.mp4", "intro-logo.mp4", "logo_48x48.png")
+    draw_logo("intro.mp4", "intro-logo.mp4")
     concat_videos("intro-logo.mp4", input_file, output_file)
 
 
