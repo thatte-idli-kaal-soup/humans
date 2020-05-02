@@ -165,11 +165,11 @@ def main(video_path, timings, crop=None, n=None, with_intro=False):
         print(f"Creating part {idx} of {video_path}")
         columns = line.split(";", 1)
         (timing,) = columns[:1]
-        start, end = timing.split("-")
+        start, end = timing.strip().split("-")
         output_file = split_video(video_path, start, end, idx, crop)
         if with_intro:
             if len(columns) > 1:
-                q_n_a = columns[1].split(";")
+                q_n_a = columns[1].strip().split(";")
                 q_n_a = QnA(*q_n_a)
             else:
                 q_n_a = QnA("hello world")
