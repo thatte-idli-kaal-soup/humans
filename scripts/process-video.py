@@ -126,38 +126,42 @@ def prepend_text_video(input_file, output_file, text):
     concat_videos("intro-logo.mp4", input_file, output_file)
 
 
+def split_video(input_file, start, end, idx, crop):
+    video_name = os.path.basename(input_file)
+    start_seconds = str(to_seconds(start))
+    end_seconds = str(to_seconds(end))
+    command = [
+        "ffmpeg",
+        "-v",
+        "0",
+        "-y",
+        "-i",
+        input_file,
+        "-ss",
+        start_seconds,
+        "-to",
+        end_seconds,
+        f"part-{idx:02d}-{video_name}",
+    ]
+    if crop:
+        command.insert(-1, "-filter:v")
+        command.insert(-1, f"crop={crop}")
+    subprocess.call(
+        command, cwd=os.path.dirname(input_file),
+    )
+
+
 def to_seconds(timestamp):
     times = [float(x) for x in timestamp.split(".", 1)]
     return times[0] * 60 + times[1]
 
 
 def main(video_path, timings, n, crop=None):
-    video_name = os.path.basename(video_path)
-    for i, line in enumerate(timings, start=1):
-        if n and i != n:
+    for idx, line in enumerate(timings, start=1):
+        if n and idx != n:
             continue
         start, end = line.split("-")
-        start_seconds = str(to_seconds(start))
-        end_seconds = str(to_seconds(end))
-        command = [
-            "ffmpeg",
-            "-v",
-            "0",
-            "-y",
-            "-i",
-            video_name,
-            "-ss",
-            start_seconds,
-            "-to",
-            end_seconds,
-            f"part-{i:02d}-{video_name}",
-        ]
-        if crop:
-            command.insert(-1, "-filter:v")
-            command.insert(-1, f"crop={crop}")
-        subprocess.call(
-            command, cwd=os.path.dirname(video_path),
-        )
+        split_video(video_path, start, end, idx, crop)
 
 
 if __name__ == "__main__":
