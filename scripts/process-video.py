@@ -141,6 +141,8 @@ def main(video_path, timings, n, crop=None):
         end_seconds = str(to_seconds(end))
         command = [
             "ffmpeg",
+            "-v",
+            "0",
             "-y",
             "-i",
             video_name,
