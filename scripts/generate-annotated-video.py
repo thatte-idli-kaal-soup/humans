@@ -41,10 +41,6 @@ def create_black_background(input_file, output_file, time=3):
 
 
 def draw_text(input_file, output_file, text):
-    command = """ffmpeg -i {} -vf drawtext=":text='Your text'",fade=t=in:st=0:d=1,fade=t=out:st=3:d=1 intro.mp4
-    """.format(
-        input_file
-    )
     drawtext_param = compute_drawtext_param(text.q)
     if text.a:
         h_offset = drawtext_param.count("drawtext") + 1
