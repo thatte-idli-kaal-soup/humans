@@ -6,6 +6,8 @@ import subprocess
 from textwrap import wrap
 
 QnA = namedtuple("QnA", ["q", "a"])
+FADE_IN = "fade=t=in:st=0:d=0.5"
+FADE_OUT = "fade=t=out:st=2.5:d=0.5"
 
 
 def compute_drawtext_param(
@@ -56,7 +58,24 @@ def draw_text(input_file, output_file, text):
         "-i",
         input_file,
         "-vf",
-        f"{drawtext_param},fade=t=in:st=0:d=1,fade=t=out:st=3:d=1",
+        f"{drawtext_param},{FADE_IN},{FADE_OUT}",
+        output_file,
+    ]
+    subprocess.check_call(command)
+
+
+def draw_logo(input_file, output_file, logo_file):
+    command = [
+        "ffmpeg",
+        "-y",
+        "-v",
+        "0",
+        "-i",
+        input_file,
+        "-i",
+        logo_file,
+        "-filter_complex",
+        f"overlay=(main_w-overlay_w):10,{FADE_IN},{FADE_OUT}",
         output_file,
     ]
     subprocess.check_call(command)
@@ -100,9 +119,10 @@ def concat_videos(input_1, input_2, output_file):
 
 
 def prepend_text_video(input_file, output_file, text):
-    create_black_background(input_file, "black.mp4", 4)
+    create_black_background(input_file, "black.mp4")
     draw_text("black.mp4", "intro.mp4", text)
-    concat_videos("intro.mp4", input_file, output_file)
+    draw_logo("intro.mp4", "intro-logo.mp4", "logo_48x48.png")
+    concat_videos("intro-logo.mp4", input_file, output_file)
 
 
 text = QnA(
