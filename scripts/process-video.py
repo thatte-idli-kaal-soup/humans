@@ -162,6 +162,7 @@ def main(video_path, timings, crop=None, n=None, with_intro=False):
     for idx, line in enumerate(timings, start=1):
         if n and idx != n:
             continue
+        print(f"Creating part {idx} of {video_path}")
         columns = line.split(";", 1)
         (timing,) = columns[:1]
         start, end = timing.split("-")
