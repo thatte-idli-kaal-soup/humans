@@ -132,6 +132,7 @@ def split_video(input_file, start, end, idx, crop):
     video_name = os.path.basename(input_file)
     start_seconds = str(to_seconds(start))
     end_seconds = str(to_seconds(end))
+    output_file = f"part-{idx:02d}-{video_name}"
     command = [
         "ffmpeg",
         "-v",
@@ -143,14 +144,13 @@ def split_video(input_file, start, end, idx, crop):
         start_seconds,
         "-to",
         end_seconds,
-        f"part-{idx:02d}-{video_name}",
+        output_file,
     ]
     if crop:
         command.insert(-1, "-filter:v")
         command.insert(-1, f"crop={crop}")
-    subprocess.call(
-        command, cwd=os.path.dirname(input_file),
-    )
+    subprocess.check_call(command)
+    return output_file
 
 
 def to_seconds(timestamp):
