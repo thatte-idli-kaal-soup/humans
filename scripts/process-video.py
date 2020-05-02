@@ -6,7 +6,7 @@ import os
 import subprocess
 from textwrap import wrap
 
-QnA = namedtuple("QnA", ["q", "a"])
+QnA = namedtuple("QnA", ["q", "a"], defaults=(None,))
 FADE_IN = "fade=t=in:st=0:d=0.5"
 FADE_OUT = "fade=t=out:st=2.5:d=0.5"
 
