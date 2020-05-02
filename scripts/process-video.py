@@ -137,18 +137,17 @@ def main(video_path, timings, n, crop=None):
         if n and i != n:
             continue
         start, end = line.split("-")
-        start_seconds = to_seconds(start)
-        end_seconds = to_seconds(end)
-        duration = end_seconds - start_seconds
+        start_seconds = str(to_seconds(start))
+        end_seconds = str(to_seconds(end))
         command = [
             "ffmpeg",
             "-y",
             "-i",
             video_name,
             "-ss",
-            str(start_seconds),
-            "-t",
-            str(duration),
+            start_seconds,
+            "-to",
+            end_seconds,
             f"part-{i:02d}-{video_name}",
         ]
         if crop:
