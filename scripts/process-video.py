@@ -179,7 +179,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("input_dir", type=str)
     parser.add_argument("-n", type=int, help="Line number in the timings file")
-    parser.add_argument("--with-intro", action="store_true", help="Add QnA intro")
+    parser.add_argument("-I", "--with-intro", action="store_true", help="Add QnA intro")
 
     options = parser.parse_args()
     os.chdir(os.path.abspath(options.input_dir))
