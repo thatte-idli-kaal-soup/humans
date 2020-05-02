@@ -158,12 +158,21 @@ def to_seconds(timestamp):
     return times[0] * 60 + times[1]
 
 
-def main(video_path, timings, n, crop=None):
+def main(video_path, timings, n, crop=None, with_intro=False):
     for idx, line in enumerate(timings, start=1):
         if n and idx != n:
             continue
-        start, end = line.split("-")
-        split_video(video_path, start, end, idx, crop)
+        columns = line.split(";", 1)
+        (timing,) = columns[:1]
+        start, end = timing.split("-")
+        output_file = split_video(video_path, start, end, idx, crop)
+        if with_intro:
+            if len(columns) > 1:
+                q_n_a = columns[1].split(";")
+                q_n_a = QnA(*q_n_a)
+            else:
+                q_n_a = QnA("hello world")
+            prepend_text_video(output_file, output_file, q_n_a)
 
 
 if __name__ == "__main__":
@@ -172,7 +181,15 @@ if __name__ == "__main__":
     parser.add_argument("timings", type=open)
     parser.add_argument("-n", type=int, help="Line number in the timings file")
     parser.add_argument("--crop", type=str, help="ffmpeg crop arguments")
-    options = parser.parse_args()
+    parser.add_argument("--with-intro", action="store_true", help="Add QnA intro")
 
+    options = parser.parse_args()
     video_path = os.path.abspath(options.video_file)
-    main(video_path, options.timings, options.n, options.crop)
+    os.chdir(os.path.dirname(video_path))
+    main(
+        os.path.basename(video_path),
+        options.timings,
+        options.n,
+        options.crop,
+        options.with_intro,
+    )
