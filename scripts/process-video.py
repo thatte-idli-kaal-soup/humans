@@ -158,7 +158,7 @@ def to_seconds(timestamp):
     return times[0] * 60 + times[1]
 
 
-def main(video_path, timings, n, crop=None, with_intro=False):
+def main(video_path, timings, crop=None, n=None, with_intro=False):
     for idx, line in enumerate(timings, start=1):
         if n and idx != n:
             continue
@@ -177,19 +177,20 @@ def main(video_path, timings, n, crop=None, with_intro=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("video_file", type=str)
-    parser.add_argument("timings", type=open)
+    parser.add_argument("input_dir", type=str)
     parser.add_argument("-n", type=int, help="Line number in the timings file")
-    parser.add_argument("--crop", type=str, help="ffmpeg crop arguments")
     parser.add_argument("--with-intro", action="store_true", help="Add QnA intro")
 
     options = parser.parse_args()
-    video_path = os.path.abspath(options.video_file)
-    os.chdir(os.path.dirname(video_path))
-    main(
-        os.path.basename(video_path),
-        options.timings,
-        options.n,
-        options.crop,
-        options.with_intro,
-    )
+    os.chdir(os.path.abspath(options.input_dir))
+
+    with open("timings.txt") as f:
+        timings = f.read().splitlines()
+
+    if os.path.exists("crop.txt"):
+        with open("crop.txt") as f:
+            crop = f.read().strip()
+    else:
+        crop = ""
+
+    main("full.mp4", timings, crop, options.n, options.with_intro)
