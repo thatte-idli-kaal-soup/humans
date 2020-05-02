@@ -50,7 +50,7 @@ def draw_text(input_file, output_file, text):
     if text.a:
         h_offset = drawtext_param.count("drawtext") + 1
         ans = compute_drawtext_param(
-            text.a, fontsize=20, fontcolor="FFCC00", h_offset=h_offset
+            text.a, fontsize=20, fontcolor="FF7F00", h_offset=h_offset
         )
         drawtext_param += f",{ans}"
     command = [
