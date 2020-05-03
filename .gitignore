@@ -132,3 +132,5 @@ dmypy.json
 *.mp4
 *.m4a
 *.wav
+*.png
+*.mkv
