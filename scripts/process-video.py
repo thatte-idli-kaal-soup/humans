@@ -3,6 +3,7 @@
 import argparse
 from collections import namedtuple
 import os
+import shutil
 import subprocess
 from textwrap import wrap
 
@@ -176,6 +177,50 @@ def split_and_concat_video(video_path, timings, crop, idx):
     return output_file
 
 
+def do_all_replacements(input_file, replacements):
+    output_file = orig = input_file
+    for replacement in replacements.split(","):
+        start, end = replacement.strip().split("-")
+        output_file = f"{start}-{end}-{input_file}"
+        input_file = replace_frames(input_file, output_file, start, end)
+    shutil.move(output_file, orig)
+    return orig
+
+
+def replace_frames(input_file, output_file, start, end):
+    select = [
+        "ffmpeg",
+        "-y",
+        "-v",
+        "0",
+        "-i",
+        input_file,
+        "-vf",
+        f"select=gte(t\\,{start})",
+        "-vframes",
+        "1",
+        f"{output_file}.png",
+    ]
+    subprocess.check_call(select)
+    replace = [
+        "ffmpeg",
+        "-y",
+        "-v",
+        "0",
+        "-i",
+        input_file,
+        "-i",
+        f"{output_file}.png",
+        "-filter_complex",
+        f"[1][0]scale2ref[i][v];[v][i]overlay=x='if(gte(t,{start})*lte(t,{end}),0,NAN)'",
+        "-c:a",
+        "copy",
+        output_file,
+    ]
+    subprocess.check_call(replace)
+    return output_file
+
+
 def to_seconds(timestamp):
     times = [float(x) for x in timestamp.split(".", 1)]
     return times[0] * 60 + times[1]
@@ -186,8 +231,11 @@ def main(video_path, timings, crop=None, n=None, with_intro=False):
         if n and idx != n:
             continue
         print(f"Creating part {idx} of {video_path}")
-        (multi_timings, q, a) = line.split(";")
+        multi_timings, replacements, q, a = line.split(";")
         output_file = split_and_concat_video(video_path, multi_timings, crop, idx)
+        if replacements:
+            output_file = do_all_replacements(output_file, replacements)
+
         if with_intro:
             if q.strip():
                 q_n_a = [q.strip(), a.strip()]
