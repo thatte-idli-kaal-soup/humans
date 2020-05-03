@@ -186,12 +186,11 @@ def main(video_path, timings, crop=None, n=None, with_intro=False):
         if n and idx != n:
             continue
         print(f"Creating part {idx} of {video_path}")
-        columns = line.split(";", 1)
-        (multi_timings,) = columns[:1]
+        (multi_timings, q, a) = line.split(";")
         output_file = split_and_concat_video(video_path, multi_timings, crop, idx)
         if with_intro:
-            if len(columns) > 1 and columns[1].strip():
-                q_n_a = [each.strip() for each in columns[1].strip().split(";")]
+            if q.strip():
+                q_n_a = [q.strip(), a.strip()]
                 q_n_a = QnA(*q_n_a)
             else:
                 q_n_a = QnA("hello world")
