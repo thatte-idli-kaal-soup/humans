@@ -24,7 +24,8 @@ def compute_drawtext_param(
 
     def format_line(text, idx):
         d = (idx + h_offset) * 7 / 2
-        return f"drawtext={fontconfig}:text={text}:x='(w-tw)/2':y='(h+(th * {d}))/2'"
+        th = fontsize
+        return f"drawtext={fontconfig}:text={text}:x='(w-tw)/2':y='(h+({th} * {d}))/2'"
 
     return ",".join(format_line(line, i) for i, line in enumerate(lines))
 
