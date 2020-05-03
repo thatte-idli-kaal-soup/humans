@@ -180,31 +180,33 @@ def split_and_concat_video(video_path, timings, crop, idx):
     return output_file
 
 
-def do_all_replacements(input_file, replacements):
+def do_all_replacements(input_file, replacements, replace_img):
     output_file = orig = input_file
     for replacement in replacements.split(","):
         start, end = replacement.strip().split("-")
         output_file = f"{start}-{end}-{input_file}"
-        input_file = replace_frames(input_file, output_file, start, end)
+        input_file = replace_frames(input_file, output_file, start, end, replace_img)
     shutil.move(output_file, orig)
     return orig
 
 
-def replace_frames(input_file, output_file, start, end):
-    select = [
-        "ffmpeg",
-        "-y",
-        "-v",
-        "0",
-        "-i",
-        input_file,
-        "-vf",
-        f"select=gte(t\\,{start})",
-        "-vframes",
-        "1",
-        f"{output_file}.png",
-    ]
-    subprocess.check_call(select)
+def replace_frames(input_file, output_file, start, end, img):
+    if not img:
+        img = f"{output_file}.png"
+        select = [
+            "ffmpeg",
+            "-y",
+            "-v",
+            "0",
+            "-i",
+            input_file,
+            "-vf",
+            f"select=gte(t\\,{start})",
+            "-vframes",
+            "1",
+            img,
+        ]
+        subprocess.check_call(select)
     replace = [
         "ffmpeg",
         "-y",
@@ -213,7 +215,7 @@ def replace_frames(input_file, output_file, start, end):
         "-i",
         input_file,
         "-i",
-        f"{output_file}.png",
+        img,
         "-filter_complex",
         f"[1][0]scale2ref[i][v];[v][i]overlay=x='if(gte(t,{start})*lte(t,{end}),0,NAN)'",
         "-c:a",
@@ -229,7 +231,7 @@ def to_seconds(timestamp):
     return times[0] * 60 + times[1]
 
 
-def main(video_path, timings, crop=None, n=None, with_intro=False):
+def main(video_path, timings, crop=None, n=None, with_intro=False, replace_img=None):
     for idx, line in enumerate(timings, start=1):
         if n and idx != n:
             continue
@@ -237,7 +239,7 @@ def main(video_path, timings, crop=None, n=None, with_intro=False):
         multi_timings, replacements, q, a = line.split(";")
         output_file = split_and_concat_video(video_path, multi_timings, crop, idx)
         if replacements:
-            output_file = do_all_replacements(output_file, replacements)
+            output_file = do_all_replacements(output_file, replacements, replace_img)
 
         if with_intro:
             if q.strip():
@@ -253,9 +255,11 @@ if __name__ == "__main__":
     parser.add_argument("input_dir", type=str)
     parser.add_argument("-n", type=int, help="Line number in the timings file")
     parser.add_argument("-I", "--with-intro", action="store_true", help="Add QnA intro")
+    parser.add_argument("-r", "--replace-frame", help="Image to use for replacement")
 
     options = parser.parse_args()
     input_dir = os.path.abspath(options.input_dir)
+    img = os.path.abspath(options.replace_frame) if options.replace_frame else ""
     os.chdir(input_dir)
     video_name = "{}.mp4".format(os.path.basename(input_dir))
 
@@ -267,5 +271,4 @@ if __name__ == "__main__":
             crop = f.read().strip()
     else:
         crop = ""
-
-    main(video_name, timings, crop, options.n, options.with_intro)
+    main(video_name, timings, crop, options.n, options.with_intro, img)
