@@ -133,11 +133,9 @@ def prepend_text_video(input_file, output_file, text):
     concat_videos("intro-logo.mp4", input_file, output_file)
 
 
-def split_video(input_file, start, end, idx, crop):
-    video_name = os.path.basename(input_file)
+def split_video(input_file, output_file, start, end, crop):
     start_seconds = str(to_seconds(start))
     end_seconds = str(to_seconds(end))
-    output_file = f"part-{idx:02d}-{video_name}"
     command = [
         "ffmpeg",
         "-v",
@@ -155,6 +153,26 @@ def split_video(input_file, start, end, idx, crop):
         command.insert(-1, "-filter:v")
         command.insert(-1, f"crop={crop}")
     subprocess.check_call(command)
+
+
+def split_and_concat_video(video_path, timings, crop, idx):
+    video_name = os.path.basename(video_path)
+    if "," in timings:
+        outputs = []
+        for sub_idx, timing in enumerate(timings.split(",")):
+            start, end = timing.strip().split("-")
+            output_file = f"part-{idx:02d}-{sub_idx:02d}-{video_name}"
+            split_video(video_name, output_file, start, end, crop)
+            outputs.append(output_file)
+        output_file = f"part-{idx:02d}-{video_name}"
+        first = outputs[0]
+        for second in outputs[1:]:
+            concat_videos(first, second, output_file)
+            first = output_file
+    else:
+        start, end = timings.strip().split("-")
+        output_file = f"part-{idx:02d}-{video_name}"
+        split_video(video_path, output_file, start, end, crop)
     return output_file
 
 
@@ -169,9 +187,8 @@ def main(video_path, timings, crop=None, n=None, with_intro=False):
             continue
         print(f"Creating part {idx} of {video_path}")
         columns = line.split(";", 1)
-        (timing,) = columns[:1]
-        start, end = timing.strip().split("-")
-        output_file = split_video(video_path, start, end, idx, crop)
+        (multi_timings,) = columns[:1]
+        output_file = split_and_concat_video(video_path, multi_timings, crop, idx)
         if with_intro:
             if len(columns) > 1 and columns[1].strip():
                 q_n_a = [each.strip() for each in columns[1].strip().split(";")]
