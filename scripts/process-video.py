@@ -193,7 +193,7 @@ def main(video_path, timings, crop=None, n=None, with_intro=False):
                 q_n_a = [q.strip(), a.strip()]
                 q_n_a = QnA(*q_n_a)
             else:
-                q_n_a = QnA("hello world")
+                q_n_a = QnA("...")
             prepend_text_video(output_file, output_file, q_n_a)
 
 
