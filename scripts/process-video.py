@@ -186,7 +186,9 @@ if __name__ == "__main__":
     parser.add_argument("-I", "--with-intro", action="store_true", help="Add QnA intro")
 
     options = parser.parse_args()
-    os.chdir(os.path.abspath(options.input_dir))
+    input_dir = os.path.abspath(options.input_dir)
+    os.chdir(input_dir)
+    video_name = "{}.mp4".format(os.path.basename(input_dir))
 
     with open("timings.txt") as f:
         timings = f.read().splitlines()
@@ -197,4 +199,4 @@ if __name__ == "__main__":
     else:
         crop = ""
 
-    main("full.mp4", timings, crop, options.n, options.with_intro)
+    main(video_name, timings, crop, options.n, options.with_intro)
