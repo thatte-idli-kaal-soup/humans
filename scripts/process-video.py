@@ -16,12 +16,15 @@ LOGO_FILE = os.path.join(HERE, "..", "logo_48x48.png")
 def compute_drawtext_param(
     text, fontsize=18, fontcolor="FFFFFF", fontfile="Ubuntu-R.ttf", h_offset=0
 ):
+    # Special character escapes are like violence: if they're not solving your
+    # problem, you're not using enough. https://stackoverflow.com/a/10729560
+    text = text.replace("'", "\\\\\\'")
     lines = wrap(text, width=32)
     fontconfig = f"fontfile={fontfile}:fontcolor={fontcolor}:fontsize={fontsize}"
 
     def format_line(text, idx):
         d = (idx + h_offset) * 7 / 2
-        return f"drawtext={fontconfig}:text='{text}':x='(w-tw)/2':y='(h+(th * {d}))/2'"
+        return f"drawtext={fontconfig}:text={text}:x='(w-tw)/2':y='(h+(th * {d}))/2'"
 
     return ",".join(format_line(line, i) for i, line in enumerate(lines))
 
