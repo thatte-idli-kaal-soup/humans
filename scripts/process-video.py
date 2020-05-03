@@ -23,7 +23,7 @@ def compute_drawtext_param(
     fontconfig = f"fontfile={fontfile}:fontcolor={fontcolor}:fontsize={fontsize}"
 
     def format_line(text, idx):
-        d = (idx + h_offset) * 7 / 2
+        d = (idx + h_offset) * 2.5
         th = fontsize
         return f"drawtext={fontconfig}:text={text}:x='(w-tw)/2':y='(h+({th} * {d}))/2'"
 
