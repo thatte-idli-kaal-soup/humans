@@ -169,7 +169,10 @@ def split_and_concat_video(video_path, timings, crop, idx):
         first = outputs[0]
         for second in outputs[1:]:
             concat_videos(first, second, output_file)
+            os.remove(first)
             first = output_file
+        os.remove(second)
+
     else:
         start, end = timings.strip().split("-")
         output_file = f"part-{idx:02d}-{video_name}"
