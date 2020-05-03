@@ -107,7 +107,7 @@ def concat_videos(input_1, input_2, output_file):
         outfile,
     ]
     inputs = (input_1, input_2)
-    for i, intermediate_name in enumerate(("intermediate1.ts", "intermediate2.ts")):
+    for i, intermediate_name in enumerate(("intermediate1.mkv", "intermediate2.mkv")):
         command = cmd(inputs[i], intermediate_name)
         subprocess.check_call(command)
 
@@ -117,7 +117,7 @@ def concat_videos(input_1, input_2, output_file):
         "-v",
         "0",
         "-i",
-        "concat:intermediate1.ts|intermediate2.ts",
+        "concat:intermediate1.mkv|intermediate2.mkv",
         "-c",
         "copy",
         "-bsf:a",
