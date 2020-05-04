@@ -12,6 +12,7 @@ FADE_IN = "fade=t=in:st=0:d=0.5"
 FADE_OUT = "fade=t=out:st=2.5:d=0.5"
 HERE = os.path.dirname(os.path.basename(__file__))
 LOGO_FILE = os.path.join(HERE, "..", "logo_48x48.png")
+PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
 
 
 def compute_drawtext_param(
@@ -172,11 +173,11 @@ def split_and_concat_video(video_path, timings, crop, idx):
             os.remove(first)
             first = output_file
         os.remove(second)
-        output_file = f"part-{idx:02d}-{video_name}"
+        output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         shutil.move(first, output_file)
     else:
         start, end = timings.strip().split("-")
-        output_file = f"part-{idx:02d}-{video_name}"
+        output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         split_video(video_path, output_file, start, end, crop)
     return output_file
 
