@@ -6,6 +6,7 @@
     work fine. Zoom recording to the cloud seems to be too low-res? Also, using
     your own phone means less editing for removing other people, etc.
 -   Record the video in portrait mode.
+-   Make sure there is adequate lighting where you are sitting. 
 -   Make sure you are sitting so that you appear in roughly the same portion of
     the screen , for most part of the video. This would make it easier to
     crop/edit for Instagram.
