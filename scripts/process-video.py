@@ -182,6 +182,24 @@ def split_and_concat_video(video_path, timings, crop, idx):
     return output_file
 
 
+def concat_all_parts(video_name, timings):
+    num_parts = len(timings)
+    import glob
+
+    part_filename_pattern = PART_FILENAME_FMT.format(
+        idx=0, video_name=video_name
+    ).replace("-00-", "-*-")
+    parts = sorted(glob.glob(part_filename_pattern))
+
+    assert num_parts == len(parts), "Create all parts before running this"
+    output_file = f"all-{video_name}"
+    first = parts[0]
+    for second in parts[1:]:
+        concat_videos(first, second, output_file)
+        first = output_file
+    print(f"Created {output_file}")
+
+
 def do_all_replacements(input_file, replacements, replace_img):
     output_file = orig = input_file
     for replacement in replacements.split(","):
@@ -258,6 +276,12 @@ if __name__ == "__main__":
     parser.add_argument("-n", type=int, help="Line number in the timings file")
     parser.add_argument("-I", "--with-intro", action="store_true", help="Add QnA intro")
     parser.add_argument("-r", "--replace-frame", help="Image to use for replacement")
+    parser.add_argument(
+        "-a",
+        "--combine-all",
+        action="store_true",
+        help="Create a single video from all the parts",
+    )
 
     options = parser.parse_args()
     input_dir = os.path.abspath(options.input_dir)
@@ -273,4 +297,8 @@ if __name__ == "__main__":
             crop = f.read().strip()
     else:
         crop = ""
-    main(video_name, timings, crop, options.n, options.with_intro, img)
+    if options.combine_all:
+        print("Combining all parts into a single video...")
+        concat_all_parts(video_name, timings)
+    else:
+        main(video_name, timings, crop, options.n, options.with_intro, img)
