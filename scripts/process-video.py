@@ -171,8 +171,8 @@ def split_and_concat_video(video_path, timings, crop, idx):
             output_file = f"concat-{idx:02d}-{sub_idx:02d}-{video_name}"
             concat_videos(first, second, output_file)
             os.remove(first)
+            os.remove(second)
             first = output_file
-        os.remove(second)
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         shutil.move(first, output_file)
     else:
