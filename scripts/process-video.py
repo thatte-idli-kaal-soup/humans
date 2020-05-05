@@ -2,6 +2,7 @@
 
 import argparse
 from collections import namedtuple
+import glob
 import os
 import shutil
 import subprocess
@@ -164,8 +165,6 @@ def split_and_concat_video(video_path, timings, crop, idx):
 
 def concat_all_parts(video_name, timings):
     num_parts = len(timings)
-    import glob
-
     part_filename_pattern = PART_FILENAME_FMT.format(
         idx=0, video_name=video_name
     ).replace("-00-", "-*-")
