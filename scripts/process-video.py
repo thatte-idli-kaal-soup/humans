@@ -13,6 +13,7 @@ FADE_OUT = "fade=t=out:st=2.5:d=0.5"
 HERE = os.path.dirname(os.path.basename(__file__))
 LOGO_FILE = os.path.join(HERE, "..", "logo_48x48.png")
 PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
+FFMPEG_CMD = ["ffmpeg", "-v", "0", "-y"]
 
 
 def compute_drawtext_param(
@@ -36,11 +37,7 @@ def compute_drawtext_param(
 def create_black_background(input_file, output_file, time=3):
     if os.path.isfile(output_file):
         return
-    command = [
-        "ffmpeg",
-        "-v",
-        "0",
-        "-y",
+    command = FFMPEG_CMD + [
         "-i",
         input_file,
         "-vf",
@@ -60,11 +57,7 @@ def draw_text(input_file, output_file, text):
             text.a, fontsize=20, fontcolor="FF7F00", h_offset=h_offset
         )
         drawtext_param += f",{ans}"
-    command = [
-        "ffmpeg",
-        "-v",
-        "0",
-        "-y",
+    command = FFMPEG_CMD + [
         "-i",
         input_file,
         "-vf",
@@ -75,11 +68,7 @@ def draw_text(input_file, output_file, text):
 
 
 def draw_logo(input_file, output_file):
-    command = [
-        "ffmpeg",
-        "-y",
-        "-v",
-        "0",
+    command = FFMPEG_CMD + [
         "-i",
         input_file,
         "-i",
@@ -92,31 +81,26 @@ def draw_logo(input_file, output_file):
 
 
 def concat_videos(input_1, input_2, output_file):
-    cmd = lambda infile, outfile: [
-        "ffmpeg",
-        "-y",
-        "-v",
-        "0",
-        "-i",
-        infile,
-        "-c",
-        "copy",
-        "-bsf:v",
-        "h264_mp4toannexb",
-        "-f",
-        "mpegts",
-        outfile,
-    ]
+    def generate_cmd(infile, outfile):
+        cmd = FFMPEG_CMD + [
+            "-i",
+            infile,
+            "-c",
+            "copy",
+            "-bsf:v",
+            "h264_mp4toannexb",
+            "-f",
+            "mpegts",
+            outfile,
+        ]
+        return cmd
+
     inputs = (input_1, input_2)
     for i, intermediate_name in enumerate(("intermediate1.mkv", "intermediate2.mkv")):
-        command = cmd(inputs[i], intermediate_name)
+        command = generate_cmd(inputs[i], intermediate_name)
         subprocess.check_call(command)
 
-    concat_command = [
-        "ffmpeg",
-        "-y",
-        "-v",
-        "0",
+    concat_command = FFMPEG_CMD + [
         "-i",
         "concat:intermediate1.mkv|intermediate2.mkv",
         "-c",
@@ -138,11 +122,7 @@ def prepend_text_video(input_file, output_file, text):
 def split_video(input_file, output_file, start, end, crop):
     start_seconds = str(to_seconds(start))
     end_seconds = str(to_seconds(end))
-    command = [
-        "ffmpeg",
-        "-v",
-        "0",
-        "-y",
+    command = FFMPEG_CMD + [
         "-i",
         input_file,
         "-ss",
@@ -213,11 +193,7 @@ def do_all_replacements(input_file, replacements, replace_img):
 def replace_frames(input_file, output_file, start, end, img):
     if not img:
         img = f"{output_file}.png"
-        select = [
-            "ffmpeg",
-            "-y",
-            "-v",
-            "0",
+        select = FFMPEG_CMD + [
             "-i",
             input_file,
             "-vf",
@@ -227,11 +203,7 @@ def replace_frames(input_file, output_file, start, end, img):
             img,
         ]
         subprocess.check_call(select)
-    replace = [
-        "ffmpeg",
-        "-y",
-        "-v",
-        "0",
+    replace = FFMPEG_CMD + [
         "-i",
         input_file,
         "-i",
