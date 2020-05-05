@@ -29,6 +29,9 @@ def compute_drawtext_param(
 
     def format_line(text, idx):
         d = (idx + h_offset) * 2.5
+        # Text height depends on the height of the actual text - a sentence with
+        # ... alone would have a very small height, compared to a "normal"
+        # sentence. Use font-size instead.
         th = fontsize
         return f"drawtext={fontconfig}:text={text}:x='(w-tw)/2':y='(h+({th} * {d}))/2'"
 
