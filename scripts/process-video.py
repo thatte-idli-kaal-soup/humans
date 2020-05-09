@@ -143,8 +143,7 @@ def split_video(input_file, output_file, start, end, crop):
     subprocess.check_call(command)
 
 
-def split_and_concat_video(video_path, timings, crop, idx):
-    video_name = os.path.basename(video_path)
+def split_and_concat_video(video_name, timings, crop, idx):
     if len(timings) > 1:
         outputs = []
         for sub_idx, timing in enumerate(timings):
@@ -164,7 +163,7 @@ def split_and_concat_video(video_path, timings, crop, idx):
     else:
         start, end = timings[0].split("-")
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
-        split_video(video_path, output_file, start, end, crop)
+        split_video(video_name, output_file, start, end, crop)
     return output_file
 
 
