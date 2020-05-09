@@ -232,7 +232,8 @@ def inherit_global_config(config):
     GLOBAL_KEYS = ('crop', 'video')
     for each in config['clips']:
         for key in GLOBAL_KEYS:
-            each.setdefault(key, config[key])
+            if key in config:
+                each.setdefault(key, config[key])
 
 
 def main(config, n, with_intro, replace_img):
@@ -241,7 +242,8 @@ def main(config, n, with_intro, replace_img):
         if n and idx != n:
             continue
         print(f"Creating part {idx} of {clip['video']}")
-        output_file = split_and_concat_video(clip['video'], clip['timings'], clip['crop'], idx)
+        crop = clip.get('crop')
+        output_file = split_and_concat_video(clip['video'], clip['timings'], crop, idx)
         replacements = clip.get('replacements')
         if replacements is not None:
             output_file = do_all_replacements(output_file, replacements, replace_img)
