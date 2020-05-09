@@ -169,8 +169,8 @@ def split_and_concat_video(video_path, timings, crop, idx):
 
 
 def concat_all_parts(dir_name, config):
-    num_parts = len(config['clips'])
-    video_name = f'{dir_name}.*'
+    num_parts = len(config["clips"])
+    video_name = f"{dir_name}.*"
     part_filename_pattern = PART_FILENAME_FMT.format(
         idx=0, video_name=video_name
     ).replace("-00-", "-*-")
@@ -229,28 +229,28 @@ def to_seconds(timestamp):
 
 
 def inherit_global_config(config):
-    GLOBAL_KEYS = ('crop', 'video')
-    for each in config['clips']:
+    GLOBAL_KEYS = ("crop", "video")
+    for each in config["clips"]:
         for key in GLOBAL_KEYS:
             if key in config:
                 each.setdefault(key, config[key])
 
 
 def main(config, n, with_intro, replace_img):
-    clips = config['clips']
+    clips = config["clips"]
     for idx, clip in enumerate(clips, start=1):
         if n and idx != n:
             continue
         print(f"Creating part {idx} of {clip['video']}")
-        crop = clip.get('crop')
-        output_file = split_and_concat_video(clip['video'], clip['timings'], crop, idx)
-        replacements = clip.get('replacements')
+        crop = clip.get("crop")
+        output_file = split_and_concat_video(clip["video"], clip["timings"], crop, idx)
+        replacements = clip.get("replacements")
         if replacements is not None:
             output_file = do_all_replacements(output_file, replacements, replace_img)
 
         if with_intro:
-            q = clip.get('question', '')
-            a = clip.get('answer', '')
+            q = clip.get("question", "")
+            a = clip.get("answer", "")
             if q:
                 q_n_a = [q, a]
                 q_n_a = QnA(*q_n_a)
