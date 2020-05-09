@@ -8,6 +8,8 @@ import shutil
 import subprocess
 from textwrap import wrap
 
+import yaml
+
 QnA = namedtuple("QnA", ["q", "a"], defaults=(None,))
 FADE_IN = "fade=t=in:st=0:d=0.5"
 FADE_OUT = "fade=t=out:st=2.5:d=0.5"
@@ -143,9 +145,9 @@ def split_video(input_file, output_file, start, end, crop):
 
 def split_and_concat_video(video_path, timings, crop, idx):
     video_name = os.path.basename(video_path)
-    if "," in timings:
+    if len(timings) > 1:
         outputs = []
-        for sub_idx, timing in enumerate(timings.split(",")):
+        for sub_idx, timing in enumerate(timings):
             start, end = timing.strip().split("-")
             output_file = f"subpart-{idx:02d}-{sub_idx:02d}-{video_name}"
             split_video(video_name, output_file, start, end, crop)
@@ -160,21 +162,22 @@ def split_and_concat_video(video_path, timings, crop, idx):
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         shutil.move(first, output_file)
     else:
-        start, end = timings.strip().split("-")
+        start, end = timings[0].split("-")
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         split_video(video_path, output_file, start, end, crop)
     return output_file
 
 
-def concat_all_parts(video_name, timings):
-    num_parts = len(timings)
+def concat_all_parts(dir_name, config):
+    num_parts = len(config['clips'])
+    video_name = f'{dir_name}.*'
     part_filename_pattern = PART_FILENAME_FMT.format(
         idx=0, video_name=video_name
     ).replace("-00-", "-*-")
     parts = sorted(glob.glob(part_filename_pattern))
-
     assert num_parts == len(parts), "Create all parts before running this"
-    output_file = f"all-{video_name}"
+
+    output_file = f"all-{dir_name}.mp4"
     first = parts[0]
     for second in parts[1:]:
         concat_videos(first, second, output_file)
@@ -184,7 +187,7 @@ def concat_all_parts(video_name, timings):
 
 def do_all_replacements(input_file, replacements, replace_img):
     output_file = orig = input_file
-    for replacement in replacements.split(","):
+    for replacement in replacements:
         start, end = replacement.strip().split("-")
         output_file = f"{start}-{end}-{input_file}"
         input_file = replace_frames(input_file, output_file, start, end, replace_img)
@@ -225,19 +228,29 @@ def to_seconds(timestamp):
     return times[0] * 60 + times[1]
 
 
-def main(video_path, timings, crop=None, n=None, with_intro=False, replace_img=None):
-    for idx, line in enumerate(timings, start=1):
+def inherit_global_config(config):
+    GLOBAL_KEYS = ('crop', 'video')
+    for each in config['clips']:
+        for key in GLOBAL_KEYS:
+            each.setdefault(key, config[key])
+
+
+def main(config, n, with_intro, replace_img):
+    clips = config['clips']
+    for idx, clip in enumerate(clips, start=1):
         if n and idx != n:
             continue
-        print(f"Creating part {idx} of {video_path}")
-        multi_timings, replacements, q, a = line.split(";")
-        output_file = split_and_concat_video(video_path, multi_timings, crop, idx)
-        if replacements:
+        print(f"Creating part {idx} of {clip['video']}")
+        output_file = split_and_concat_video(clip['video'], clip['timings'], clip['crop'], idx)
+        replacements = clip.get('replacements')
+        if replacements is not None:
             output_file = do_all_replacements(output_file, replacements, replace_img)
 
         if with_intro:
-            if q.strip():
-                q_n_a = [q.strip(), a.strip()]
+            q = clip.get('question', '')
+            a = clip.get('answer', '')
+            if q:
+                q_n_a = [q, a]
                 q_n_a = QnA(*q_n_a)
             else:
                 q_n_a = QnA("...")
@@ -246,7 +259,7 @@ def main(video_path, timings, crop=None, n=None, with_intro=False, replace_img=N
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("input_dir", type=str)
+    parser.add_argument("config", type=open)
     parser.add_argument("-n", type=int, help="Line number in the timings file")
     parser.add_argument("-I", "--with-intro", action="store_true", help="Add QnA intro")
     parser.add_argument("-r", "--replace-frame", help="Image to use for replacement")
@@ -258,21 +271,15 @@ if __name__ == "__main__":
     )
 
     options = parser.parse_args()
-    input_dir = os.path.abspath(options.input_dir)
+    name = os.path.splitext(options.config.name)[0]
+    config_file = os.path.abspath(options.config.name)
+    input_dir = os.path.abspath(name)
     img = os.path.abspath(options.replace_frame) if options.replace_frame else ""
     os.chdir(input_dir)
-    video_name = "{}.mp4".format(os.path.basename(input_dir))
-
-    with open("timings.txt") as f:
-        timings = f.read().splitlines()
-
-    if os.path.exists("crop.txt"):
-        with open("crop.txt") as f:
-            crop = f.read().strip()
-    else:
-        crop = ""
+    config_data = yaml.load(options.config, Loader=yaml.FullLoader)
+    inherit_global_config(config_data)
     if options.combine_all:
         print("Combining all parts into a single video...")
-        concat_all_parts(video_name, timings)
+        concat_all_parts(name, config_data)
     else:
-        main(video_name, timings, crop, options.n, options.with_intro, img)
+        main(config_data, options.n, options.with_intro, img)
