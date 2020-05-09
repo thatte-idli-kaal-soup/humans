@@ -188,7 +188,7 @@ def concat_all_parts(dir_name, config):
 def do_all_replacements(input_file, replacements, replace_img):
     output_file = orig = input_file
     for replacement in replacements:
-        start, end = replacement.strip().split("-")
+        start, end = [to_seconds(x) for x in replacement.strip().split("-")]
         output_file = f"{start}-{end}-{input_file}"
         input_file = replace_frames(input_file, output_file, start, end, replace_img)
     shutil.move(output_file, orig)
@@ -224,7 +224,7 @@ def replace_frames(input_file, output_file, start, end, img):
 
 
 def to_seconds(timestamp):
-    times = [float(x) for x in timestamp.split(".", 1)]
+    times = [float(x) for x in timestamp.split(":", 1)]
     return times[0] * 60 + times[1]
 
 

@@ -3,36 +3,36 @@ video: nikki.mp4
 clips:
 - question: How did you start playing Ultimate?
   replacements:
-  - 3.840-6.300
+  - 0:3.840-0:6.300
   timings:
-  - 00.34.5-01.08
+  - 00:34.5-01:08
 - question: What keeps you playing Ultimate?
   replacements:
-  - 17.952-19.512
+  - 0:17.952-0:19.512
   timings:
-  - 4.00-4.18
-  - 4.51-5.08.2
+  - 4:00-4:18
+  - 4:51-5:08.2
 - question: Which players inspire you to be a better player?
   answer: Birdy, Varsha and Ana from Airbenders ...
   timings:
-  - 8.30.8-8.49.5
+  - 8:30.8-8:49.5
 - question: What are your thoughts on the last nationals?
   timings:
-  - 12.27.3-12.37.5
+  - 12:27.3-12:37.5
 - question: What's your most memorable thing in all these years of playing?
   timings:
-  - 16.04-16.13.85
-  - 16.20.5-16.45
+  - 16:04-16:13.85
+  - 16:20.5-16:45
 - question: Why did you decide to join the Leadership Group?
   answer: 3 years ago, I tried, but, ...
   timings:
-  - 19.34.5-19.57
-  - 20.01-20.15
+  - 19:34.5-19:57
+  - 20:01-20:15
 - question: What have the team and the sport given you?
   timings:
-  - 23.05.7-23.17
-  - 24.17.5-24.28
-  - 4.23.4-4.35.2
+  - 23:05.7-23:17
+  - 24:17.5-24:28
+  - 4:23.4-4:35.2
 - question: What's the first thing you want to do after the lockdown ends?
   timings:
-  - 27.48-27.55
+  - 27:48-27:55
