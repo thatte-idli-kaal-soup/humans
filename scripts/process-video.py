@@ -227,12 +227,21 @@ def to_seconds(timestamp):
     return times[0] * 60 + times[1]
 
 
-def inherit_global_config(config):
+def process_config(config, use_original):
+    """Copy the video name to each clip item.
+
+    If use_original is False, and alt_low_res is set, we use low resolution
+    alternatives, instead of the originals.
+
+    """
+    alt_low_res = config.get("alt_low_res", {}) if not use_original else {}
     GLOBAL_KEYS = ("crop", "video")
     for each in config["clips"]:
         for key in GLOBAL_KEYS:
             if key in config:
-                each.setdefault(key, config[key])
+                value = each.setdefault(key, config[key])
+                if key == "video" and alt_low_res:
+                    each[key] = alt_low_res.get(value, value)
 
 
 def main(config, n, with_intro, replace_img):
@@ -265,6 +274,9 @@ if __name__ == "__main__":
     parser.add_argument("-I", "--with-intro", action="store_true", help="Add QnA intro")
     parser.add_argument("-r", "--replace-frame", help="Image to use for replacement")
     parser.add_argument(
+        "-u", "--use-original", action="store_true", help="Use originals (not low-res)"
+    )
+    parser.add_argument(
         "-a",
         "--combine-all",
         action="store_true",
@@ -278,7 +290,7 @@ if __name__ == "__main__":
     img = os.path.abspath(options.replace_frame) if options.replace_frame else ""
     os.chdir(input_dir)
     config_data = yaml.load(options.config, Loader=yaml.FullLoader)
-    inherit_global_config(config_data)
+    process_config(config_data, options.use_original)
     if options.combine_all:
         print("Combining all parts into a single video...")
         concat_all_parts(name, config_data)
