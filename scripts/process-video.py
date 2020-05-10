@@ -43,8 +43,6 @@ def compute_drawtext_param(
 
 
 def create_black_background(input_file, output_file, time=3):
-    if os.path.isfile(output_file):
-        return
     command = FFMPEG_CMD + [
         "-i",
         input_file,
