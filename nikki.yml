@@ -1,4 +1,4 @@
-crop: 360:360:200:0
+crop: ih:ih:ih/1.8:0
 video: nikki.mp4
 clips:
 - question: How did you start playing Ultimate?
