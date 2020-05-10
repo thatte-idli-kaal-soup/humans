@@ -55,17 +55,13 @@ def create_black_background(input_file, output_file, time=3):
     subprocess.check_call(command)
 
 
-def draw_text(input_file, output_file, text, font_height, text_width):
-    drawtext_param = compute_drawtext_param(text.q, text_width, font_height)
+def draw_text(input_file, output_file, text, font_height):
+    drawtext_param = compute_drawtext_param(text.q, fontsize=font_height)
     if text.a:
         h_offset = drawtext_param.count("drawtext") + 1
         ans_font_height = round(font_height * 1.1)
         ans = compute_drawtext_param(
-            text.a,
-            width=text_width,
-            fontsize=ans_font_height,
-            fontcolor="FF7F00",
-            h_offset=h_offset,
+            text.a, fontsize=ans_font_height, fontcolor="FF7F00", h_offset=h_offset,
         )
         drawtext_param += f",{ans}"
     command = FFMPEG_CMD + [
@@ -160,9 +156,8 @@ def prepend_text_video(input_file, output_file, text):
     create_black_background(input_file, "black.mp4")
     width, height = video_dimensions(input_file)
     font_height = int(height / 20)
-    text_width = int(width / 10)
     logo_size = int(height / 7.5)
-    draw_text("black.mp4", "intro.mp4", text, font_height, text_width)
+    draw_text("black.mp4", "intro.mp4", text, font_height)
     draw_logo("intro.mp4", "intro-logo.mp4", logo_size)
     concat_videos("intro-logo.mp4", input_file, output_file)
 
