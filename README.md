@@ -1,5 +1,9 @@
 # Humans of TIKS
 
+Repository with tools for creating the Humans of TIKS videos.
+
+The videos can be found [here](https://www.youtube.com/playlist?list=PLo98-81j1ocKx7DsxOYNavJx9vmcL0oWx).
+
 ## Checklist for video recording
 
 -   Use your own phone to record your video.
