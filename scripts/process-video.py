@@ -3,18 +3,20 @@
 import argparse
 from collections import namedtuple
 import glob
+import io
 import os
 import shutil
 import subprocess
 from textwrap import wrap
 
+from PIL import Image, ImageOps
 import yaml
 
 QnA = namedtuple("QnA", ["q", "a"], defaults=(None,))
 FADE_IN = "fade=t=in:st=0:d=0.5"
 FADE_OUT = "fade=t=out:st=2.5:d=0.5"
 HERE = os.path.dirname(os.path.basename(__file__))
-LOGO_FILE = os.path.join(HERE, "..", "logo_48x48.png")
+LOGO_FILE = os.path.join(HERE, "..", "logo.png")
 PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
 FFMPEG_CMD = ["ffmpeg", "-v", "0", "-y"]
 
@@ -78,12 +80,27 @@ def draw_text(input_file, output_file, text, font_height, text_width):
     subprocess.check_call(command)
 
 
-def draw_logo(input_file, output_file):
+def resize_logo(logo, size):
+    name = os.path.basename(logo)
+    new_path = os.path.join(os.path.dirname(logo), f"{size}x{size}_{name}")
+    if os.path.exists(new_path):
+        return new_path
+
+    with open(logo, "rb") as f:
+        img = Image.open(io.BytesIO(f.read()))
+    img = ImageOps.fit(img, (size, size), Image.ANTIALIAS)
+    with open(new_path, "wb") as out:
+        img.save(out, format="png")
+    return new_path
+
+
+def draw_logo(input_file, output_file, size=48):
+    logo_file = resize_logo(LOGO_FILE, size)
     command = FFMPEG_CMD + [
         "-i",
         input_file,
         "-i",
-        LOGO_FILE,
+        logo_file,
         "-filter_complex",
         f"overlay=(main_w-overlay_w):10,{FADE_IN},{FADE_OUT}",
         output_file,
@@ -146,8 +163,9 @@ def prepend_text_video(input_file, output_file, text):
     width, height = video_dimensions(input_file)
     font_height = int(height / 20)
     text_width = int(width / 10)
+    logo_size = int(height / 7.5)
     draw_text("black.mp4", "intro.mp4", text, font_height, text_width)
-    draw_logo("intro.mp4", "intro-logo.mp4")
+    draw_logo("intro.mp4", "intro-logo.mp4", logo_size)
     concat_videos("intro-logo.mp4", input_file, output_file)
 
 
