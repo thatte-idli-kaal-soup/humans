@@ -1,3 +1,4 @@
+crop: ih:ih:ih/3.2:0
 video: pavan-part-1.mov
 alt_low_res:
   pavan-part-1.mov: pavan.mp4
