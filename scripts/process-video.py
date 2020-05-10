@@ -215,6 +215,8 @@ def concat_all_parts(config):
         names = ", ".join(missing_names)
         raise RuntimeError(f"Create {names} before creating combined video")
 
+    names = ", ".join(video_names)
+    print(f"Combining {names} into a single video...")
     first = video_names[0]
     output_file = f"ALL-{first}"
     for second in video_names[1:]:
@@ -224,6 +226,7 @@ def concat_all_parts(config):
 
 
 def make_trailer(name, config):
+    print("Making trailer...")
     crop = config["crop"]
     v_timings = [(x["video"], x["timings"]) for x in config["trailer"]]
     split_and_concat_video(v_timings, crop, 0)
@@ -349,10 +352,8 @@ if __name__ == "__main__":
     config_data = yaml.load(options.config, Loader=yaml.FullLoader)
     process_config(config_data, options.use_original)
     if options.combine_all:
-        print("Combining all parts into a single video...")
         concat_all_parts(config_data)
     elif options.make_trailer:
-        print("Making trailer...")
         make_trailer(name, config_data)
     else:
         main(config_data, options.n, options.with_intro, img)
