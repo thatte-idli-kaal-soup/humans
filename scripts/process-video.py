@@ -205,18 +205,19 @@ def split_and_concat_video(v_timings, crop, idx):
     return output_file
 
 
-def concat_all_parts(dir_name, config):
-    num_parts = len(config["clips"])
-    video_name = f"{dir_name}*.*"
-    part_filename_pattern = PART_FILENAME_FMT.format(
-        idx=0, video_name=video_name
-    ).replace("-00-", "-*-")
-    parts = sorted(glob.glob(part_filename_pattern))
-    assert num_parts == len(parts), "Create all parts before running this"
+def concat_all_parts(config):
+    video_names = [
+        f"part-{idx:02d}-{clip['video']}"
+        for idx, clip in enumerate(config["clips"], start=1)
+    ]
+    missing_names = {name for name in video_names if not os.path.exists(name)}
+    if missing_names:
+        names = ", ".join(missing_names)
+        raise RuntimeError(f"Create {names} before creating combined video")
 
-    output_file = f"all-{dir_name}.mp4"
-    first = parts[0]
-    for second in parts[1:]:
+    first = video_names[0]
+    output_file = f"ALL-{first}"
+    for second in video_names[1:]:
         concat_videos(first, second, output_file)
         first = output_file
     print(f"Created {output_file}")
@@ -349,7 +350,7 @@ if __name__ == "__main__":
     process_config(config_data, options.use_original)
     if options.combine_all:
         print("Combining all parts into a single video...")
-        concat_all_parts(name, config_data)
+        concat_all_parts(config_data)
     elif options.make_trailer:
         print("Making trailer...")
         make_trailer(name, config_data)
