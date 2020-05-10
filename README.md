@@ -19,4 +19,5 @@ The videos can be found [here](https://www.youtube.com/playlist?list=PLo98-81j1o
     for Ultimate players in all age groups.
 -   Use headphones for talking over video chat. Hearing sounds of pings on your
     computer, or other people typing, makes the audio quality poor.
+-   Ensure that your headphones are charged, if they are bluetooth headphones.
 -   Have a bottle of water next to you.
