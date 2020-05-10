@@ -169,7 +169,7 @@ def split_and_concat_video(video_name, timings, crop, idx):
 
 def concat_all_parts(dir_name, config):
     num_parts = len(config["clips"])
-    video_name = f"{dir_name}.*"
+    video_name = f"{dir_name}*.*"
     part_filename_pattern = PART_FILENAME_FMT.format(
         idx=0, video_name=video_name
     ).replace("-00-", "-*-")
