@@ -20,13 +20,13 @@ FFMPEG_CMD = ["ffmpeg", "-v", "0", "-y"]
 
 
 def compute_drawtext_param(
-    text, fontsize=18, fontcolor="FFFFFF", fontfile="Ubuntu-R.ttf", h_offset=0
+    text, width=32, fontsize=18, fontcolor="FFFFFF", fontfile="Ubuntu-R.ttf", h_offset=0
 ):
     # Special character escapes are like violence: if they're not solving your
     # problem, you're not using enough. https://stackoverflow.com/a/10729560
     text = text.replace("'", "\\\\\\'")
     text = text.replace(",", r"\,").replace(":", r"\:")
-    lines = wrap(text, width=32)
+    lines = wrap(text, width=width)
     fontconfig = f"fontfile={fontfile}:fontcolor={fontcolor}:fontsize={fontsize}"
 
     def format_line(text, idx):
@@ -55,12 +55,17 @@ def create_black_background(input_file, output_file, time=3):
     subprocess.check_call(command)
 
 
-def draw_text(input_file, output_file, text):
-    drawtext_param = compute_drawtext_param(text.q)
+def draw_text(input_file, output_file, text, font_height, text_width):
+    drawtext_param = compute_drawtext_param(text.q, text_width, font_height)
     if text.a:
         h_offset = drawtext_param.count("drawtext") + 1
+        ans_font_height = round(font_height * 1.1)
         ans = compute_drawtext_param(
-            text.a, fontsize=20, fontcolor="FF7F00", h_offset=h_offset
+            text.a,
+            width=text_width,
+            fontsize=ans_font_height,
+            fontcolor="FF7F00",
+            h_offset=h_offset,
         )
         drawtext_param += f",{ans}"
     command = FFMPEG_CMD + [
@@ -118,9 +123,30 @@ def concat_videos(input_1, input_2, output_file):
     subprocess.check_call(concat_command)
 
 
+def video_dimensions(video):
+    cmd = [
+        "ffprobe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-show_entries",
+        "stream=width,height",
+        "-of",
+        "csv=p=0",
+        video,
+    ]
+    output = subprocess.check_output(cmd)
+    width, height = [float(x) for x in output.decode("utf8").strip().split(",")]
+    return width, height
+
+
 def prepend_text_video(input_file, output_file, text):
     create_black_background(input_file, "black.mp4")
-    draw_text("black.mp4", "intro.mp4", text)
+    width, height = video_dimensions(input_file)
+    font_height = int(height / 20)
+    text_width = int(width / 10)
+    draw_text("black.mp4", "intro.mp4", text, font_height, text_width)
     draw_logo("intro.mp4", "intro-logo.mp4")
     concat_videos("intro-logo.mp4", input_file, output_file)
 
