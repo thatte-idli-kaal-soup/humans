@@ -38,6 +38,10 @@ clips:
   video: pavan-part-2.mov
   timings:
     - 21:54-22:18.4
+- question: What would you consider your biggest contribution to the team?
+  video: pavan-part-2.mov
+  timings:
+    - 29:58.20-30:18.840
 - question: How do you motivate yourself to work out so much during the lock down?
   video: pavan-part-2.mov
   timings:
@@ -77,7 +81,3 @@ clips:
   timings:
     - 20:25.520-20:35.520
     - 20:59.280-21:04.840
-- question: What would you consider your biggest contribution to the team?
-  video: pavan-part-2.mov
-  timings:
-    - 29:58.20-30:18.840
