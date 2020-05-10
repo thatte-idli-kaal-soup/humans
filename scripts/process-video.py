@@ -180,16 +180,16 @@ def split_video(input_file, output_file, start, end, crop):
     subprocess.check_call(command)
 
 
-def split_and_concat_video(video_name, timings, crop, idx):
-    if len(timings) > 1:
+def split_and_concat_video(v_timings, crop, idx):
+    if len(v_timings) > 1:
         outputs = []
-        for sub_idx, timing in enumerate(timings):
+        for sub_idx, (video_name, timing) in enumerate(v_timings):
             start, end = timing.strip().split("-")
             output_file = f"subpart-{idx:02d}-{sub_idx:02d}-{video_name}"
             split_video(video_name, output_file, start, end, crop)
-            outputs.append(output_file)
-        first = outputs[0]
-        for sub_idx, second in enumerate(outputs[1:]):
+            outputs.append((video_name, output_file))
+        video_name, first = outputs[0]
+        for sub_idx, (_, second) in enumerate(outputs[1:]):
             output_file = f"concat-{idx:02d}-{sub_idx:02d}-{video_name}"
             concat_videos(first, second, output_file)
             os.remove(first)
@@ -198,7 +198,8 @@ def split_and_concat_video(video_name, timings, crop, idx):
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         shutil.move(first, output_file)
     else:
-        start, end = timings[0].split("-")
+        video_name, timings = v_timings[0]
+        start, end = timings.split("-")
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         split_video(video_name, output_file, start, end, crop)
     return output_file
@@ -219,6 +220,12 @@ def concat_all_parts(dir_name, config):
         concat_videos(first, second, output_file)
         first = output_file
     print(f"Created {output_file}")
+
+
+def make_trailer(name, config):
+    crop = config["crop"]
+    v_timings = [(x["video"], x["timings"]) for x in config["trailer"]]
+    split_and_concat_video(v_timings, crop, 0)
 
 
 def do_all_replacements(input_file, replacements, replace_img):
@@ -280,6 +287,11 @@ def process_config(config, use_original):
                 if key == "video" and alt_low_res:
                     each[key] = alt_low_res.get(value, value)
 
+    for each in config.get("trailer", []):
+        value = each["video"]
+        if value in alt_low_res:
+            each["video"] = alt_low_res[value]
+
 
 def main(config, n, with_intro, replace_img):
     clips = config["clips"]
@@ -288,7 +300,10 @@ def main(config, n, with_intro, replace_img):
             continue
         print(f"Creating part {idx} of {clip['video']}")
         crop = clip.get("crop")
-        output_file = split_and_concat_video(clip["video"], clip["timings"], crop, idx)
+        video = clip["video"]
+        k = len(clip["timings"])
+        v_timings = list(zip([video] * k, clip["timings"]))
+        output_file = split_and_concat_video(v_timings, crop, idx)
         replacements = clip.get("replacements")
         if replacements is not None:
             output_file = do_all_replacements(output_file, replacements, replace_img)
@@ -314,6 +329,10 @@ if __name__ == "__main__":
         "-u", "--use-original", action="store_true", help="Use originals (not low-res)"
     )
     parser.add_argument(
+        "-t", "--make-trailer", action="store_true", help="Create the trailer",
+    )
+
+    parser.add_argument(
         "-a",
         "--combine-all",
         action="store_true",
@@ -331,5 +350,8 @@ if __name__ == "__main__":
     if options.combine_all:
         print("Combining all parts into a single video...")
         concat_all_parts(name, config_data)
+    elif options.make_trailer:
+        print("Making trailer...")
+        make_trailer(name, config_data)
     else:
         main(config_data, options.n, options.with_intro, img)
