@@ -326,7 +326,7 @@ def main(config, n, with_intro, replace_img):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("config", type=open)
-    parser.add_argument("-n", type=int, help="Line number in the timings file")
+    parser.add_argument("-n", type=int, help="Question number in yml file")
     parser.add_argument("-I", "--with-intro", action="store_true", help="Add QnA intro")
     parser.add_argument("-r", "--replace-frame", help="Image to use for replacement")
     parser.add_argument(
