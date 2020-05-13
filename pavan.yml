@@ -1,5 +1,8 @@
 crop: ih:ih:ih/3.2:0
 video: pavan-part-1.mov
+cover:
+  image: Humans-of-TIKS-Pavan-2.jpg
+  time: 3
 alt_low_res:
   pavan-part-1.mov: pavan.mp4
   pavan-part-2.mov: pavan-2.mp4

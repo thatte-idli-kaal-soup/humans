@@ -1,5 +1,8 @@
 crop: ih:ih:ih/1.8:0
 video: nikki.mp4
+cover:
+  image: river.jpg
+  time: 3
 clips:
 - question: How did you start playing Ultimate?
   replacements:
