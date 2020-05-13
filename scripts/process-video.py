@@ -172,7 +172,7 @@ def video_dimensions(video):
 
 def prepend_text_video(input_file, output_file, text):
     create_black_background(input_file, "black.mp4")
-    width, height = video_dimensions(input_file)
+    _, height = video_dimensions(input_file)
     font_height = int(height / 20)
     logo_size = int(height / 7.5)
     draw_text("black.mp4", "intro.mp4", text, font_height)
