@@ -54,6 +54,24 @@ def create_black_background(input_file, output_file, time=3):
     ]
     subprocess.check_call(command)
 
+def create_cover_video(config):
+    if 'cover' not in config:
+        return
+    command = FFMPEG_CMD + [
+        "-loop",
+        "1",
+        "-i",
+        config['cover']['image'],
+        "-c:v",
+        "libx264",
+        "-t",
+        str(config['cover']['time']),
+        "-pix_fmt",
+        "yuv420p",
+        "cover.mp4",
+    ]
+    subprocess.check_call(command)
+    return "cover.mp4"
 
 def draw_text(input_file, output_file, text, font_height):
     drawtext_param = compute_drawtext_param(text.q, fontsize=font_height)
@@ -222,8 +240,10 @@ def concat_all_parts(config):
     for second in video_names[1:]:
         concat_videos(first, second, output_file)
         first = output_file
+    output_file = first  # This handles the case of video_names being a single item list
     print(f"Created {output_file}")
-
+    cover_video = create_cover_video(config)
+    concat_videos(cover_video, output_file, output_file)
 
 def make_trailer(name, config):
     print("Making trailer...")
@@ -335,7 +355,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "-t", "--make-trailer", action="store_true", help="Create the trailer",
     )
-
     parser.add_argument(
         "-a",
         "--combine-all",
