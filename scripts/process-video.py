@@ -243,7 +243,8 @@ def concat_all_parts(config):
     output_file = first  # This handles the case of video_names being a single item list
     print(f"Created {output_file}")
     cover_video = create_cover_video(config)
-    concat_videos(cover_video, output_file, output_file)
+    if cover_video is not None:
+        concat_videos(cover_video, output_file, output_file)
 
 def make_trailer(name, config):
     print("Making trailer...")
