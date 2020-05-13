@@ -63,7 +63,7 @@ def create_cover_video(cover_config):
         "-i",
         cover_config["image"],
         "-vf",
-        f"scale={width}:{height}",
+        f"scale={width}:{height},{FADE_IN},{FADE_OUT}",
         "-c:v",
         "libx264",
         "-t",
