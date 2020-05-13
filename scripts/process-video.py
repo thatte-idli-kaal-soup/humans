@@ -54,24 +54,27 @@ def create_black_background(input_file, output_file, time=3):
     ]
     subprocess.check_call(command)
 
-def create_cover_video(config):
-    if 'cover' not in config:
-        return
+
+def create_cover_video(cover_config):
+    width, height = cover_config["width"], cover_config["height"]
     command = FFMPEG_CMD + [
         "-loop",
         "1",
         "-i",
-        config['cover']['image'],
+        cover_config["image"],
+        "-vf",
+        f"scale={width}:{height}",
         "-c:v",
         "libx264",
         "-t",
-        str(config['cover']['time']),
+        str(cover_config["time"]),
         "-pix_fmt",
         "yuv420p",
         "cover.mp4",
     ]
     subprocess.check_call(command)
     return "cover.mp4"
+
 
 def draw_text(input_file, output_file, text, font_height):
     drawtext_param = compute_drawtext_param(text.q, fontsize=font_height)
@@ -242,9 +245,14 @@ def concat_all_parts(config):
         first = output_file
     output_file = first  # This handles the case of video_names being a single item list
     print(f"Created {output_file}")
-    cover_video = create_cover_video(config)
-    if cover_video is not None:
+    width, height = video_dimensions(output_file)
+    cover_config = config.get("cover")
+    cover_config["width"] = width
+    cover_config["height"] = height
+    if cover_config:
+        cover_video = create_cover_video(cover_config)
         concat_videos(cover_video, output_file, output_file)
+
 
 def make_trailer(name, config):
     print("Making trailer...")
