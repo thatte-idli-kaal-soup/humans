@@ -2,7 +2,6 @@
 
 import argparse
 from collections import namedtuple
-import glob
 import io
 import os
 import shutil
