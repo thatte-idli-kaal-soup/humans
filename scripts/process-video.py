@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import argparse
 from collections import namedtuple
 import io
 import os
@@ -8,6 +7,7 @@ import shutil
 import subprocess
 from textwrap import wrap
 
+import click
 from PIL import Image, ImageOps
 import yaml
 
@@ -225,41 +225,6 @@ def split_and_concat_video(v_timings, crop, idx):
     return output_file
 
 
-def concat_all_parts(config):
-    video_names = [
-        f"part-{idx:02d}-{clip['video']}"
-        for idx, clip in enumerate(config["clips"], start=1)
-    ]
-    missing_names = {name for name in video_names if not os.path.exists(name)}
-    if missing_names:
-        names = ", ".join(missing_names)
-        raise RuntimeError(f"Create {names} before creating combined video")
-
-    names = ", ".join(video_names)
-    print(f"Combining {names} into a single video...")
-    first = video_names[0]
-    output_file = f"ALL-{first}"
-    for second in video_names[1:]:
-        concat_videos(first, second, output_file)
-        first = output_file
-    output_file = first  # This handles the case of video_names being a single item list
-    print(f"Created {output_file}")
-    width, height = video_dimensions(output_file)
-    cover_config = config.get("cover")
-    cover_config["width"] = width
-    cover_config["height"] = height
-    if cover_config:
-        cover_video = create_cover_video(cover_config)
-        concat_videos(cover_video, output_file, output_file)
-
-
-def make_trailer(name, config):
-    print("Making trailer...")
-    crop = config["crop"]
-    v_timings = [(x["video"], x["timings"]) for x in config["trailer"]]
-    split_and_concat_video(v_timings, crop, 0)
-
-
 def do_all_replacements(input_file, replacements, replace_img):
     output_file = orig = input_file
     for replacement in replacements:
@@ -325,7 +290,26 @@ def process_config(config, use_original):
             each["video"] = alt_low_res[value]
 
 
-def main(config, n, with_intro, replace_img):
+@click.group()
+@click.option("--use-original/--use-low-res", default=False)
+@click.argument("config_file", type=click.File())
+@click.pass_context
+def cli(ctx, config_file, use_original):
+    config_data = yaml.load(config_file, Loader=yaml.FullLoader)
+    process_config(config_data, use_original)
+    ctx.obj.update(config_data)
+    name = os.path.splitext(config_file.name)[0]
+    input_dir = os.path.abspath(name)
+    os.chdir(input_dir)
+
+
+@cli.command()
+@click.option("--replace-image", default=None)
+@click.option("--with-intro/--no-intro", default=False)
+@click.option("-n", default=0)
+@click.pass_context
+def process_clip(ctx, n, with_intro, replace_image):
+    config = ctx.obj
     clips = config["clips"]
     for idx, clip in enumerate(clips, start=1):
         if n and idx != n:
@@ -338,7 +322,7 @@ def main(config, n, with_intro, replace_img):
         output_file = split_and_concat_video(v_timings, crop, idx)
         replacements = clip.get("replacements")
         if replacements is not None:
-            output_file = do_all_replacements(output_file, replacements, replace_img)
+            output_file = do_all_replacements(output_file, replacements, replace_image)
 
         if with_intro:
             q = clip.get("question", "")
@@ -351,36 +335,50 @@ def main(config, n, with_intro, replace_img):
             prepend_text_video(output_file, output_file, q_n_a)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("config", type=open)
-    parser.add_argument("-n", type=int, help="Question number in yml file")
-    parser.add_argument("-I", "--with-intro", action="store_true", help="Add QnA intro")
-    parser.add_argument("-r", "--replace-frame", help="Image to use for replacement")
-    parser.add_argument(
-        "-u", "--use-original", action="store_true", help="Use originals (not low-res)"
-    )
-    parser.add_argument(
-        "-t", "--make-trailer", action="store_true", help="Create the trailer",
-    )
-    parser.add_argument(
-        "-a",
-        "--combine-all",
-        action="store_true",
-        help="Create a single video from all the parts",
-    )
+@cli.command()
+@click.pass_context
+def combine_clips(ctx):
+    config = ctx.obj
+    video_names = [
+        f"part-{idx:02d}-{clip['video']}"
+        for idx, clip in enumerate(config["clips"], start=1)
+    ]
+    missing_names = {name for name in video_names if not os.path.exists(name)}
+    if missing_names:
+        names = ", ".join(missing_names)
+        raise RuntimeError(f"Create {names} before creating combined video")
 
-    options = parser.parse_args()
-    name = os.path.splitext(options.config.name)[0]
-    config_file = os.path.abspath(options.config.name)
-    input_dir = os.path.abspath(name)
-    img = os.path.abspath(options.replace_frame) if options.replace_frame else ""
-    os.chdir(input_dir)
-    config_data = yaml.load(options.config, Loader=yaml.FullLoader)
-    process_config(config_data, options.use_original)
-    if options.combine_all:
-        concat_all_parts(config_data)
-    elif options.make_trailer:
-        make_trailer(name, config_data)
-    else:
-        main(config_data, options.n, options.with_intro, img)
+    names = ", ".join(video_names)
+    print(f"Combining {names} into a single video...")
+    first = video_names[0]
+    output_file = f"ALL-{first}"
+    for second in video_names[1:]:
+        concat_videos(first, second, output_file)
+        first = output_file
+    output_file = first  # This handles the case of video_names being a single item list
+    print(f"Created {output_file}")
+    width, height = video_dimensions(output_file)
+    cover_config = config.get("cover")
+    cover_config["width"] = width
+    cover_config["height"] = height
+    if cover_config:
+        cover_video = create_cover_video(cover_config)
+        concat_videos(cover_video, output_file, output_file)
+
+
+@cli.command()
+@click.pass_context
+def make_trailer(ctx):
+    config = ctx.obj
+    if "trailer" not in config:
+        click.echo("No configuration found for trailer!")
+        return
+    click.echo("Making trailer...")
+    crop = config["crop"]
+    v_timings = [(x["video"], x["timings"]) for x in config["trailer"]]
+    path = split_and_concat_video(v_timings, crop, 0)
+    click.echo(f"Created {path}")
+
+
+if __name__ == "__main__":
+    cli(obj={})
