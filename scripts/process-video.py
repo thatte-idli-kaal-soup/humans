@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from collections import namedtuple
+import glob
 import io
 import os
 import shutil
@@ -277,7 +278,7 @@ def process_config(config, use_original):
     """
     alt_low_res = config.get("alt_low_res", {}) if not use_original else {}
     GLOBAL_KEYS = ("crop", "video")
-    for each in config["clips"]:
+    for each in config.get("clips", []):
         for key in GLOBAL_KEYS:
             if key in config:
                 value = each.setdefault(key, config[key])
@@ -290,15 +291,27 @@ def process_config(config, use_original):
             each["video"] = alt_low_res[value]
 
 
+def create_low_res(input_file, output_file):
+    width, height = video_dimensions(input_file)
+    while width > 500:
+        width /= 2
+        height /= 2
+
+    cmd = FFMPEG_CMD + ["-i", input_file, "-vf", f"scale={width}:{height}", output_file]
+    subprocess.check_call(cmd)
+
+
 @click.group()
 @click.option("--use-original/--use-low-res", default=False)
 @click.argument("config_file", type=click.File())
 @click.pass_context
 def cli(ctx, config_file, use_original):
-    config_data = yaml.load(config_file, Loader=yaml.FullLoader)
+    config_data = yaml.load(config_file, Loader=yaml.FullLoader) or {}
+    config_data["config_file"] = os.path.abspath(config_file.name)
     process_config(config_data, use_original)
-    ctx.obj.update(config_data)
     name = os.path.splitext(config_file.name)[0]
+    config_data["name"] = name
+    ctx.obj.update(config_data)
     input_dir = os.path.abspath(name)
     os.chdir(input_dir)
 
@@ -378,6 +391,27 @@ def make_trailer(ctx):
     v_timings = [(x["video"], x["timings"]) for x in config["trailer"]]
     path = split_and_concat_video(v_timings, crop, 0)
     click.echo(f"Created {path}")
+
+
+@cli.command()
+@click.option("--video-format", default="mp4")
+@click.pass_context
+def populate_config(ctx, video_format):
+    config = ctx.obj
+    videos = sorted(glob.glob(f"*.{video_format}"))
+    name = config.pop("name")
+    low_res_map = {}
+    for idx, video in enumerate(videos, start=1):
+        output_file = f"{name}-{idx:02d}.{video_format}"
+        create_low_res(video, output_file)
+        low_res_map[video] = output_file
+
+    config_file = config.pop("config_file")
+    config["clips"] = []
+    config["video"] = videos[0]
+    config["alt_low_res"] = low_res_map
+    with open(config_file, "w") as f:
+        yaml.dump(config, f)
 
 
 if __name__ == "__main__":
