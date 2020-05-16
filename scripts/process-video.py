@@ -308,7 +308,7 @@ def cli(ctx, config_file, use_original):
 @click.option("--with-intro/--no-intro", default=False)
 @click.option("-n", default=0)
 @click.pass_context
-def process_clip(ctx, n, with_intro, replace_image):
+def process_clips(ctx, n, with_intro, replace_image):
     config = ctx.obj
     clips = config["clips"]
     for idx, clip in enumerate(clips, start=1):
