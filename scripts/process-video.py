@@ -380,6 +380,9 @@ def process_clips(ctx, n, with_intro, replace_image):
     if n > 0:
         process_clip(clips[n - 1], with_intro, replace_image, n)
     else:
+        if not with_intro:
+            print(f"Intros will be generated even though --with-intro is off ...")
+        with_intro = True
         for idx, clip in enumerate(clips, start=1):
             process_clip(clip, with_intro, replace_image, idx)
 
