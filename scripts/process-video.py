@@ -265,7 +265,9 @@ def replace_frames(input_file, output_file, start, end, img):
 
 
 def to_seconds(timestamp):
-    times = [float(x) for x in timestamp.split(":", 1)]
+    times = [float(x) for x in timestamp.split(":")]
+    # Ignore hours, if present
+    times = times[-2:]
     return times[0] * 60 + times[1]
 
 
