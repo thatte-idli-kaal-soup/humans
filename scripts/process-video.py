@@ -184,15 +184,19 @@ def prepend_text_video(input_file, output_file, text):
 
 
 def split_video(input_file, output_file, start, end, crop):
-    start_seconds = str(to_seconds(start))
-    end_seconds = str(to_seconds(end))
+    start_seconds = to_seconds(start)
+    end_seconds = to_seconds(end)
+    duration = end_seconds - start_seconds
     command = FFMPEG_CMD + [
+        # NOTE: Moving -ss before -i makes the cut super fast.
+        # Note, -to is now the time in the output file (so duration of the cut)
+        # See https://stackoverflow.com/a/49080616
+        "-ss",
+        str(start_seconds),
         "-i",
         input_file,
-        "-ss",
-        start_seconds,
         "-to",
-        end_seconds,
+        str(duration),
         output_file,
     ]
     if crop:
