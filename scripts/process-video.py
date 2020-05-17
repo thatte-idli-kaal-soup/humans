@@ -478,7 +478,11 @@ def print_index(ctx):
     config = ctx.obj
     clips = config["clips"]
     for idx, clip in enumerate(clips, start=1):
-        print(f"{idx}\t{clip['question']}")
+        timings = [x["time"] for x in clip["timings"]]
+        durations = [timing.strip().split("-") for timing in timings]
+        durations = [(to_seconds(end) - to_seconds(start)) for start, end in durations]
+        duration = sum(durations)
+        print(f"{idx}\t{clip['question']}\t{duration:.1f}")
 
 
 if __name__ == "__main__":
