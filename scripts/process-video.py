@@ -360,10 +360,11 @@ def cli(ctx, config_file, use_original):
 def process_clips(ctx, n, with_intro, replace_image):
     config = ctx.obj
     clips = config["clips"]
-    for idx, clip in enumerate(clips, start=1):
-        if n and idx != n:
-            continue
-        process_clip(clip, with_intro, replace_image, idx)
+    if n > 0:
+        process_clip(clips[n - 1], with_intro, replace_image, n)
+    else:
+        for idx, clip in enumerate(clips, start=1):
+            process_clip(clip, with_intro, replace_image, idx)
 
 
 @cli.command()
