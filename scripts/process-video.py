@@ -5,6 +5,7 @@ from collections import namedtuple
 import glob
 import hashlib
 import io
+import multiprocessing
 import os
 import shutil
 import subprocess
@@ -370,21 +371,30 @@ def cli(ctx, config_file, use_original, profile):
 
 
 @cli.command()
+@click.option("--multi-process/--single-process", default=True)
 @click.option("--replace-image", default=None)
 @click.option("--with-intro/--no-intro", default=False)
 @click.option("-n", default=0)
 @click.pass_context
-def process_clips(ctx, n, with_intro, replace_image):
+def process_clips(ctx, n, with_intro, replace_image, multi_process):
     config = ctx.obj
     clips = config["clips"]
+    cpu_count = max(1, multiprocessing.cpu_count() - 1)
+
+    if n == 0 and not with_intro:
+        print(f"Intros will be generated even though --with-intro is off ...")
+        with_intro = True
+
     if n > 0:
         process_clip(clips[n - 1], with_intro, replace_image, n)
-    else:
-        if not with_intro:
-            print(f"Intros will be generated even though --with-intro is off ...")
-        with_intro = True
+    elif cpu_count == 1 or not multi_process:
         for idx, clip in enumerate(clips, start=1):
             process_clip(clip, with_intro, replace_image, idx)
+    else:
+        pool = multiprocessing.Pool(processes=cpu_count)
+        n = len(clips)
+        args = zip(clips, n * [with_intro], n * [replace_image], range(1, n + 1))
+        pool.starmap(process_clip, args)
 
     if "profile" in config:
         profile = config["profile"]
