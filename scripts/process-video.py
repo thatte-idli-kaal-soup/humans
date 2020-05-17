@@ -316,6 +316,27 @@ def create_low_res(input_file, output_file):
     subprocess.check_call(cmd)
 
 
+def process_clip(clip, with_intro, replace_image, idx):
+    print(f"Creating part {idx}")
+    output_file = split_and_concat_video(clip["timings"], idx)
+    replacements = clip.get("replacements")
+    if replacements is not None:
+        output_file = do_all_replacements(output_file, replacements, replace_image)
+
+    if with_intro:
+        q = clip.get("question", "")
+        a = clip.get("answer", "")
+        if q:
+            q_n_a = [q, a]
+            q_n_a = QnA(*q_n_a)
+        else:
+            q_n_a = QnA("...")
+        prepend_text_video(output_file, output_file, q_n_a)
+
+    path = os.path.abspath(output_file)
+    print(f"Created {path}")
+
+
 @click.group()
 @click.option("--use-original/--use-low-res", default=False)
 @click.argument("config_file", type=click.File())
@@ -342,24 +363,7 @@ def process_clips(ctx, n, with_intro, replace_image):
     for idx, clip in enumerate(clips, start=1):
         if n and idx != n:
             continue
-        print(f"Creating part {idx}")
-        output_file = split_and_concat_video(clip["timings"], idx)
-        replacements = clip.get("replacements")
-        if replacements is not None:
-            output_file = do_all_replacements(output_file, replacements, replace_image)
-
-        if with_intro:
-            q = clip.get("question", "")
-            a = clip.get("answer", "")
-            if q:
-                q_n_a = [q, a]
-                q_n_a = QnA(*q_n_a)
-            else:
-                q_n_a = QnA("...")
-            prepend_text_video(output_file, output_file, q_n_a)
-
-        path = os.path.abspath(output_file)
-        print(f"Created {path}")
+        process_clip(clip, with_intro, replace_image, idx)
 
 
 @cli.command()
