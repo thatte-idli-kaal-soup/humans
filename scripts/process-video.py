@@ -383,7 +383,8 @@ def combine_clips(ctx):
         concat_videos(first, second, output_file)
         first = output_file
     output_file = first  # This handles the case of video_names being a single item list
-    print(f"Created {output_file}")
+    path = os.path.abspath(output_file)
+    print(f"Created {path}")
     width, height = video_dimensions(output_file)
     cover_config = config.get("cover")
     if cover_config:
