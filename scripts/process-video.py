@@ -3,6 +3,7 @@
 import cProfile
 from collections import namedtuple
 import glob
+import hashlib
 import io
 import os
 import shutil
@@ -176,15 +177,18 @@ def video_dimensions(video):
     return width, height
 
 
-def prepend_text_video(input_file, output_file, text):
-    width, height = map(int, video_dimensions(input_file))
-    background_file = f"black-{width}-{height}.mp4"
+def prepend_text_video(input_file, output_file, q_a):
+    w, h = map(int, video_dimensions(input_file))
+    background_file = f"black-{w}x{h}.mp4"
     create_black_background(input_file, background_file)
-    font_height = int(height / 20)
-    logo_size = int(height / 7.5)
-    draw_text(background_file, "intro.mp4", text, font_height)
-    draw_logo("intro.mp4", "intro-logo.mp4", logo_size)
-    concat_videos("intro-logo.mp4", input_file, output_file)
+    font_height = int(h / 20)
+    logo_size = int(h / 7.5)
+    sha1 = hashlib.sha1(str(q_a).encode("utf-8")).hexdigest()
+    text_file = f"intro-{sha1}-{w}x{h}.mp4"
+    text_logo_file = f"intro-logo-{sha1}-{w}x{h}.mp4"
+    draw_text(background_file, text_file, q_a, font_height)
+    draw_logo(text_file, text_logo_file, logo_size)
+    concat_videos(text_logo_file, input_file, output_file)
 
 
 def split_video(input_file, output_file, start, end, crop):
