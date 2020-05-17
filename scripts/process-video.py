@@ -30,7 +30,7 @@ def compute_drawtext_param(
     # Special character escapes are like violence: if they're not solving your
     # problem, you're not using enough. https://stackoverflow.com/a/10729560
     text = text.replace("'", "\\\\\\'")
-    text = text.replace(",", r"\,").replace(":", r"\:")
+    text = text.replace(",", r"\,").replace(":", r"\\:")
     lines = [
         wrapped_line
         for each in text.splitlines()
