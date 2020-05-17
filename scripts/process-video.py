@@ -201,10 +201,13 @@ def split_video(input_file, output_file, start, end, crop):
     subprocess.check_call(command)
 
 
-def split_and_concat_video(v_timings, crop, idx):
-    if len(v_timings) > 1:
+def split_and_concat_video(timings, idx):
+    if len(timings) > 1:
         outputs = []
-        for sub_idx, (video_name, timing) in enumerate(v_timings):
+        for sub_idx, params in enumerate(timings):
+            video_name = params["video"]
+            timing = params["time"]
+            crop = params["crop"]
             start, end = timing.strip().split("-")
             output_file = f"subpart-{idx:02d}-{sub_idx:02d}-{video_name}"
             split_video(video_name, output_file, start, end, crop)
@@ -219,8 +222,11 @@ def split_and_concat_video(v_timings, crop, idx):
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         shutil.move(first, output_file)
     else:
-        video_name, timings = v_timings[0]
-        start, end = timings.split("-")
+        params = timings[0]
+        video_name = params["video"]
+        timing = params["time"]
+        crop = params["crop"]
+        start, end = timing.split("-")
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
         split_video(video_name, output_file, start, end, crop)
     return output_file
@@ -280,17 +286,24 @@ def process_config(config, use_original):
     """
     alt_low_res = config.get("alt_low_res", {}) if not use_original else {}
     GLOBAL_KEYS = ("crop", "video")
-    for each in config.get("clips", []):
-        for key in GLOBAL_KEYS:
-            if key in config:
-                value = each.setdefault(key, config[key])
-                if key == "video" and alt_low_res:
-                    each[key] = alt_low_res.get(value, value)
+    for clip in config.get("clips", []):
+
+        # Make timing into a dict with time
+        timings = [t if isinstance(t, dict) else {"time": t} for t in clip["timings"]]
+        clip["timings"] = timings
+        clip_video = clip.pop("video", config["video"])
+        clip_crop = clip.pop("crop", config["crop"])
+
+        for params in timings:
+            video = params.pop("video", clip_video)
+            params["video"] = alt_low_res.get(video, video)
+
+            params.setdefault("crop", clip_crop)
 
     for each in config.get("trailer", []):
-        value = each["video"]
-        if value in alt_low_res:
-            each["video"] = alt_low_res[value]
+        video = each["video"]
+        each["video"] = alt_low_res.get(video, video)
+        each.setdefault("crop", config["crop"])
 
 
 def create_low_res(input_file, output_file):
@@ -329,12 +342,8 @@ def process_clips(ctx, n, with_intro, replace_image):
     for idx, clip in enumerate(clips, start=1):
         if n and idx != n:
             continue
-        print(f"Creating part {idx} of {clip['video']}")
-        crop = clip.get("crop")
-        video = clip["video"]
-        k = len(clip["timings"])
-        v_timings = list(zip([video] * k, clip["timings"]))
-        output_file = split_and_concat_video(v_timings, crop, idx)
+        print(f"Creating part {idx}")
+        output_file = split_and_concat_video(clip["timings"], idx)
         replacements = clip.get("replacements")
         if replacements is not None:
             output_file = do_all_replacements(output_file, replacements, replace_image)
@@ -349,13 +358,16 @@ def process_clips(ctx, n, with_intro, replace_image):
                 q_n_a = QnA("...")
             prepend_text_video(output_file, output_file, q_n_a)
 
+        path = os.path.abspath(output_file)
+        print(f"Created {path}")
+
 
 @cli.command()
 @click.pass_context
 def combine_clips(ctx):
     config = ctx.obj
     video_names = [
-        f"part-{idx:02d}-{clip['video']}"
+        f"part-{idx:02d}-{clip['timings'][0]['video']}"
         for idx, clip in enumerate(config["clips"], start=1)
     ]
     missing_names = {name for name in video_names if not os.path.exists(name)}
@@ -389,9 +401,7 @@ def make_trailer(ctx):
         click.echo("No configuration found for trailer!")
         return
     click.echo("Making trailer...")
-    crop = config["crop"]
-    v_timings = [(x["video"], x["time"]) for x in config["trailer"]]
-    path = split_and_concat_video(v_timings, crop, 0)
+    path = split_and_concat_video(config["trailer"], 0)
     click.echo(f"Created {path}")
 
 
