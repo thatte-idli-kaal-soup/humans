@@ -31,7 +31,11 @@ def compute_drawtext_param(
     # problem, you're not using enough. https://stackoverflow.com/a/10729560
     text = text.replace("'", "\\\\\\'")
     text = text.replace(",", r"\,").replace(":", r"\:")
-    lines = wrap(text, width=width)
+    lines = [
+        wrapped_line
+        for each in text.splitlines()
+        for wrapped_line in wrap(each, width=width)
+    ]
     fontconfig = f"fontfile={fontfile}:fontcolor={fontcolor}:fontsize={fontsize}"
 
     def format_line(text, idx):
