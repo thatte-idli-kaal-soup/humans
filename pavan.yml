@@ -86,22 +86,22 @@ clips:
     - 20:59.280-21:04.840
 trailer:
   - video: pavan-part-2.mov
-    timings: 05:17.5-05:18.7
+    time: 05:17.5-05:18.7
   - video: pavan-part-1.mov
-    timings: 13:33-13:37.2
+    time: 13:33-13:37.2
   - video: pavan-part-2.mov
-    timings: 17:17.5-17:25.3
+    time: 17:17.5-17:25.3
   - video: pavan-part-1.mov
-    timings: 20:35.5-20:39.5
+    time: 20:35.5-20:39.5
   - video: pavan-part-2.mov
-    timings: 14:15.5-14:23
+    time: 14:15.5-14:23
   - video: pavan-part-2.mov
-    timings: 30:49.5-30:51.7
+    time: 30:49.5-30:51.7
   - video: pavan-part-2.mov
-    timings: 28:57.8-29:01
+    time: 28:57.8-29:01
   - video: pavan-part-2.mov
-    timings: 27:27.5-27:35
+    time: 27:27.5-27:35
   - video: pavan-part-2.mov
-    timings: 30:45.7-30:48.8
+    time: 30:45.7-30:48.8
   - video: pavan-part-1.mov
-    timings: 12:00-12:03
+    time: 12:00-12:03

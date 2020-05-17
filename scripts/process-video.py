@@ -390,7 +390,7 @@ def make_trailer(ctx):
         return
     click.echo("Making trailer...")
     crop = config["crop"]
-    v_timings = [(x["video"], x["timings"]) for x in config["trailer"]]
+    v_timings = [(x["video"], x["time"]) for x in config["trailer"]]
     path = split_and_concat_video(v_timings, crop, 0)
     click.echo(f"Created {path}")
 
