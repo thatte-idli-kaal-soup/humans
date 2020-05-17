@@ -44,6 +44,8 @@ def compute_drawtext_param(
 
 
 def create_black_background(input_file, output_file, time=3):
+    if os.path.isfile(output_file):
+        return
     command = FFMPEG_CMD + [
         "-i",
         input_file,
@@ -175,11 +177,12 @@ def video_dimensions(video):
 
 
 def prepend_text_video(input_file, output_file, text):
-    create_black_background(input_file, "black.mp4")
-    _, height = video_dimensions(input_file)
+    width, height = map(int, video_dimensions(input_file))
+    background_file = f"black-{width}-{height}.mp4"
+    create_black_background(input_file, background_file)
     font_height = int(height / 20)
     logo_size = int(height / 7.5)
-    draw_text("black.mp4", "intro.mp4", text, font_height)
+    draw_text(background_file, "intro.mp4", text, font_height)
     draw_logo("intro.mp4", "intro-logo.mp4", logo_size)
     concat_videos("intro-logo.mp4", input_file, output_file)
 
