@@ -7,100 +7,88 @@ alt_low_res:
   VID_20200516_121143.mp4: naren-tara-04.mp4
   VID_20200516_121536.mp4: naren-tara-05.mp4
 clips:
+  - question: How did you get into flying?
+    video: VID_20200516_112957.mp4
+    timings:
+      - 0:31-0:53.2
+  - question: What are your favorite places to fly in?
+    video: VID_20200516_112957.mp4
+    timings:
+      - 1:03.37-1:20
+      - 1:25-1:35
+      - 1:37.5-1:43.3
+  - question: Could you put into words, the joy of flying?
+    timings:
+      - video: VID_20200516_115137.mp4
+        time: 05:47.5-6:25.5
+      - video: VID_20200516_112957.mp4
+        time: 06:11-06:28
+  - question: What is the gender balance like, in the flying community?
+    video: VID_20200516_112957.mp4
+    timings:
+      - 00:10:52.033-00:11:06.800
+  - question: What do you do in the flying off-season? What do you enjoy about it?
+    video: VID_20200516_112957.mp4
+    timings:
+      - 03:24.867-03:26.63
+      - 03:10.667-03:24.267
+      - video: VID_20200516_112957.mp4
+        time: 05:28.933-05:57.4
+  - question: What do you enjoy the most about teaching people to fly?
+    video: VID_20200516_112957.mp4
+    timings:
+      - 08:24.5-00:08:57.800
+      - 00:15:38.200-00:15:49.267
+      - 00:16:18.533-00:16:22.500
+      - 00:16:29.433-00:16:45.3
+  - question: Why do you spend so much time teaching kids?
+    video: VID_20200516_115137.mp4
+    timings:
+      - 2:46.067-00:02:47.433
+      - 3:11.567-3:39.5
+  - question: Why do you enjoy playing Frisbee?
+    timings:
+      - video: VID_20200516_112957.mp4
+        time: 0:22.7-0:28
+      - video: VID_20200516_115137.mp4
+        time: 12:15.2-12:36
+  - question: More on playing Frisbee for the joy of it ...
+    answer: On our Himalayan trips, ...
+    video: VID_20200516_115137.mp4
+    timings:
+      - 7:05-7:20.9
+  - question: Can you share a memorable story from those initial days?
+    video: VID_20200516_115137.mp4
+    timings:
+      - 13:35.4-14:00
+  - question: What do you like about TIKS? What does the team mean to you?
+    timings:
+      - video: VID_20200516_112957.mp4
+        time: 00:17:18.600-00:17:40.300
+      - video: VID_20200516_115137.mp4
+        time: 14:36.5-14:40.8
+      - video: VID_20200516_115137.mp4
+        time: 14:48.5-15:03.3
+      - video: VID_20200516_115137.mp4
+        time: 15:27.3-15:36.4
   - question: How did both of you meet?
     timings:
       - video: VID_20200516_112957.mp4
         time: 00:18:25.033-00:18:39.000
       - video: VID_20200516_115137.mp4
         time: 00:46-1:14.467
-  - question: On the jokes that Naren cracks..
-    video: VID_20200516_115137.mp4
+  - question: "Naren: Why do you like making fun of people?\n
+    Tara: How do you feel about all his jokes and pranks?"
     timings:
-      - 1:29.7-1:46
-      - 1:58.1-2:03
-  - question: On kids.. and passions (Tara)
-    video: VID_20200516_115137.mp4
-    timings:
-      - 2:46.067-00:02:47.433
-      - 3:11.567-3:39.5
-  - question: Joy of flying...
-    video: VID_20200516_115137.mp4
-    timings:
-      - 05:47.5-6:25.5
-  - question: Frisbee with locals on treks
-    video: VID_20200516_115137.mp4
-    timings:
-      - 7:05-7:20.9
-  - question: On playing Frisbee
-    video: VID_20200516_115137.mp4
-    timings:
-      - 12:15.2-12:36
-  - question: The name TIKS
-    video: VID_20200516_115137.mp4
-    timings:
-      - 13:35.4-14:00
-  - question: TIKS Family
-    video: VID_20200516_115137.mp4
-    timings:
-      - 14:36.5-14:40.8
-      - 14:48.5-15:03.3
-      - 15:27.3-15:36.4
-  - question: TIKS Family
+      - video: VID_20200516_112957.mp4
+        time: 00:13:30.600-00:13:45.500
+      - video: VID_20200516_115137.mp4
+        time: 1:29.7-1:46
+      - video: VID_20200516_115137.mp4
+        time: 1:58.1-2:03
+  - question: How are you always smiling and happy?
     video: VID_20200516_121143.mp4
     crop: iw:iw:0:iw/3.2
     timings:
       - 0:18.1-0:23.8
       - 0:51.5-1:04
-  - question: Love anything that flies
-    video: VID_20200516_112957.mp4
-    timings:
-      - 0:22.7-0:28
-  - question: How did you get into flying
-    video: VID_20200516_112957.mp4
-    timings:
-      - 0:31-0:53.2
-  - question: Where to fly?
-    video: VID_20200516_112957.mp4
-    timings:
-      - 1:03.37-1:20
-      - 1:25-1:35
-      - 1:37.5-1:43.3
-  - question: On Kayaking
-    video: VID_20200516_112957.mp4
-    timings:
-      - 03:24.867-03:26.63
-      - 03:10.667-03:24.267
-  - question: Best thing ...
-    video: VID_20200516_112957.mp4
-    timings:
-      - 05:28.933-05:57.4
-  - question: The feeling when flying
-    video: VID_20200516_112957.mp4
-    timings:
-      - 06:11-06:28
-  - question: On teaching flying
-    video: VID_20200516_112957.mp4
-    timings:
-      - 08:24.5-00:08:57.800
-  - question: On women in the sport
-    video: VID_20200516_112957.mp4
-    timings:
-      - 00:10:52.033-00:11:06.800
-  - question: Making fun of people?
-    video: VID_20200516_112957.mp4
-    timings:
-      - 00:13:30.600-00:13:45.500
-  - question: Dogs or Humans
-    video: VID_20200516_112957.mp4
-    timings:
-      - 00:14:32.367-00:14:40.333
-  - question: Teaching younsters
-    video: VID_20200516_112957.mp4
-    timings:
-      - 00:15:38.200-00:15:49.267
-      - 00:16:18.533-00:16:22.500
-      - 00:16:29.433-00:16:45.633
-  - question: Love about tiks
-    video: VID_20200516_112957.mp4
-    timings:
-      - 00:17:18.600-00:17:40.300
