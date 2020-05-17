@@ -374,9 +374,9 @@ def combine_clips(ctx):
     print(f"Created {output_file}")
     width, height = video_dimensions(output_file)
     cover_config = config.get("cover")
-    cover_config["width"] = width
-    cover_config["height"] = height
     if cover_config:
+        cover_config["width"] = width
+        cover_config["height"] = height
         cover_video = create_cover_video(cover_config)
         concat_videos(cover_video, output_file, output_file)
 
