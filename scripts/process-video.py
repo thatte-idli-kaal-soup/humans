@@ -468,5 +468,14 @@ def populate_config(ctx, video_format):
         yaml.dump(config, f)
 
 
+@cli.command()
+@click.pass_context
+def print_index(ctx):
+    config = ctx.obj
+    clips = config["clips"]
+    for idx, clip in enumerate(clips, start=1):
+        print(f"{idx}\t{clip['question']}")
+
+
 if __name__ == "__main__":
     cli(obj={})
