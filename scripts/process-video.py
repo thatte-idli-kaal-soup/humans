@@ -144,13 +144,15 @@ def concat_videos(input_1, input_2, output_file):
         return cmd
 
     inputs = (input_1, input_2)
-    for i, intermediate_name in enumerate(("intermediate1.mkv", "intermediate2.mkv")):
+    intermediates = ["intermediate-{}.mkv".format(i) for i in inputs]
+    for i, intermediate_name in enumerate(intermediates):
         command = generate_cmd(inputs[i], intermediate_name)
         subprocess.check_call(command)
 
+    intermediates = "|".join(intermediates)
     concat_command = FFMPEG_CMD + [
         "-i",
-        "concat:intermediate1.mkv|intermediate2.mkv",
+        f"concat:{intermediates}",
         "-c",
         "copy",
         "-bsf:a",
