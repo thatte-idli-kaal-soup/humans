@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import cProfile
 from collections import namedtuple
 import glob
 import io
@@ -342,18 +343,23 @@ def process_clip(clip, with_intro, replace_image, idx):
 
 
 @click.group()
+@click.option("--profile/--no-profile", default=False)
 @click.option("--use-original/--use-low-res", default=False)
 @click.argument("config_file", type=click.File())
 @click.pass_context
-def cli(ctx, config_file, use_original):
+def cli(ctx, config_file, use_original, profile):
     config_data = yaml.load(config_file, Loader=yaml.FullLoader) or {}
     config_data["config_file"] = os.path.abspath(config_file.name)
     process_config(config_data, use_original)
     name = os.path.splitext(config_file.name)[0]
     config_data["name"] = name
-    ctx.obj.update(config_data)
     input_dir = os.path.abspath(name)
     os.chdir(input_dir)
+    if profile:
+        profile = cProfile.Profile()
+        profile.enable()
+        config_data["profile"] = profile
+    ctx.obj.update(config_data)
 
 
 @cli.command()
@@ -369,6 +375,10 @@ def process_clips(ctx, n, with_intro, replace_image):
     else:
         for idx, clip in enumerate(clips, start=1):
             process_clip(clip, with_intro, replace_image, idx)
+
+    if "profile" in config:
+        profile = config["profile"]
+        profile.dump_stats("profile.out")
 
 
 @cli.command()
