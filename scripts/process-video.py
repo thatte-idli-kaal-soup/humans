@@ -67,24 +67,18 @@ def create_black_background(input_file, output_file, time=3):
 
 
 def create_cover_video(cover_config):
-    width, height = cover_config["width"], cover_config["height"]
-    time = str(cover_config["time"])
+    w, h = cover_config["width"], cover_config["height"]
+    background_file = f"black-{w}x{h}.mp4"
+    input_file = cover_config["image"]
+    output_file = "cover.mp4"
     command = FFMPEG_CMD + [
-        "-loop",
-        "1",
         "-i",
-        cover_config["image"],
-        "-af",
-        f"atrim=0:{time},volume=0",
-        "-vf",
-        f"scale={width}:{height},{FADE_IN},{FADE_OUT}",
-        "-c:v",
-        "libx264",
-        "-t",
-        time,
-        "-pix_fmt",
-        "yuv420p",
-        "cover.mp4",
+        background_file,
+        "-i",
+        input_file,
+        "-filter_complex",
+        f"overlay=0:0,{FADE_IN},{FADE_OUT}",
+        output_file,
     ]
     subprocess.check_call(command)
     return "cover.mp4"
