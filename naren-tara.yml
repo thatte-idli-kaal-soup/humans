@@ -1,5 +1,8 @@
 crop: ih:ih:ih/3.2:0
 video: VID_20200516_112758.mp4
+cover:
+  image: cover.jpg
+  time: 3
 alt_low_res:
   VID_20200516_112758.mp4: naren-tara-01.mp4
   VID_20200516_112957.mp4: naren-tara-02.mp4
