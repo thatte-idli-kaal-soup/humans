@@ -6,8 +6,8 @@ The videos can be found [here](https://www.youtube.com/playlist?list=PLo98-81j1o
 
 ## Checklist for video recording
 
--   Use your own phone to record your video.
--   Put your phone in airplane more or in DND mode for the next hour.
+-   Use your phone to record your video.
+-   Put your phone in airplane more or in DND mode for the next hour or so.
 -   Record the video in portrait mode.
 -   Make sure there is adequate lighting where you are sitting.
 -   Make sure you are sitting so that you appear in roughly the same portion of
