@@ -22,6 +22,8 @@ HERE = os.path.dirname(os.path.basename(__file__))
 LOGO_FILE = os.path.join(HERE, "..", "logo.png")
 PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
 FFMPEG_CMD = ["ffmpeg", "-v", "0", "-y"]
+ENDC = "\033[0m"
+BOLDRED = "\x1B[1;31m"
 
 
 def compute_drawtext_param(
@@ -433,10 +435,13 @@ def combine_clips(ctx):
     width, height = video_dimensions(output_file)
     cover_config = config.get("cover")
     if cover_config:
+        print("Appending cover video...")
         cover_config["width"] = width
         cover_config["height"] = height
         cover_video = create_cover_video(cover_config)
         concat_videos(cover_video, output_file, output_file)
+    else:
+        print(BOLDRED, "WARNING: No cover image has been specified!", ENDC, sep="")
 
 
 @cli.command()
