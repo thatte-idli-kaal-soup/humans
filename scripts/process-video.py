@@ -457,6 +457,10 @@ def combine_clips(ctx):
         cover_config["height"] = height
         cover_video = create_cover_video(cover_config)
         concat_videos(cover_video, output_file, output_file)
+        # Create padded cover image
+        cover_image = cover_config["image"]
+        igtv_cover = f"IGTV-{cover_image}"
+        create_igtv_video(cover_image, igtv_cover)
     else:
         print(BOLDRED, "WARNING: No cover image has been specified!", ENDC, sep="")
 
