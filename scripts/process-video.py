@@ -461,8 +461,9 @@ def combine_clips(ctx):
         print(BOLDRED, "WARNING: No cover image has been specified!", ENDC, sep="")
 
     print("Creating IGTV video...")
-    igtv_file = f"IGTV-{output_file}"
+    igtv_file = os.path.abspath(f"IGTV-{output_file}")
     create_igtv_video(output_file, igtv_file)
+    print(f"Created {igtv_file}")
 
 
 @cli.command()
