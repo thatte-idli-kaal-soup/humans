@@ -185,7 +185,7 @@ def video_dimensions(video):
         video,
     ]
     output = subprocess.check_output(cmd)
-    width, height = [float(x) for x in output.decode("utf8").strip().split(",")]
+    width, height = [int(x) for x in output.decode("utf8").strip().split(",")]
     return width, height
 
 
@@ -340,6 +340,20 @@ def create_low_res(input_file, output_file):
     subprocess.check_call(cmd)
 
 
+def create_igtv_video(input_file, output_file):
+    w, h = video_dimensions(input_file)
+    new_h = int(h * 16 / 9)
+    pad_h = int((new_h - h) / 2)
+    cmd = FFMPEG_CMD + [
+        "-i",
+        input_file,
+        "-vf",
+        f"pad={w}:{new_h}:0:{pad_h}",
+        output_file,
+    ]
+    subprocess.check_call(cmd)
+
+
 def process_clip(clip, with_intro, replace_image, idx):
     print(f"Creating part {idx}")
     output_file = split_and_concat_video(clip["timings"], idx)
@@ -445,6 +459,10 @@ def combine_clips(ctx):
         concat_videos(cover_video, output_file, output_file)
     else:
         print(BOLDRED, "WARNING: No cover image has been specified!", ENDC, sep="")
+
+    print("Creating IGTV video...")
+    igtv_file = f"IGTV-{output_file}"
+    create_igtv_video(output_file, igtv_file)
 
 
 @cli.command()
