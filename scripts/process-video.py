@@ -77,7 +77,7 @@ def create_cover_video(cover_config):
         "-i",
         input_file,
         "-filter_complex",
-        f"overlay=0:0,{FADE_IN},{FADE_OUT}",
+        f"[1]scale={w}:{h}[ovrl],[0][ovrl]overlay=0:0,{FADE_IN},{FADE_OUT}",
         output_file,
     ]
     subprocess.check_call(command)
