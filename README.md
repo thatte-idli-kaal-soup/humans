@@ -21,3 +21,9 @@ The videos can be found [here](https://www.youtube.com/playlist?list=PLo98-81j1o
     computer, or other people typing, makes the audio quality poor.
 -   Ensure that your headphones are charged, if they are bluetooth headphones.
 -   Have a bottle of water next to you.
+
+## Checklist for posting video
+
+-   [ ] Get pictures from interviewee to make poster. Work on the poster.
+-   [ ] Write post description
+-   [ ] Figure out hashtags (if any changes are required from the last post)
