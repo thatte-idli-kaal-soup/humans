@@ -51,15 +51,13 @@ Some ideas and suggestions provided by various people, that we could try to
 incorporate in future videos. Ideally, our tool should incorporate these
 features, rather than us adding anything manually.
 
--   ~~Ask for one question from each team mate. Ask for questions from Instagram
-    followers.~~
+-   Show longer questions for longer duration of time
+-   Add an ~~intro and~~ outtro slide.
+-   See if we can embed video of people playing/practicing, while they speak
 -   Play some background music. Finding out one music track they listen to, to
     get inspired, and run in the background. This may not work well, but even
     playing some instrumental soft music for all videos may be nice.
 -   ~~Make a web-page with all the videos?~~ We already have a YouTube playlist
--   Add an ~~intro and~~ outtro slide.
--   See if we can embed video of people playing/practicing, while they speak
--   Put videos on TikTok? 😂
--   Captions on videos may be nice, especially when the audio is noisy.
--   Show longer questions for longer duration of time
 -   Figure out best time to post based on when our audience is online.
+-   Captions on videos may be nice, especially when the audio is noisy.
+-   Put videos on TikTok? 😂
