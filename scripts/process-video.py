@@ -507,7 +507,8 @@ def print_index(ctx):
         durations = [timing.strip().split("-") for timing in timings]
         durations = [(to_seconds(end) - to_seconds(start)) for start, end in durations]
         duration = sum(durations)
-        print(f"{idx}\t{clip['question']}\t{duration:.1f}")
+        text = " | ".join([clip.get("question", ""), clip.get("answer", "")])
+        print(f"{idx}\t{text}\t{duration:.1f}")
 
 
 if __name__ == "__main__":
