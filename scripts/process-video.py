@@ -16,14 +16,18 @@ from PIL import Image, ImageOps
 import yaml
 
 QnA = namedtuple("QnA", ["q", "a"], defaults=(None,))
-FADE_IN = "fade=t=in:st=0:d=0.5"
-FADE_OUT = "fade=t=out:st=2.5:d=0.5"
 HERE = os.path.dirname(os.path.basename(__file__))
 LOGO_FILE = os.path.join(HERE, "..", "logo.png")
 PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
 FFMPEG_CMD = ["ffmpeg", "-v", "0", "-y"]
 ENDC = "\033[0m"
 BOLDRED = "\x1B[1;31m"
+FADE_IN = "fade=t=in:st=0:d=0.5"
+
+
+def get_fade_out(time):
+    start = round(time - 0.5, 1)
+    return f"fade=t=out:st={start}:d=0.5"
 
 
 def compute_drawtext_param(
@@ -51,7 +55,7 @@ def compute_drawtext_param(
     return ",".join(format_line(line, i) for i, line in enumerate(lines))
 
 
-def create_black_background(input_file, output_file, time=3):
+def create_black_background(input_file, output_file, time=6):
     if os.path.isfile(output_file):
         return
     command = FFMPEG_CMD + [
@@ -84,8 +88,9 @@ def create_cover_video(cover_config):
     return "cover.mp4"
 
 
-def draw_text(input_file, output_file, text, font_height):
+def draw_text(input_file, output_file, text, font_height, time):
     drawtext_param = compute_drawtext_param(text.q, fontsize=font_height)
+    FADE_OUT = get_fade_out(time)
     if text.a:
         h_offset = drawtext_param.count("drawtext") + 1
         ans_font_height = round(font_height * 1.1)
@@ -97,7 +102,9 @@ def draw_text(input_file, output_file, text, font_height):
         "-i",
         input_file,
         "-vf",
-        f"{drawtext_param},{FADE_IN},{FADE_OUT}",
+        f"trim=0:{time},{drawtext_param},{FADE_IN},{FADE_OUT}",
+        "-af",
+        f"atrim=0:{time}",
         output_file,
     ]
     subprocess.check_call(command)
@@ -117,7 +124,8 @@ def resize_logo(logo, size):
     return new_path
 
 
-def draw_logo(input_file, output_file, size=48):
+def draw_logo(input_file, output_file, size=48, time=3):
+    FADE_OUT = get_fade_out(time)
     logo_file = resize_logo(LOGO_FILE, size)
     command = FFMPEG_CMD + [
         "-i",
@@ -185,15 +193,19 @@ def video_dimensions(video):
 
 def prepend_text_video(input_file, output_file, q_a):
     w, h = map(int, video_dimensions(input_file))
+    text = f"{q_a.q} {q_a.a}"
+    # Show questions based on reading speed of 4 words per second
+    word_count = len(text.split())
+    time = min(max(3, round(word_count / 4)), 6)
     background_file = f"black-{w}x{h}.mp4"
     create_black_background(input_file, background_file)
     font_height = int(h / 20)
     logo_size = int(h / 7.5)
-    sha1 = hashlib.sha1(str(q_a).encode("utf-8")).hexdigest()
+    sha1 = hashlib.sha1(text.encode("utf-8")).hexdigest()
     text_file = f"intro-{sha1}-{w}x{h}.mp4"
     text_logo_file = f"intro-logo-{sha1}-{w}x{h}.mp4"
-    draw_text(background_file, text_file, q_a, font_height)
-    draw_logo(text_file, text_logo_file, logo_size)
+    draw_text(background_file, text_file, q_a, font_height, time)
+    draw_logo(text_file, text_logo_file, logo_size, time)
     concat_videos(text_logo_file, input_file, output_file)
 
 
