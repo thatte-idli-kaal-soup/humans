@@ -4,7 +4,17 @@ Repository with tools for creating the Humans of TIKS videos.
 
 The videos can be found [here](https://www.youtube.com/playlist?list=PLo98-81j1ocKx7DsxOYNavJx9vmcL0oWx).
 
-## Checklist for video recording
+# Checklists
+
+## Interview Preparation
+
+-   Shortlist next people to interview
+-   Contact them and fix a time for the interview
+-   Share Video Recording checklist with them
+-   Prepare questions, ask team mates/instagram for questions
+-   Do the interview and collect the video for editing
+
+## Video Recording
 
 -   Use your phone to record your video.
 -   Put your phone in airplane more or in DND mode for the next hour or so.
@@ -22,14 +32,20 @@ The videos can be found [here](https://www.youtube.com/playlist?list=PLo98-81j1o
 -   Ensure that your headphones are charged, if they are bluetooth headphones.
 -   Have a bottle of water next to you.
 
-## Checklist for posting video
+## Video Publishing
 
 -   [ ] Get pictures from interviewee to make poster. Work on the poster.
--   [ ] Check an Okay from the interviewee if the content and poster are okay!
+-   [ ] Get a go ahead from the interviewee if the content and poster are okay!
+-   [ ] Decide on whether to make a trailer, and post it.
 -   [ ] Write post description
 -   [ ] Figure out hashtags (if any changes are required from the last post)
+-   [ ] If there are "code" changes that potentially change how audio/video
+        streams are made, try posting from a trial account to verify Instagram
+        doesn't mess up anything.
+-   [ ] Make the actual post!
+-   [ ] Upload on YouTube and share on the group.
 
-## Ideas/Suggestions
+# Ideas/Suggestions for improvement
 
 Some ideas and suggestions provided by various people, that we could try to
 incorporate in future videos. Ideally, our tool should incorporate these
