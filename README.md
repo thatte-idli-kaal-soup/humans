@@ -51,7 +51,7 @@ Some ideas and suggestions provided by various people, that we could try to
 incorporate in future videos. Ideally, our tool should incorporate these
 features, rather than us adding anything manually.
 
--   Show longer questions for longer duration of time
+-   ~~Show longer questions for longer duration of time~~
 -   Add an ~~intro and~~ outtro slide.
 -   See if we can embed video of people playing/practicing, while they speak
 -   Play some background music. Finding out one music track they listen to, to
