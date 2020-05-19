@@ -4,6 +4,31 @@ Repository with tools for creating the Humans of TIKS videos.
 
 The videos can be found [here](https://www.youtube.com/playlist?list=PLo98-81j1ocKx7DsxOYNavJx9vmcL0oWx).
 
+# Software Installation and Usage
+
+## Installation
+
+-   We use `ffmpeg` to do all the heavy lifting for us. Make sure that you have
+    `ffmpeg` on your PATH. You can download it from
+    [here](https://www.ffmpeg.org/download.html)
+
+-   To install the requirements for the tool, install the requirements.
+
+```sh
+pip install -r requirements.txt
+```
+
+## Usage
+
+The script `./scripts/process-video.py` does all the automation that we need.
+Run the script to see some help.
+
+```sh
+python script/process-video.py --help
+```
+
+TODO: Add more description of each of the sub commands
+
 # Checklists
 
 ## Interview Preparation
