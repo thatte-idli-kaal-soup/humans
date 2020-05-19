@@ -25,6 +25,7 @@ The videos can be found [here](https://www.youtube.com/playlist?list=PLo98-81j1o
 ## Checklist for posting video
 
 -   [ ] Get pictures from interviewee to make poster. Work on the poster.
+-   [ ] Check an Okay from the interviewee if the content and poster are okay!
 -   [ ] Write post description
 -   [ ] Figure out hashtags (if any changes are required from the last post)
 
@@ -43,3 +44,4 @@ features, rather than us adding anything manually.
 -   Add an ~~intro and~~ outtro slide.
 -   See if we can embed video of people playing/practicing, while they speak
 -   Put videos on TikTok? 😂
+-   Captions on videos may be nice, especially when the audio is noisy.
