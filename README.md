@@ -45,3 +45,5 @@ features, rather than us adding anything manually.
 -   See if we can embed video of people playing/practicing, while they speak
 -   Put videos on TikTok? 😂
 -   Captions on videos may be nice, especially when the audio is noisy.
+-   Show longer questions for longer duration of time
+-   Figure out best time to post based on when our audience is online.
