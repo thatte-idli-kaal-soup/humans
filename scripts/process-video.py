@@ -191,12 +191,16 @@ def video_dimensions(video):
     return width, height
 
 
+def get_time(text):
+    # Show questions based on reading speed of 3.5 words per second
+    word_count = len(text.split())
+    return min(max(3, round(word_count / 3.5)), 7)
+
+
 def prepend_text_video(input_file, output_file, q_a):
     w, h = map(int, video_dimensions(input_file))
     text = f"{q_a.q} {q_a.a}"
-    # Show questions based on reading speed of 3.5 words per second
-    word_count = len(text.split())
-    time = min(max(3, round(word_count / 3.5)), 7)
+    time = get_time(text)
     background_file = f"black-{w}x{h}.mp4"
     create_black_background(input_file, background_file)
     font_height = int(h / 20)
