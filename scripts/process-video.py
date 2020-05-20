@@ -55,7 +55,7 @@ def compute_drawtext_param(
     return ",".join(format_line(line, i) for i, line in enumerate(lines))
 
 
-def create_black_background(input_file, output_file, time=6):
+def create_black_background(input_file, output_file, time=7):
     if os.path.isfile(output_file):
         return
     command = FFMPEG_CMD + [
@@ -194,9 +194,9 @@ def video_dimensions(video):
 def prepend_text_video(input_file, output_file, q_a):
     w, h = map(int, video_dimensions(input_file))
     text = f"{q_a.q} {q_a.a}"
-    # Show questions based on reading speed of 4 words per second
+    # Show questions based on reading speed of 3.5 words per second
     word_count = len(text.split())
-    time = min(max(3, round(word_count / 4)), 6)
+    time = min(max(3, round(word_count / 3.5)), 7)
     background_file = f"black-{w}x{h}.mp4"
     create_black_background(input_file, background_file)
     font_height = int(h / 20)
