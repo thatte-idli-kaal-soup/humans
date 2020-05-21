@@ -87,4 +87,3 @@ features, rather than us adding anything manually.
 -   [x] Make a web-page with all the videos? (Made a YouTube playlist, instead)
 -   [ ] Figure out best time to post based on when our audience is online.
 -   [ ] Captions on videos may be nice, especially when the audio is noisy.
--   [ ] Put videos on TikTok? 😂
