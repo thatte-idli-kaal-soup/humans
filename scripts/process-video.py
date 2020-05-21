@@ -71,6 +71,7 @@ def create_black_background(input_file, output_file, time=7):
 
 
 def create_cover_video(cover_config):
+    FADE_OUT = get_fade_out(3)
     w, h = cover_config["width"], cover_config["height"]
     background_file = f"black-{w}x{h}.mp4"
     input_file = cover_config["image"]
