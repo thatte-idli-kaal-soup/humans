@@ -79,14 +79,10 @@ Some ideas and suggestions provided by various people, that we could try to
 incorporate in future videos. Ideally, our tool should incorporate these
 features, rather than us adding anything manually.
 
--   [x] Show longer questions for longer duration of time
--   [ ] Add an intro and outtro slide
-    -   [ ] Add outtro
-    -   [x] Add intro slide
--   [ ] See if we can embed video/pictures of people playing/practicing
 -   [ ] Play some background music. Finding out one music track they listen to, to
         get inspired, and run in the background. This may not work well, but even
         playing some instrumental soft music for all videos may be nice.
--   [x] Make a web-page with all the videos? (Made a YouTube playlist, instead)
+-   [ ] Add an outro slide?
+-   [ ] See if we can embed video/pictures of people playing/practicing
 -   [ ] Figure out best time to post based on when our audience is online.
 -   [ ] Captions on videos may be nice, especially when the audio is noisy.
