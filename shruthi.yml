@@ -34,8 +34,8 @@ clips:
 - question: What does the team mean to you?
   timings:
     - 00:16:04.500-00:16:09.333
-    - 00:10:04.200-00:10:34.800
-    - 00:17:09.033-00:17:13.700
+    - 00:10:04.200-00:10:33.600
+    - 00:17:09.200-00:17:13.700
 - question: What are your favorite places to travel to?
   video: VID_20200521_132717.mp4
   timings:
