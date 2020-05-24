@@ -79,9 +79,6 @@ Some ideas and suggestions provided by various people, that we could try to
 incorporate in future videos. Ideally, our tool should incorporate these
 features, rather than us adding anything manually.
 
--   [ ] Play some background music. Finding out one music track they listen to, to
-        get inspired, and run in the background. This may not work well, but even
-        playing some instrumental soft music for all videos may be nice.
 -   [ ] Add an outro slide?
 -   [ ] See if we can embed video/pictures of people playing/practicing
 -   [ ] Figure out best time to post based on when our audience is online.
