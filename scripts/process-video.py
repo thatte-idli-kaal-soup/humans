@@ -420,7 +420,7 @@ def create_background_music(audio_file, trim, enabled, disabled):
         "-i",
         audio_file,
         "-af",
-        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},volume=0.4:enable='{enabled}',volume=0.1:enable='{disabled}'",
+        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},volume=0.4:enable='{enabled}',volume=0.12:enable='{disabled}'",
         "-c:a",
         "aac",
         background,
