@@ -195,6 +195,22 @@ def video_dimensions(video):
     return width, height
 
 
+def get_audio_duration(input_file):
+    cmd = [
+        "ffprobe",
+        "-v",
+        "error",
+        "-select_streams",
+        "a:0",
+        "-show_entries",
+        "stream=duration",
+        "-of",
+        "csv=p=0",
+        input_file,
+    ]
+    return float(subprocess.check_output(cmd).decode("utf8").strip())
+
+
 def get_time(text):
     # Show questions based on reading speed of 2.5 words per second
     word_count = len(text.split())
