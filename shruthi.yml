@@ -1,4 +1,7 @@
 crop: ih:ih:ih/3.2:0
+cover:
+  image: cover.jpg
+  time: 3
 video: VID_20200521_125923.mp4
 alt_low_res:
   VID_20200521_125923.mp4: shruthi-01.mp4
