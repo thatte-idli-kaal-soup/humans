@@ -398,7 +398,14 @@ def get_clip_duration(clip):
     return sum(durations)
 
 
-def create_background_music(audio_file, trim, enabled, disabled):
+def create_background_music_file(config):
+    timings = get_keyframe_timings(config)
+    pairs = list(zip(timings[:-1], timings[1:]))
+    ranges = [f"between(t,{start},{end})" for start, end in pairs]
+    enabled = "+".join(ranges[::2])
+    disabled = "+".join(ranges[1::2])
+    trim = round(timings[-1], 2)
+    audio_file = os.path.abspath(config["audio"])
     background = "background.m4a"
     cmd = FFMPEG_CMD + [
         "-i",
@@ -600,14 +607,7 @@ def add_music(ctx):
         print("No audio file found in config!")
         return
 
-    timings = get_keyframe_timings(config)
-    pairs = list(zip(timings[:-1], timings[1:]))
-    ranges = [f"between(t,{start},{end})" for start, end in pairs]
-    enabled = "+".join(ranges[::2])
-    disabled = "+".join(ranges[1::2])
-    trim = round(timings[-1], 2)
-    audio_file = os.path.abspath(config["audio"])
-    background = create_background_music(audio_file, trim, enabled, disabled)
+    background = create_background_music_file(config)
     first_video = config["clips"][0]["timings"][0]["video"]
     input_video = f"ALL-part-01-{first_video}"
     output_video = os.path.abspath(f"ALL-music-part-01-{first_video}")
