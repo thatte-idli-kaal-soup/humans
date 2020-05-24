@@ -452,11 +452,11 @@ def add_music_to_video(input_video, input_audio, output_video):
     # https://superuser.com/a/712921
     cmd = FFMPEG_CMD + [
         "-i",
-        input_audio,
-        "-i",
         input_video,
+        "-i",
+        input_audio,
         "-filter_complex",
-        "[0:a][1:a]amerge",
+        "[1:a]apad[bg],[0:a][bg]amerge",
         "-c:a",
         "aac",
         "-c:v",
