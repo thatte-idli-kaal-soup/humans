@@ -391,6 +391,13 @@ def process_clip(clip, with_intro, replace_image, idx):
     print(f"Created {path}")
 
 
+def get_clip_duration(clip):
+    timings = [x["time"] for x in clip["timings"]]
+    durations = [timing.strip().split("-") for timing in timings]
+    durations = [(to_seconds(end) - to_seconds(start)) for start, end in durations]
+    return sum(durations)
+
+
 @click.group()
 @click.option("--profile/--no-profile", default=False)
 @click.option("--use-original/--use-low-res", default=False)
@@ -525,10 +532,7 @@ def print_index(ctx):
     config = ctx.obj
     clips = config["clips"]
     for idx, clip in enumerate(clips, start=1):
-        timings = [x["time"] for x in clip["timings"]]
-        durations = [timing.strip().split("-") for timing in timings]
-        durations = [(to_seconds(end) - to_seconds(start)) for start, end in durations]
-        duration = sum(durations)
+        duration = get_clip_duration(clip)
         text = " | ".join([clip.get("question", ""), clip.get("answer", "")])
         print(f"{idx}\t{text}\t{duration:.1f}")
 
