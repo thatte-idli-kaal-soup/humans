@@ -414,6 +414,22 @@ def get_clip_duration(clip):
     return sum(durations)
 
 
+def create_looped_audio(audio_file, trim):
+    output = "looped.mp3"
+    cmd = FFMPEG_CMD + [
+        "-stream_loop",
+        "-1",
+        "-i",
+        audio_file,
+        "-t",
+        f"{trim}",
+        output,
+    ]
+    print("Creating looped audio...")
+    subprocess.check_call(cmd)
+    return output
+
+
 @click.group()
 @click.option("--profile/--no-profile", default=False)
 @click.option("--use-original/--use-low-res", default=False)
