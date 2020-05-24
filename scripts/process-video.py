@@ -430,6 +430,22 @@ def create_looped_audio(audio_file, trim):
     return output
 
 
+def create_background_music(audio_file, trim, enabled, disabled):
+    background = "background.aac"
+    cmd = FFMPEG_CMD + [
+        "-i",
+        audio_file,
+        "-af",
+        f"atrim=0:{trim},volume=0.4:enable='{enabled}',volume=0.1:enable='{disabled}'",
+        "-c:a",
+        "aac",
+        background,
+    ]
+    print("Creating audio with volume enabled/disabled...")
+    subprocess.check_call(cmd)
+    return background
+
+
 @click.group()
 @click.option("--profile/--no-profile", default=False)
 @click.option("--use-original/--use-low-res", default=False)
