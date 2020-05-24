@@ -446,6 +446,24 @@ def create_background_music(audio_file, trim, enabled, disabled):
     return background
 
 
+def get_keyframe_timings(config):
+    cover_time = config.get("cover", {}).get("time", 0)
+    timings = []
+    for clip in config["clips"]:
+        duration = get_clip_duration(clip)
+        q = clip.get("question", "")
+        a = clip.get("answer", "")
+        text = f"{q} {a}".strip()
+        q_time = get_time(text)
+        previous = timings[-1] if len(timings) > 0 else cover_time
+        start = previous + q_time
+        end = start + duration
+        timings.append(round(start, 3))
+        timings.append(round(end, 3))
+    timings.insert(0, 0)
+    return timings
+
+
 @click.group()
 @click.option("--profile/--no-profile", default=False)
 @click.option("--use-original/--use-low-res", default=False)
