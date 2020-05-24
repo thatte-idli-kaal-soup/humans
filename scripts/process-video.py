@@ -446,6 +446,24 @@ def create_background_music(audio_file, trim, enabled, disabled):
     return background
 
 
+def add_music_to_video(input_video, input_audio, output_video):
+    # https://superuser.com/a/712921
+    cmd = FFMPEG_CMD + [
+        "-i",
+        input_audio,
+        "-i",
+        input_video,
+        "-filter_complex",
+        "[0:a][1:a]amerge",
+        "-c:v",
+        "copy",
+        output_video,
+    ]
+    print("Adding background music to video...")
+    subprocess.check_call(cmd)
+    print(f"Created {output_video}")
+
+
 def get_keyframe_timings(config):
     cover_time = config.get("cover", {}).get("time", 0)
     timings = []
@@ -602,6 +620,33 @@ def print_index(ctx):
         text = " | ".join([clip.get("question", ""), clip.get("answer", "")])
         q_time = get_time(text.strip().strip("|").strip())
         print(f"{idx}\t{text}\t{duration:.1f}\t{q_time}")
+
+
+@cli.command()
+@click.pass_context
+def add_music(ctx):
+    config = ctx.obj
+    if "audio" not in config:
+        print("No audio file found in config!")
+        return
+
+    timings = get_keyframe_timings(config)
+    pairs = list(zip(timings[:-1], timings[1:]))
+    ranges = [f"between(t,{start},{end})" for start, end in pairs]
+    enabled = "+".join(ranges[::2])
+    disabled = "+".join(ranges[1::2])
+    trim = round(timings[-1], 2)
+    audio_file = os.path.abspath(config["audio"])
+    duration = get_audio_duration(audio_file)
+
+    if duration < trim:
+        audio_file = create_looped_audio(audio_file, trim)
+
+    background = create_background_music(audio_file, trim, enabled, disabled)
+    first_video = config["clips"][0]["timings"][0]["video"]
+    input_video = f"ALL-part-01-{first_video}"
+    output_video = os.path.abspath(f"ALL-music-part-01-{first_video}")
+    add_music_to_video(input_video, background, output_video)
 
 
 if __name__ == "__main__":
