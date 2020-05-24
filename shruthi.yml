@@ -1,0 +1,56 @@
+crop: ih:ih:ih/3.2:0
+video: VID_20200521_125923.mp4
+alt_low_res:
+  VID_20200521_125923.mp4: shruthi-01.mp4
+  VID_20200521_132717.mp4: shruthi-02.mp4
+  VID_20200521_134329.mp4: shruthi-03.mp4
+  VID_20200522_154957.mp4: shruthi-04.mp4
+clips:
+- question: How did you start playing Ultimate?
+  timings:
+    - 00:00:38.300-00:01:32.100
+- question: Could you share one of your memorable Ultimate moments?
+  timings:
+    - 00:12:15.767-00:12:24.800
+    - 00:12:38.600-00:13:08.133
+    - 00:13:10.367-00:13:18.933
+- question: Do you still play Ultimate in the Netherlands?
+  timings:
+    - 00:04:43.000-00:05:46.000
+- question: Who on the team do you admire and get inspired by?
+  timings:
+    - 00:14:02.100-00:14:05.933
+    - 00:14:08.700-00:14:41.300
+    - 00:14:46.033-00:15:02.033
+- question: What are your thoughts on gender equity in the sport?
+  timings:
+    - 00:06:34.233-00:07:11.733
+    - 00:07:23.000-00:07:41.000
+    - 00:08:16.367-00:08:29.867
+    - 00:08:37.000-00:08:38.800
+- question: What does the team mean to you?
+  timings:
+    - 00:16:04.500-00:16:09.333
+    - 00:10:04.200-00:10:34.800
+    - 00:17:09.033-00:17:13.700
+- question: What are your favorite places to travel to?
+  video: VID_20200521_132717.mp4
+  timings:
+    - 00:00:27.733-00:00:34.500
+    - 00:00:45.900-00:00:56.400
+    - 00:01:16.000-00:01:28.833
+- question: Do you have any book recommendations?
+  video: VID_20200521_134329.mp4
+  timings:
+    - 00:03:14.633-00:03:29.133
+- question: What do you do for work?
+  timings:
+    - 00:18:59.233-00:19:08.333
+    - 00:18:50.600-00:18:58.933
+    - 00:19:15.667-00:19:24.167
+- question: Would you like to talk more about mental health?
+  crop: iw:iw:0:iw/3.2
+  video: VID_20200522_154957.mp4
+  timings:
+    - 00:00:01.500-00:00:27.467
+    - 00:00:39.333-00:00:45.700
