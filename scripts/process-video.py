@@ -534,7 +534,8 @@ def print_index(ctx):
     for idx, clip in enumerate(clips, start=1):
         duration = get_clip_duration(clip)
         text = " | ".join([clip.get("question", ""), clip.get("answer", "")])
-        print(f"{idx}\t{text}\t{duration:.1f}")
+        q_time = get_time(text.strip().strip("|").strip())
+        print(f"{idx}\t{text}\t{duration:.1f}\t{q_time}")
 
 
 if __name__ == "__main__":
