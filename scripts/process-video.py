@@ -415,7 +415,7 @@ def get_clip_duration(clip):
 
 
 def create_looped_audio(audio_file, trim):
-    output = "looped.mp3"
+    output = "looped.m4a"
     cmd = FFMPEG_CMD + [
         "-stream_loop",
         "-1",
@@ -423,6 +423,8 @@ def create_looped_audio(audio_file, trim):
         audio_file,
         "-t",
         f"{trim}",
+        "-c:a",
+        "aac",
         output,
     ]
     print("Creating looped audio...")
@@ -431,7 +433,7 @@ def create_looped_audio(audio_file, trim):
 
 
 def create_background_music(audio_file, trim, enabled, disabled):
-    background = "background.aac"
+    background = "background.m4a"
     cmd = FFMPEG_CMD + [
         "-i",
         audio_file,
@@ -455,6 +457,8 @@ def add_music_to_video(input_video, input_audio, output_video):
         input_video,
         "-filter_complex",
         "[0:a][1:a]amerge",
+        "-c:a",
+        "aac",
         "-c:v",
         "copy",
         output_video,
