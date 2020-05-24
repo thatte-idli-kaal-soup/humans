@@ -465,7 +465,7 @@ def combine_clips(ctx):
     width, height = video_dimensions(output_file)
     cover_config = config.get("cover")
     if cover_config:
-        print("Appending cover video...")
+        print("Prepending cover video...")
         cover_config["width"] = width
         cover_config["height"] = height
         cover_video = create_cover_video(cover_config)
