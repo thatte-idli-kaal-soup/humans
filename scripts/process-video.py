@@ -610,8 +610,12 @@ def add_music(ctx):
     background = create_background_music_file(config)
     first_video = config["clips"][0]["timings"][0]["video"]
     input_video = f"ALL-part-01-{first_video}"
+    igtv_video = f"IGTV-ALL-part-01-{first_video}"
     output_video = os.path.abspath(f"ALL-music-part-01-{first_video}")
+    igtv_output = os.path.abspath(f"IGTV-ALL-music-part-01-{first_video}")
+
     add_music_to_video(input_video, background, output_video)
+    add_music_to_video(igtv_video, background, igtv_output)
 
 
 if __name__ == "__main__":
