@@ -195,22 +195,6 @@ def video_dimensions(video):
     return width, height
 
 
-def get_audio_duration(input_file):
-    cmd = [
-        "ffprobe",
-        "-v",
-        "error",
-        "-select_streams",
-        "a:0",
-        "-show_entries",
-        "stream=duration",
-        "-of",
-        "csv=p=0",
-        input_file,
-    ]
-    return float(subprocess.check_output(cmd).decode("utf8").strip())
-
-
 def get_time(text):
     # Show questions based on reading speed of 2.5 words per second
     word_count = len(text.split())
@@ -623,8 +607,6 @@ def add_music(ctx):
     disabled = "+".join(ranges[1::2])
     trim = round(timings[-1], 2)
     audio_file = os.path.abspath(config["audio"])
-    duration = get_audio_duration(audio_file)
-
     background = create_background_music(audio_file, trim, enabled, disabled)
     first_video = config["clips"][0]["timings"][0]["video"]
     input_video = f"ALL-part-01-{first_video}"
