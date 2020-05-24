@@ -459,6 +459,18 @@ def get_keyframe_timings(config):
     return timings
 
 
+def add_background_music(config):
+    background = create_background_music_file(config)
+    first_video = config["clips"][0]["timings"][0]["video"]
+    input_video = f"ALL-part-01-{first_video}"
+    igtv_video = f"IGTV-ALL-part-01-{first_video}"
+    output_video = os.path.abspath(f"ALL-music-part-01-{first_video}")
+    igtv_output = os.path.abspath(f"IGTV-ALL-music-part-01-{first_video}")
+
+    add_music_to_video(input_video, background, output_video)
+    add_music_to_video(igtv_video, background, igtv_output)
+
+
 @click.group()
 @click.option("--profile/--no-profile", default=False)
 @click.option("--use-original/--use-low-res", default=False)
@@ -553,6 +565,9 @@ def combine_clips(ctx):
     create_igtv_video(output_file, igtv_file)
     print(f"Created {igtv_file}")
 
+    # Create musical versions of videos
+    add_background_music(config)
+
 
 @cli.command()
 @click.pass_context
@@ -607,15 +622,7 @@ def add_music(ctx):
         print("No audio file found in config!")
         return
 
-    background = create_background_music_file(config)
-    first_video = config["clips"][0]["timings"][0]["video"]
-    input_video = f"ALL-part-01-{first_video}"
-    igtv_video = f"IGTV-ALL-part-01-{first_video}"
-    output_video = os.path.abspath(f"ALL-music-part-01-{first_video}")
-    igtv_output = os.path.abspath(f"IGTV-ALL-music-part-01-{first_video}")
-
-    add_music_to_video(input_video, background, output_video)
-    add_music_to_video(igtv_video, background, igtv_output)
+    add_background_music(config)
 
 
 if __name__ == "__main__":
