@@ -343,7 +343,9 @@ def process_config(config, use_original):
 
 def create_low_res(input_file, output_file):
     width, height = video_dimensions(input_file)
-    while width > 500:
+    size = max(width, height)
+    while size > 500:
+        size /= 2
         width /= 2
         height /= 2
 
