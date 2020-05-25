@@ -69,7 +69,7 @@ TODO: Add more description of each of the sub commands
 -   [ ] Figure out hashtags (if any changes are required from the last post)
 -   [ ] If there are "code" changes that potentially change how audio/video
         streams are made, try posting from a trial account to verify Instagram
-        doesn't mess up anything.
+        doesn't mess up anything. **NOTE**: Do verify on an iDevice!
 -   [ ] Make the actual post!
 -   [ ] Upload on YouTube and share on the group.
 
