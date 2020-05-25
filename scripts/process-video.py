@@ -405,13 +405,16 @@ def create_background_music_file(config):
     enabled = "+".join(ranges[::2])
     disabled = "+".join(ranges[1::2])
     trim = round(timings[-1], 2)
-    audio_file = os.path.abspath(config["audio"])
+    bgm = config["bgm"]
+    audio_file = os.path.abspath(bgm["audio"])
+    ev = bgm["fg_volume"]
+    dv = bgm["bg_volume"]
     background = "background.m4a"
     cmd = FFMPEG_CMD + [
         "-i",
         audio_file,
         "-af",
-        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},volume=0.4:enable='{enabled}',volume=0.12:enable='{disabled}'",
+        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},volume={ev}:enable='{enabled}',volume={dv}:enable='{disabled}'",
         "-c:a",
         "aac",
         background,
@@ -618,7 +621,7 @@ def print_index(ctx):
 @click.pass_context
 def add_music(ctx):
     config = ctx.obj
-    if "audio" not in config:
+    if "bgm" not in config:
         print("No audio file found in config!")
         return
 

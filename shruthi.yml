@@ -4,7 +4,10 @@ cover:
   time: 3
 video: VID_20200521_125923.mp4
 # ffmpeg -i bensound-adaytoremember.mp3 -af atrim=0:192 bensound-adaytoremember-truncated.mp3
-audio: "../bensound-adaytoremember-truncated.mp3"
+bgm:
+  audio: "../bensound-adaytoremember-truncated.mp3"
+  fg_volume: 0.4
+  bg_volume: 0.12
 alt_low_res:
   VID_20200521_125923.mp4: shruthi-01.mp4
   VID_20200521_132717.mp4: shruthi-02.mp4
