@@ -81,5 +81,4 @@ features, rather than us adding anything manually.
 
 -   [ ] Add an outro slide?
 -   [ ] See if we can embed video/pictures of people playing/practicing
--   [ ] Figure out best time to post based on when our audience is online.
 -   [ ] Captions on videos may be nice, especially when the audio is noisy.
