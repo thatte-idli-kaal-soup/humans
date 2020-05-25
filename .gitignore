@@ -137,5 +137,8 @@ dmypy.json
 *.mkv
 *.mov
 
+# Audio files
+*.mp3
+
 # YouTube upload
 /client_secret.json
