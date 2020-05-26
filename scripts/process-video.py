@@ -479,11 +479,15 @@ def add_background_music(config):
 
 
 @click.group()
+@click.option("--debug/--no-debug", default=False)
 @click.option("--profile/--no-profile", default=False)
 @click.option("--use-original/--use-low-res", default=False)
 @click.argument("config_file", type=click.File())
 @click.pass_context
-def cli(ctx, config_file, use_original, profile):
+def cli(ctx, config_file, use_original, profile, debug):
+    if debug:
+        FFMPEG_CMD.remove("-v")
+        FFMPEG_CMD.remove("0")
     config_data = yaml.load(config_file, Loader=yaml.FullLoader) or {}
     config_data["config_file"] = os.path.abspath(config_file.name)
     process_config(config_data, use_original)
