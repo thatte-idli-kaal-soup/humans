@@ -576,7 +576,8 @@ def combine_clips(ctx):
     print(f"Created {igtv_file}")
 
     # Create musical versions of videos
-    add_background_music(config)
+    if 'bgm' in config:
+        add_background_music(config)
 
 
 @cli.command()
