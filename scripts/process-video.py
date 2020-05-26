@@ -19,7 +19,7 @@ QnA = namedtuple("QnA", ["q", "a"], defaults=(None,))
 HERE = os.path.dirname(os.path.basename(__file__))
 LOGO_FILE = os.path.join(HERE, "..", "logo.png")
 PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
-FFMPEG_CMD = ["ffmpeg", "-v", "0", "-y"]
+FFMPEG_CMD = ["ffmpeg", "-y"]
 ENDC = "\033[0m"
 BOLDRED = "\x1B[1;31m"
 FADE_IN = "fade=t=in:st=0:d=0.5"
@@ -479,12 +479,13 @@ def add_background_music(config):
 
 
 @click.group()
-@click.option("--debug/--no-debug", default=False)
+@click.option("--loglevel", default="error")
 @click.option("--profile/--no-profile", default=False)
 @click.option("--use-original/--use-low-res", default=False)
 @click.argument("config_file", type=click.File())
 @click.pass_context
-def cli(ctx, config_file, use_original, profile, debug):
+def cli(ctx, config_file, use_original, profile, loglevel):
+    FFMPEG_CMD.extend(["-v", loglevel])
     config_data = yaml.load(config_file, Loader=yaml.FullLoader) or {}
     config_data["config_file"] = os.path.abspath(config_file.name)
     process_config(config_data, use_original)
@@ -496,10 +497,7 @@ def cli(ctx, config_file, use_original, profile, debug):
         profile = cProfile.Profile()
         profile.enable()
         config_data["profile"] = profile
-    config_data["debug"] = debug
-    if debug:
-        FFMPEG_CMD.remove("-v")
-        FFMPEG_CMD.remove("0")
+    config_data["debug"] = loglevel != "error"
     ctx.obj.update(config_data)
 
 
