@@ -358,7 +358,7 @@ def create_low_res(input_file, output_file):
 
 def create_igtv_video(input_file, output_file):
     w, h = video_dimensions(input_file)
-    new_h = int(h * 16 / 9)
+    new_h = int(h * 21 / 9)
     pad_h = int((new_h - h) / 2)
     cmd = FFMPEG_CMD + [
         "-i",
