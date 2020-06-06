@@ -330,7 +330,7 @@ def process_config(config, use_original):
         timings = [t if isinstance(t, dict) else {"time": t} for t in clip["timings"]]
         clip["timings"] = timings
         clip_video = clip.pop("video", config["video"])
-        clip_crop = clip.pop("crop", config["crop"])
+        clip_crop = clip.pop("crop", config.get("crop", ""))
 
         for params in timings:
             video = params.pop("video", clip_video)
