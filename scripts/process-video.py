@@ -618,11 +618,15 @@ def populate_config(ctx, video_format):
 def print_index(ctx):
     config = ctx.obj
     clips = config["clips"]
+    print("No.\tQuestion & Answer\tDuration (s)\tQ time (s)")
+    total_duration = 0
     for idx, clip in enumerate(clips, start=1):
         duration = get_clip_duration(clip)
-        text = " | ".join([clip.get("question", ""), clip.get("answer", "")])
+        text = " + ".join(filter(None, [clip.get("question", ""), clip.get("answer")]))
         q_time = get_time(text.strip().strip("|").strip())
         print(f"{idx}\t{text}\t{duration:.1f}\t{q_time}")
+        total_duration += duration
+    print(f"Total duration: {total_duration}")
 
 
 @cli.command()
