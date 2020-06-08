@@ -170,7 +170,6 @@ def concat_videos_2(output_file, *inputs):
         for input_file in inputs:
             p = os.path.abspath(input_file)
             f.write(f"file '{p}'\n")
-    print(f.name)
     concat_command = FFMPEG_CMD + [
         "-f",
         "concat",
