@@ -559,26 +559,27 @@ def combine_clips(ctx):
     print(f"Combining {names} into a single video...")
     first = video_names[0]
     output_file = f"ALL-{first}"
-    concat_videos_2(output_file, *video_names)
-    path = os.path.abspath(output_file)
-    print(f"Created {path}")
-    width, height = video_dimensions(output_file)
-    # FIXME: This can be combined with the concat command above
+
     cover_config = config.get("cover")
     if cover_config:
-        print("Prepending cover video...")
+        print("Creating cover video...")
+        width, height = video_dimensions(first)
+        ext = os.path.splitext(first)[-1]
         cover_config["width"] = width
         cover_config["height"] = height
-        ext = os.path.splitext(output_file)[-1]
         cover_video = create_cover_video(cover_config, ext)
-        concat_videos(cover_video, output_file, output_file)
+        video_names.insert(0, cover_video)
         # Create padded cover image
+        print("Creating IGTV cover image...")
         cover_image = cover_config["image"]
         igtv_cover = f"IGTV-{cover_image}"
         create_igtv_video(cover_image, igtv_cover)
     else:
         print(BOLDRED, "WARNING: No cover image has been specified!", ENDC, sep="")
 
+    concat_videos_2(output_file, *video_names)
+    path = os.path.abspath(output_file)
+    print(f"Created {path}")
     print("Creating IGTV video...")
     igtv_file = os.path.abspath(f"IGTV-{output_file}")
     create_igtv_video(output_file, igtv_file)
