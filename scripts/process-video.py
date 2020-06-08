@@ -476,10 +476,9 @@ def get_keyframe_timings(config):
     return timings
 
 
-def add_background_music(config):
+def add_background_music(input_video, config):
     background = create_background_music_file(config)
     first_video = config["clips"][0]["timings"][0]["video"]
-    input_video = f"ALL-part-01-{first_video}"
     output_video = f"ALL-music-part-01-{first_video}"
     add_music_to_video(input_video, background, output_video)
     return output_video
