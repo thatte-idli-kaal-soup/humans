@@ -222,7 +222,7 @@ def prepend_text_video(input_file, output_file, q_a):
     text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
     draw_text(background_file, text_file, q_a, font_height, time)
     draw_logo(text_file, text_logo_file, logo_size, time)
-    concat_videos(text_logo_file, input_file, output_file)
+    concat_videos_2(output_file, text_logo_file, input_file)
 
 
 def split_video(input_file, output_file, start, end, crop):
