@@ -1,0 +1,61 @@
+video: IMG_7628.MOV
+crop: ih:ih:ih/3.2:0
+alt_low_res:
+  IMG_7628.MOV: vk-01.MOV
+  IMG_7629.MOV: vk-02.MOV
+  IMG_7630.MOV: vk-03.MOV
+cover:
+  image: cover.png
+  time: 3
+audio_threshold: "dynaudnorm=r=1:m=100:g=3:f=100"
+bgm:
+  audio: "../bensound-adaytoremember-truncated.mp3"
+  fg_volume: 0.4
+  bg_volume: 0.08
+clips:
+  - question: When and how did you start playing Ultimate?
+    timings:
+      - 00:10:26.067-00:10:30.533
+      - 00:00:17.600-00:00:50.667
+  - question: What sports did you play before and how does it compare to Ultimate?
+    timings:
+      - 00:00:57.933-00:01:09.567
+      - 00:01:33.533-00:01:52.933
+      - 00:01:54.400-00:02:27.230
+  - question: How was the experience of cycling from Manali to Leh?
+    timings:
+      - 00:03:02.300-00:03:06.033
+      - 00:03:07.733-00:03:17.033
+      - 00:03:21.867-00:03:27.167
+      - 00:03:28.833-00:03:43.200
+      - 00:03:47.367-00:04:06.867
+      - 00:04:09.800-00:04:26.067
+      - 00:04:26.400-00:04:35.533
+  - question: What keeps you playing Ultimate?
+    timings:
+      - 00:05:10.200-00:05:23.633
+  - question: What are your hopes for the upcoming seasons of Ultimate?
+    timings:
+      - 00:09:23.800-00:09:40.100
+  - question: Which players do you really like watching play Ultimate?
+    timings:
+      - 00:06:57.033-00:07:14.133
+      - 00:05:48.433-00:05:50.500
+      - 00:05:58.250-00:06:03.167
+      - 00:07:16.500-00:07:42.367
+  - question: Why did you join the leadership group? What is your focus there?
+    timings:
+      - video: IMG_7628.MOV
+        time: 00:10:35.167-00:10:59.533
+      - video: IMG_7629.MOV
+        time: 00:04:09.500-00:04:22.133
+      - video: IMG_7629.MOV
+        time: 00:04:23.500-00:04:33.900
+      - video: IMG_7629.MOV
+        time: 00:04:47.333-00:05:01.500
+  - question: What does the team mean to you?
+    video: IMG_7629.MOV
+    timings:
+      - 00:01:32.400-00:02:05.233
+      - 00:05:12.467-00:05:16.300
+      - 00:05:18.233-00:05:40.500
