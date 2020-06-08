@@ -480,12 +480,9 @@ def add_background_music(config):
     background = create_background_music_file(config)
     first_video = config["clips"][0]["timings"][0]["video"]
     input_video = f"ALL-part-01-{first_video}"
-    igtv_video = f"IGTV-ALL-part-01-{first_video}"
-    output_video = os.path.abspath(f"ALL-music-part-01-{first_video}")
-    igtv_output = os.path.abspath(f"IGTV-ALL-music-part-01-{first_video}")
-
+    output_video = f"ALL-music-part-01-{first_video}"
     add_music_to_video(input_video, background, output_video)
-    add_music_to_video(igtv_video, background, igtv_output)
+    return output_video
 
 
 @click.group()
@@ -580,14 +577,15 @@ def combine_clips(ctx):
     concat_videos_2(output_file, *video_names)
     path = os.path.abspath(output_file)
     print(f"Created {path}")
+    # Create musical version of video
+    if "bgm" in config:
+        output_file = add_background_music(config)
+
     print("Creating IGTV video...")
     igtv_file = os.path.abspath(f"IGTV-{output_file}")
     create_igtv_video(output_file, igtv_file)
     print(f"Created {igtv_file}")
 
-    # Create musical versions of videos
-    if "bgm" in config:
-        add_background_music(config)
 
 
 @cli.command()
