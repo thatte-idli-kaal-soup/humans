@@ -144,7 +144,7 @@ def draw_logo(input_file, output_file, size=48, time=3):
     subprocess.check_call(command)
 
 
-def concat_videos_2(output_file, *inputs):
+def concat_videos(output_file, *inputs):
     with tempfile.NamedTemporaryFile("w", delete=False) as f:
         for input_file in inputs:
             p = os.path.abspath(input_file)
@@ -201,7 +201,7 @@ def prepend_text_video(input_file, output_file, q_a):
     text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
     draw_text(background_file, text_file, q_a, font_height, time)
     draw_logo(text_file, text_logo_file, logo_size, time)
-    concat_videos_2(output_file, text_logo_file, input_file)
+    concat_videos(output_file, text_logo_file, input_file)
 
 
 def split_video(input_file, output_file, start, end, crop):
@@ -237,7 +237,7 @@ def split_and_concat_video(timings, idx):
         split_video(video_name, output_file, start, end, crop)
         outputs.append(output_file)
     output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
-    concat_videos_2(output_file, *outputs)
+    concat_videos(output_file, *outputs)
     return output_file
 
 
@@ -551,7 +551,7 @@ def combine_clips(ctx):
     else:
         print(BOLDRED, "WARNING: No cover image has been specified!", ENDC, sep="")
 
-    concat_videos_2(output_file, *video_names)
+    concat_videos(output_file, *video_names)
     path = os.path.abspath(output_file)
     print(f"Created {path}")
     # Threshold audio, if required
