@@ -71,11 +71,11 @@ def create_black_background(input_file, output_file, time=10):
     subprocess.check_call(command)
 
 
-def create_cover_video(cover_config):
+def create_cover_video(cover_config, ext):
     w, h = cover_config["width"], cover_config["height"]
-    background_file = f"black-{w}x{h}.mp4"
+    background_file = f"black-{w}x{h}{ext}"
     input_file = cover_config["image"]
-    output_file = "cover.mp4"
+    output_file = f"cover{ext}"
     time = cover_config["time"]
     FADE_OUT = get_fade_out(time)
     command = FFMPEG_CMD + [
@@ -90,7 +90,7 @@ def create_cover_video(cover_config):
         output_file,
     ]
     subprocess.check_call(command)
-    return "cover.mp4"
+    return output_file
 
 
 def draw_text(input_file, output_file, text, font_height, time):
@@ -569,7 +569,8 @@ def combine_clips(ctx):
         print("Prepending cover video...")
         cover_config["width"] = width
         cover_config["height"] = height
-        cover_video = create_cover_video(cover_config)
+        ext = os.path.splitext(output_file)[-1]
+        cover_video = create_cover_video(cover_config, ext)
         concat_videos(cover_video, output_file, output_file)
         # Create padded cover image
         cover_image = cover_config["image"]
