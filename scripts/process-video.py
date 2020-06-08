@@ -257,16 +257,9 @@ def split_and_concat_video(timings, idx):
             start, end = timing.strip().split("-")
             output_file = f"subpart-{idx:02d}-{sub_idx:02d}-{video_name}"
             split_video(video_name, output_file, start, end, crop)
-            outputs.append((video_name, output_file))
-        video_name, first = outputs[0]
-        for sub_idx, (_, second) in enumerate(outputs[1:]):
-            output_file = f"concat-{idx:02d}-{sub_idx:02d}-{video_name}"
-            concat_videos(first, second, output_file)
-            os.remove(first)
-            os.remove(second)
-            first = output_file
+            outputs.append(output_file)
         output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
-        shutil.move(first, output_file)
+        concat_videos_2(output_file, *outputs)
     else:
         params = timings[0]
         video_name = params["video"]
