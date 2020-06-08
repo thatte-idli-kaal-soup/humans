@@ -484,6 +484,21 @@ def add_background_music(input_video, config):
     return output_video
 
 
+def threshold_audio(input_file, output_file, config):
+    audio_threshold = config["audio_threshold"]
+    cmd = FFMPEG_CMD + [
+        "-i",
+        input_file,
+        "-af",
+        audio_threshold,
+        "-c:v",
+        "copy",
+        output_file,
+    ]
+    subprocess.check_call(cmd)
+    return output_file
+
+
 @click.group()
 @click.option("--loglevel", default="error")
 @click.option("--profile/--no-profile", default=False)
@@ -576,15 +591,24 @@ def combine_clips(ctx):
     concat_videos_2(output_file, *video_names)
     path = os.path.abspath(output_file)
     print(f"Created {path}")
+    # Threshold audio, if required
+    if "audio_threshold" in config:
+        threshold_file = f"thresholded-{output_file}"
+        output_file = threshold_audio(output_file, threshold_file, config)
+        threshold_path = os.path.abspath(threshold_file)
+        print(f"Created {threshold_path}")
+        output_file = threshold_file
+
     # Create musical version of video
     if "bgm" in config:
-        output_file = add_background_music(config)
+        output_file = add_background_music(output_file, config)
+        output_path = os.path.abspath(output_file)
+        print(f"Created {output_path}")
 
     print("Creating IGTV video...")
     igtv_file = os.path.abspath(f"IGTV-{output_file}")
     create_igtv_video(output_file, igtv_file)
     print(f"Created {igtv_file}")
-
 
 
 @cli.command()
