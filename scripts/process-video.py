@@ -9,6 +9,7 @@ import multiprocessing
 import os
 import shutil
 import subprocess
+import tempfile
 from textwrap import wrap
 
 import click
@@ -144,34 +145,41 @@ def draw_logo(input_file, output_file, size=48, time=3):
 
 
 def concat_videos(input_1, input_2, output_file):
-    def generate_cmd(infile, outfile):
-        cmd = FFMPEG_CMD + [
-            "-i",
-            infile,
-            "-c",
-            "copy",
-            "-bsf:v",
-            "h264_mp4toannexb",
-            "-f",
-            "mpegts",
-            outfile,
-        ]
-        return cmd
+    p1 = os.path.abspath(input_1)
+    p2 = os.path.abspath(input_2)
+    with tempfile.NamedTemporaryFile("w", delete=False) as f:
+        f.write(f"file '{p1}'\n")
+        f.write(f"file '{p2}'\n")
 
-    inputs = (input_1, input_2)
-    intermediates = ["intermediate-{}.mkv".format(i) for i in inputs]
-    for i, intermediate_name in enumerate(intermediates):
-        command = generate_cmd(inputs[i], intermediate_name)
-        subprocess.check_call(command)
-
-    intermediates = "|".join(intermediates)
     concat_command = FFMPEG_CMD + [
+        "-f",
+        "concat",
+        "-safe",
+        "0",
         "-i",
-        f"concat:{intermediates}",
+        f.name,
         "-c",
         "copy",
-        "-bsf:a",
-        "aac_adtstoasc",
+        output_file,
+    ]
+    subprocess.check_call(concat_command)
+
+
+def concat_videos_2(output_file, *inputs):
+    with tempfile.NamedTemporaryFile("w", delete=False) as f:
+        for input_file in inputs:
+            p = os.path.abspath(input_file)
+            f.write(f"file '{p}'\n")
+    print(f.name)
+    concat_command = FFMPEG_CMD + [
+        "-f",
+        "concat",
+        "-safe",
+        "0",
+        "-i",
+        f.name,
+        "-c",
+        "copy",
         output_file,
     ]
     subprocess.check_call(concat_command)
@@ -386,7 +394,9 @@ def process_clip(clip, with_intro, replace_image, idx):
             q_n_a = QnA(*q_n_a)
         else:
             q_n_a = QnA("...")
-        prepend_text_video(output_file, output_file, q_n_a)
+        intro_file = f"with-intro-{output_file}"
+        prepend_text_video(output_file, intro_file, q_n_a)
+        shutil.move(intro_file, output_file)
 
     path = os.path.abspath(output_file)
     print(f"Created {path}")
@@ -550,13 +560,11 @@ def combine_clips(ctx):
     print(f"Combining {names} into a single video...")
     first = video_names[0]
     output_file = f"ALL-{first}"
-    for second in video_names[1:]:
-        concat_videos(first, second, output_file)
-        first = output_file
-    output_file = first  # This handles the case of video_names being a single item list
+    concat_videos_2(output_file, *video_names)
     path = os.path.abspath(output_file)
     print(f"Created {path}")
     width, height = video_dimensions(output_file)
+    # FIXME: This can be combined with the concat command above
     cover_config = config.get("cover")
     if cover_config:
         print("Prepending cover video...")
