@@ -205,13 +205,14 @@ def prepend_text_video(input_file, output_file, q_a):
     w, h = map(int, video_dimensions(input_file))
     text = f"{q_a.q} {q_a.a}"
     time = get_time(text)
-    background_file = f"black-{w}x{h}.mp4"
+    ext = os.path.splitext(input_file)[-1]
+    background_file = f"black-{w}x{h}{ext}"
     create_black_background(input_file, background_file)
     font_height = int(h / 20)
     logo_size = int(h / 7.5)
     sha1 = hashlib.sha1(text.encode("utf-8")).hexdigest()
-    text_file = f"intro-{sha1}-{w}x{h}.mp4"
-    text_logo_file = f"intro-logo-{sha1}-{w}x{h}.mp4"
+    text_file = f"intro-{sha1}-{w}x{h}{ext}"
+    text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
     draw_text(background_file, text_file, q_a, font_height, time)
     draw_logo(text_file, text_logo_file, logo_size, time)
     concat_videos(text_logo_file, input_file, output_file)
