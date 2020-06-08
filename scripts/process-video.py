@@ -144,27 +144,6 @@ def draw_logo(input_file, output_file, size=48, time=3):
     subprocess.check_call(command)
 
 
-def concat_videos(input_1, input_2, output_file):
-    p1 = os.path.abspath(input_1)
-    p2 = os.path.abspath(input_2)
-    with tempfile.NamedTemporaryFile("w", delete=False) as f:
-        f.write(f"file '{p1}'\n")
-        f.write(f"file '{p2}'\n")
-
-    concat_command = FFMPEG_CMD + [
-        "-f",
-        "concat",
-        "-safe",
-        "0",
-        "-i",
-        f.name,
-        "-c",
-        "copy",
-        output_file,
-    ]
-    subprocess.check_call(concat_command)
-
-
 def concat_videos_2(output_file, *inputs):
     with tempfile.NamedTemporaryFile("w", delete=False) as f:
         for input_file in inputs:
