@@ -226,19 +226,17 @@ def split_video(input_file, output_file, start, end, crop):
     subprocess.check_call(command)
 
 
-def split_and_concat_video(timings, idx):
-    outputs = []
+def create_video_segments(timings, idx):
+    segments = []
     for sub_idx, params in enumerate(timings):
         video_name = params["video"]
         timing = params["time"]
         crop = params["crop"]
         start, end = timing.strip().split("-")
-        output_file = f"subpart-{idx:02d}-{sub_idx:02d}-{video_name}"
-        split_video(video_name, output_file, start, end, crop)
-        outputs.append(output_file)
-    output_file = PART_FILENAME_FMT.format(idx=idx, video_name=video_name)
-    concat_videos(output_file, *outputs)
-    return output_file
+        segment_file = f"segment-{idx:02d}-{sub_idx:02d}-{video_name}"
+        split_video(video_name, segment_file, start, end, crop)
+        segments.append(segment_file)
+    return segments
 
 
 def do_all_replacements(input_file, replacements, replace_img):
@@ -343,7 +341,11 @@ def create_igtv_video(input_file, output_file):
 
 def process_clip(clip, with_intro, replace_image, idx):
     print(f"Creating part {idx}")
-    output_file = split_and_concat_video(clip["timings"], idx)
+    segments = create_video_segments(clip["timings"], idx)
+    output_file = PART_FILENAME_FMT.format(
+        idx=idx, video_name=clip["timings"][0]["video"]
+    )
+    concat_videos(output_file, *segments)
     replacements = clip.get("replacements")
     if replacements is not None:
         output_file = do_all_replacements(output_file, replacements, replace_image)
