@@ -27,7 +27,51 @@ Run the script to see some help.
 python script/process-video.py --help
 ```
 
-TODO: Add more description of each of the sub commands
+### Editing Process
+
+1. Create a directory with the name that matches with the `.yml` file. For
+   example, a directory `vk` with the videos, and create an empty `vk.yml` at
+   the top level of the repository.
+
+1. Run the `populate-config` command to create the empty template, and also
+   convert videos to low resolution videos. It is easier to work with lower
+   resolution videos, while you are figuring out what to keep and what to
+   remove. Once you are happy with content, you can generate the high resolution
+   videos.
+
+1. Start creating the edited video, by watching the recording and selecting
+   clips that you want to keep. See other existing `.yml` files to see the
+   format for each clip. It should have a question, and some timings from the
+   video to select/pick.
+
+1. You can use the `process-clips` command to process and produce a short clip
+   for each specific question. For example, the following command will process
+   the 4th question in `vk.yml`.
+
+    ```sh
+    ./scripts/process-video.py vk.yml process-clips -n4
+    ```
+
+1. To find the number of a question you want to process, you can use the
+   `print-index` command.
+
+    ```tsv
+    No.	Question & Answer	Duration (s)	Q time (s)
+    1	How did you start playing Ultimate?	33.1	4
+    2	What sports did you play before and how does it compare to Ultimate?	63.9	5
+    3	How was the experience of cycling from Manali to Leh?	77.6	4
+    4	What keeps you playing Ultimate?	13.4	4
+    ```
+
+1. You can add a crop value to the file, to crop the video to a square one. The
+   crop value looks something like `ih:ih:ih/3.2:0`. The parameters are
+   `width:height:width_offset:height_offset`. `width` and `height` define the
+   bounding box you are using to crop the video. `width_offset` and
+   `height_offset`, define where to place the box on the original video. `ih`
+   and `iw` are height and width of the original video.
+   
+
+TODO: More description needs to be added for the rest of the process...
 
 # Checklists
 
