@@ -292,7 +292,6 @@ def process_config(config, use_original):
 
     """
     alt_low_res = config.get("alt_low_res", {}) if not use_original else {}
-    GLOBAL_KEYS = ("crop", "video")
     for clip in config.get("clips", []):
 
         # Make timing into a dict with time
