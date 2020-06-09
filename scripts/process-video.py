@@ -584,7 +584,11 @@ def make_trailer(ctx):
         click.echo("No configuration found for trailer!")
         return
     click.echo("Making trailer...")
-    path = split_and_concat_video(config["trailer"], 0)
+    segments = create_video_segments(config['trailer'], 0)
+    video = config['video']
+    output_file = f"trailer-{video}"
+    concat_videos(output_file, *segments)
+    path = os.path.abspath(output_file)
     click.echo(f"Created {path}")
 
 
