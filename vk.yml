@@ -5,7 +5,7 @@ alt_low_res:
   IMG_7629.MOV: vk-02.MOV
   IMG_7630.MOV: vk-03.MOV
 cover:
-  image: cover.png
+  image: cover.jpg
   time: 3
 audio_threshold: "dynaudnorm=r=1:m=100:g=3:f=100"
 bgm:
