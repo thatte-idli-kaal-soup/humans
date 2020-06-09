@@ -385,11 +385,15 @@ def create_background_music_file(config):
     ev = bgm["fg_volume"]
     dv = bgm["bg_volume"]
     background = "background.m4a"
+    af = (
+        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},volume={ev}:enable='{enabled}',"
+        f"volume={dv}:enable='{disabled}'"
+    )
     cmd = FFMPEG_CMD + [
         "-i",
         audio_file,
         "-af",
-        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},volume={ev}:enable='{enabled}',volume={dv}:enable='{disabled}'",
+        af,
         "-c:a",
         "aac",
         background,
