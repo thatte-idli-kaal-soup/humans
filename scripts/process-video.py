@@ -320,6 +320,7 @@ def create_low_res(input_file, output_file):
         width /= 2
         height /= 2
 
+    print(f"Creating low res video for {input_file}...")
     cmd = FFMPEG_CMD + ["-i", input_file, "-vf", f"scale={width}:{height}", output_file]
     subprocess.check_call(cmd)
 
