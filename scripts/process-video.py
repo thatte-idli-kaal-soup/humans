@@ -629,7 +629,7 @@ def print_index(ctx):
         text = " + ".join(filter(None, [clip.get("question", ""), clip.get("answer")]))
         q_time = get_time(text.strip().strip("|").strip())
         print(f"{idx}\t{text}\t{duration:.1f}\t{q_time}")
-        total_duration += duration
+        total_duration += duration + q_time
     print(f"Total duration: {total_duration}")
 
 
