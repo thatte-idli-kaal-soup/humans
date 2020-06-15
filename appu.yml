@@ -1,0 +1,109 @@
+video: VID_20200614_122547.mp4
+alt_low_res:
+  VID_20200614_122547.mp4: appu-01.mp4
+  VID_20200614_123305_1.mp4: appu-02.mp4
+  VID_20200614_123305_2.mp4: appu-03.mp4
+  VID_20200614_130932_1.mp4: appu-04.mp4
+  VID_20200614_130932_2.mp4: appu-05.mp4
+cover:
+  image: cover.jpg
+  time: 3
+bgm:
+  audio: "../bensound-adaytoremember-truncated.mp3"
+  fg_volume: 0.6
+  bg_volume: 0.1
+clips:
+  - question: You grew up playing a lot of sports, and continue to do so. Tell us about your journey...
+    crop: ih:ih:ih/2:0
+    timings:
+      - 00:03:28.567-00:03:39.233
+      - 00:03:55.600-00:03:56.633
+      - 00:04:24.467-00:04:43.100
+      - 00:04:48.133-00:05:04.033
+      - 00:05:06.867-00:05:23.100
+  - question: Do you enjoy playing individual sports or team sports?
+    video: VID_20200614_123305_1.mp4
+    crop: ih:ih:ih/1.75:0
+    timings:
+      - 00:02:33.700-00:02:49.200
+      - 00:02:12.000-00:02:22.400
+      - 00:02:50.333-00:02:55.300
+      - 00:02:55.900-00:03:11.767
+  - question: How did you start playing Ultimate, and how long have you been playing for?
+    crop: ih:ih:ih/2:0
+    timings:
+      - 00:00:51.633-00:01:10.233
+      - 00:01:29.633-00:01:34.867
+      - 00:01:36.067-00:01:40.100
+      - 00:01:40.333-00:01:42.000
+  - question: How does Ultimate compare to other sports?
+    crop: ih:ih:ih/1.75:0
+    timings:
+      - 00:02:42.767-00:03:08.167
+  - question: How does one build mental strength?
+    video: VID_20200614_123305_1.mp4
+    crop: ih:ih:ih/1.75:0
+    timings:
+      - 00:10:47.067-00:11:00.900
+      - 00:11:33.333-00:11:36.500
+      - 00:11:59.333-00:12:12.000
+  - question: Why do you continue to keep playing Ultimate?
+    timings:
+      - video: VID_20200614_130932_1.mp4
+        crop: ih:ih:ih/1.75:0
+        time: 00:06:18.400-00:06:32.767
+      - video: VID_20200614_130932_1.mp4
+        crop: ih:ih:ih/1.75:0
+        time: 00:06:52.133-00:07:05.033
+      - video: VID_20200614_122547.mp4
+        crop: ih:ih:ih/2:0
+        time: 00:02:29.200-00:02:36.000
+  - question: What are your thoughts on the spirit of the game? Is it an mental burden to make/discuss calls in high-level games?
+    video: VID_20200614_123305_1.mp4
+    crop: ih:ih:ih/1.75:0
+    timings:
+      - 00:04:01.333-00:04:15.300
+      - 00:03:53.433-00:03:57.567
+      - 00:07:39.033-00:07:51.033
+      - 00:08:44.167-00:09:06.133
+      - 00:09:09.333-00:09:24.433
+  - question: What kind of mental preparation do you do before a game?
+    video: VID_20200614_123305_1.mp4
+    crop: ih:ih:ih/1.75:0
+    timings:
+      - 00:12:41.233-00:13:02.367
+      - 00:13:08.567-00:13:17.133
+      - 00:13:32.433-00:13:43.733
+      - 00:13:48.867-00:14:11.867
+      - 00:14:21.667-00:14:25.733
+      - 00:14:29.667-00:14:46.100
+  - question: You've been a captain several times, in your sporting life. What do you focus on, as the captain of a team?
+    video: VID_20200614_123305_2.mp4
+    crop: ih:ih:ih/2:0
+    timings:
+      - 00:00:43.133-00:00:50.633
+      - 00:01:28.700-00:01:37.933
+      - 00:02:10.233-00:02:14.667
+  - question: Who inspires you to be a better Ultimate player?
+    video: VID_20200614_123305_2.mp4
+    crop: ih:ih:ih/2:0
+    timings:
+      - 00:06:44.700-00:07:04.867
+      - 00:10:32.933-00:10:44.300
+  - question: What are your Ultimate goals for the upcoming season?
+    timings:
+      - video: VID_20200614_123305_2.mp4
+        crop: ih:ih:ih/2:0
+        time: 00:09:37.200-00:10:12.333
+      - video: VID_20200614_130932_1.mp4
+        crop: ih:ih:ih/2:0
+        time: 00:03:02.100-00:03:18.900
+      - video: VID_20200614_130932_1.mp4
+        crop: ih:ih:ih/2:0
+        time: 00:03:22.233-00:03:29.633
+      - video: VID_20200614_130932_1.mp4
+        crop: ih:ih:ih/1.75:0
+        time: 00:01:34.600-00:01:39.000
+      - video: VID_20200614_130932_1.mp4
+        crop: ih:ih:ih/1.75:0
+        time: 00:01:39.867-00:01:53.500
