@@ -90,7 +90,7 @@ TODO: More description needs to be added for the rest of the process...
     an hour to an hour. You'll need about 3-4GB of space if you are recording at
     1920x1080. We can also record via Zoom, if that is not possible for you.
 -   Put your phone in airplane more or in DND mode for the next hour or so.
--   Record the video in portrait mode.
+-   Record the video in landscape mode.
 -   Make sure there is adequate lighting where you are sitting.
 -   Make sure you are sitting so that you appear in roughly the same portion of
     the screen , for most part of the video. This would make it easier to
