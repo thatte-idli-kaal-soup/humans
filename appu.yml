@@ -1,5 +1,6 @@
 video: VID_20200614_122547.mp4
 crop: ih:ih:ih/2:0
+audio_threshold: "highpass=f=200,lowpass=f=1500"
 alt_low_res:
   VID_20200614_122547.mp4: appu-01.mp4
   VID_20200614_123305_1.mp4: appu-02.mp4
