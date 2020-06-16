@@ -34,7 +34,6 @@ clips:
     crop: ih:ih:ih/2:0
     timings:
       - 00:00:51.633-00:01:10.233
-      - 00:01:29.633-00:01:34.867
       - 00:01:36.067-00:01:40.100
       - 00:01:40.333-00:01:42.000
   - question: How does Ultimate compare to other sports?
