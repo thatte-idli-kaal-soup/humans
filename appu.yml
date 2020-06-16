@@ -12,8 +12,8 @@ cover:
   time: 3
 bgm:
   audio: "../bensound-adaytoremember-truncated.mp3"
-  fg_volume: 0.6
-  bg_volume: 0.08
+  fg_volume: 0.45
+  bg_volume: 0.18
 clips:
   - question: You grew up playing a lot of sports, and continue to do so. Tell us about your journey...
     crop: ih:ih:ih/2:0
