@@ -99,6 +99,8 @@ TODO: More description needs to be added for the rest of the process...
     this)
 -   Avoid using swear words, if possible. We'd like to be able to post the video
     for Ultimate players in all age groups.
+-   Use gender-neutral language/pronouns wherever you can. Use they/them or
+    she/her instead of saying he/him/his. Person-D not Man-D. etc.
 -   Use headphones for talking over video chat. Hearing sounds of pings on your
     computer, or other people typing, makes the audio quality poor.
 -   Ensure that your headphones are charged, if they are bluetooth headphones.
