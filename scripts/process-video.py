@@ -592,6 +592,9 @@ def make_trailer(ctx):
     video = config['video']
     output_file = f"trailer-{video}"
     concat_videos(output_file, *segments)
+    if "audio_threshold" in config:
+        threshold_file = f"thresholded-{output_file}"
+        output_file = threshold_audio(output_file, threshold_file, config)
     path = os.path.abspath(output_file)
     click.echo(f"Created {path}")
 
