@@ -647,5 +647,17 @@ def add_music(ctx):
     add_background_music(config)
 
 
+@cli.command()
+@click.pass_context
+def clean_workdir(ctx):
+    paths = [
+        path
+        for prefix in {"part", "replaced", "intro", "segment", "black"}
+        for path in glob.glob(f"{prefix}-*")
+    ]
+    for path in paths:
+        os.remove(path)
+
+
 if __name__ == "__main__":
     cli(obj={})
