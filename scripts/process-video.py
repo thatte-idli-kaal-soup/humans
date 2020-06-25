@@ -503,18 +503,23 @@ def process_clips(ctx, n, with_intro, multi_process):
     cpu_count = max(1, multiprocessing.cpu_count() - 1)
 
     if n == 0 and not with_intro:
-        print(f"Intros will be generated even though --with-intro is off ...")
+        print("Intros will be generated even though --with-intro is off ...")
         with_intro = True
+        # Process the first clip, before doing the others. This will generate
+        # the black background file, etc., and prevent races between the
+        # processes that are processing each clip.
+        process_clip(clips[0], with_intro, 1)
+        clips = clips[1:]
 
     if n > 0:
         process_clip(clips[n - 1], with_intro, n)
     elif cpu_count == 1 or not multi_process:
-        for idx, clip in enumerate(clips, start=1):
+        for idx, clip in enumerate(clips, start=2):
             process_clip(clip, with_intro, idx)
     else:
         pool = multiprocessing.Pool(processes=cpu_count)
-        n = len(clips)
-        args = zip(clips, n * [with_intro], range(1, n + 1))
+        n = len(clips) + 1
+        args = zip(clips, n * [with_intro], range(2, n + 1))
         pool.starmap(process_clip, args)
 
     if "profile" in config:
