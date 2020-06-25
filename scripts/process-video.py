@@ -479,7 +479,7 @@ def cli(ctx, config_file, use_original, profile, loglevel):
     config_data = yaml.load(config_file, Loader=yaml.FullLoader) or {}
     config_data["config_file"] = os.path.abspath(config_file.name)
     process_config(config_data, use_original)
-    name = os.path.splitext(config_file.name)[0]
+    name = os.path.basename(os.path.splitext(config_file.name)[0])
     config_data["name"] = name
     input_dir = os.path.abspath(name)
     os.chdir(input_dir)
