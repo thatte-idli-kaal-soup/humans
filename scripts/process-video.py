@@ -226,7 +226,7 @@ def split_video(input_file, output_file, start, end, crop):
     subprocess.check_call(command)
 
 
-def create_video_segments(timings, idx):
+def create_video_segments(timings, idx, replacements):
     segments = []
     for sub_idx, params in enumerate(timings):
         video_name = params["video"]
@@ -235,28 +235,31 @@ def create_video_segments(timings, idx):
         start, end = timing.strip().split("-")
         segment_file = f"segment-{idx:02d}-{sub_idx:02d}-{video_name}"
         split_video(video_name, segment_file, start, end, crop)
+        replacements = params.get("replacements", [])
+        segment_file = do_all_replacements(segment_file, replacements)
         segments.append(segment_file)
     return segments
 
 
-def do_all_replacements(input_file, replacements, replace_img):
-    output_file = orig = input_file
+def do_all_replacements(input_file, replacements):
     for replacement in replacements:
-        start, end = [to_seconds(x) for x in replacement.strip().split("-")]
-        output_file = f"{start}-{end}-{input_file}"
+        time = replacement["time"]
+        replace_img = replacement.get("image", replacement.get("position", "start"))
+        start, end = [to_seconds(x) for x in time.strip().split("-")]
+        output_file = f"replaced-{start}-{end}-{input_file}"
         input_file = replace_frames(input_file, output_file, start, end, replace_img)
-    shutil.move(output_file, orig)
-    return orig
+    return input_file
 
 
 def replace_frames(input_file, output_file, start, end, img):
-    if not img:
+    if img in {"start", "end"}:
         img = f"{output_file}.png"
+        position = start if img == "start" else end
         select = FFMPEG_CMD + [
             "-i",
             input_file,
             "-vf",
-            f"select=gte(t\\,{start})",
+            f"select=gte(t\\,{position})",
             "-vframes",
             "1",
             img,
@@ -339,16 +342,14 @@ def create_igtv_video(input_file, output_file):
     subprocess.check_call(cmd)
 
 
-def process_clip(clip, with_intro, replace_image, idx):
+def process_clip(clip, with_intro, idx):
     print(f"Creating part {idx}")
-    segments = create_video_segments(clip["timings"], idx)
+    replacements = clip.get("replacements")
+    segments = create_video_segments(clip["timings"], idx, replacements)
     output_file = PART_FILENAME_FMT.format(
         idx=idx, video_name=clip["timings"][0]["video"]
     )
     concat_videos(output_file, *segments)
-    replacements = clip.get("replacements")
-    if replacements is not None:
-        output_file = do_all_replacements(output_file, replacements, replace_image)
 
     if with_intro:
         q = clip.get("question", "")
@@ -493,11 +494,10 @@ def cli(ctx, config_file, use_original, profile, loglevel):
 
 @cli.command()
 @click.option("--multi-process/--single-process", default=True)
-@click.option("--replace-image", default=None)
 @click.option("--with-intro/--no-intro", default=False)
 @click.option("-n", default=0)
 @click.pass_context
-def process_clips(ctx, n, with_intro, replace_image, multi_process):
+def process_clips(ctx, n, with_intro, multi_process):
     config = ctx.obj
     clips = config["clips"]
     cpu_count = max(1, multiprocessing.cpu_count() - 1)
@@ -507,14 +507,14 @@ def process_clips(ctx, n, with_intro, replace_image, multi_process):
         with_intro = True
 
     if n > 0:
-        process_clip(clips[n - 1], with_intro, replace_image, n)
+        process_clip(clips[n - 1], with_intro, n)
     elif cpu_count == 1 or not multi_process:
         for idx, clip in enumerate(clips, start=1):
-            process_clip(clip, with_intro, replace_image, idx)
+            process_clip(clip, with_intro, idx)
     else:
         pool = multiprocessing.Pool(processes=cpu_count)
         n = len(clips)
-        args = zip(clips, n * [with_intro], n * [replace_image], range(1, n + 1))
+        args = zip(clips, n * [with_intro], range(1, n + 1))
         pool.starmap(process_clip, args)
 
     if "profile" in config:
