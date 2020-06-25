@@ -187,7 +187,7 @@ def get_time(text):
     return min(max(4, round(word_count / 2.5)), 8)
 
 
-def prepend_text_video(input_file, output_file, q_a):
+def prepare_question_video(input_file, q_a):
     w, h = map(int, video_dimensions(input_file))
     text = f"{q_a.q} {q_a.a}"
     time = get_time(text)
@@ -201,7 +201,7 @@ def prepend_text_video(input_file, output_file, q_a):
     text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
     draw_text(background_file, text_file, q_a, font_height, time)
     draw_logo(text_file, text_logo_file, logo_size, time)
-    concat_videos(output_file, text_logo_file, input_file)
+    return text_logo_file
 
 
 def split_video(input_file, output_file, start, end, crop):
@@ -349,7 +349,6 @@ def process_clip(clip, with_intro, idx):
     output_file = PART_FILENAME_FMT.format(
         idx=idx, video_name=clip["timings"][0]["video"]
     )
-    concat_videos(output_file, *segments)
 
     if with_intro:
         q = clip.get("question", "")
@@ -359,10 +358,10 @@ def process_clip(clip, with_intro, idx):
             q_n_a = QnA(*q_n_a)
         else:
             q_n_a = QnA("...")
-        intro_file = f"with-intro-{output_file}"
-        prepend_text_video(output_file, intro_file, q_n_a)
-        shutil.move(intro_file, output_file)
+        intro_file = prepare_question_video(segments[0], q_n_a)
+        segments.insert(0, intro_file)
 
+    concat_videos(output_file, *segments)
     path = os.path.abspath(output_file)
     print(f"Created {path}")
 
