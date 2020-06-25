@@ -656,7 +656,7 @@ def add_music(ctx):
 def clean_workdir(ctx):
     paths = [
         path
-        for prefix in {"part", "replaced", "intro", "segment", "black"}
+        for prefix in {"part", "replaced", "intro", "segment", "black", "thresholded"}
         for path in glob.glob(f"{prefix}-*")
     ]
     for path in paths:
