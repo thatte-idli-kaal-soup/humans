@@ -56,9 +56,12 @@ def compute_drawtext_param(
     return ",".join(format_line(line, i) for i, line in enumerate(lines))
 
 
-def create_black_background(input_file, output_file, time=10):
-    if os.path.isfile(output_file):
-        return
+def create_black_background(input_file, time=10):
+    w, h = map(int, video_dimensions(input_file))
+    ext = os.path.splitext(input_file)[-1]
+    background_file = f"black-{w}x{h}{ext}"
+    if os.path.isfile(background_file):
+        return background_file
     command = FFMPEG_CMD + [
         "-i",
         input_file,
@@ -66,9 +69,10 @@ def create_black_background(input_file, output_file, time=10):
         f"trim=0:{time},geq=0:128:128",
         "-af",
         f"atrim=0:{time},volume=0",
-        output_file,
+        background_file,
     ]
     subprocess.check_call(command)
+    return background_file
 
 
 def create_cover_video(cover_config, ext):
@@ -192,8 +196,7 @@ def prepare_question_video(input_file, q_a):
     text = f"{q_a.q} {q_a.a}"
     time = get_time(text)
     ext = os.path.splitext(input_file)[-1]
-    background_file = f"black-{w}x{h}{ext}"
-    create_black_background(input_file, background_file)
+    background_file = create_black_background(input_file)
     font_height = int(h / 20)
     logo_size = int(h / 7.5)
     sha1 = hashlib.sha1(text.encode("utf-8")).hexdigest()
@@ -504,21 +507,22 @@ def process_clips(ctx, n, with_intro, multi_process):
     if n == 0 and not with_intro:
         print("Intros will be generated even though --with-intro is off ...")
         with_intro = True
-        # Process the first clip, before doing the others. This will generate
-        # the black background file, etc., and prevent races between the
-        # processes that are processing each clip.
-        process_clip(clips[0], with_intro, 1)
-        clips = clips[1:]
+        # Generate black background before processing the clips
+        timing = clips[0]['timings'][0]
+        input_file = timing["video"]
+        output_file = f"black-input-{input_file}"
+        split_video(input_file, output_file, "0:0", "0:20", timing["crop"])
+        create_black_background(output_file)
 
     if n > 0:
         process_clip(clips[n - 1], with_intro, n)
     elif cpu_count == 1 or not multi_process:
-        for idx, clip in enumerate(clips, start=2):
+        for idx, clip in enumerate(clips, start=1):
             process_clip(clip, with_intro, idx)
     else:
         pool = multiprocessing.Pool(processes=cpu_count)
         n = len(clips) + 1
-        args = zip(clips, n * [with_intro], range(2, n + 1))
+        args = zip(clips, n * [with_intro], range(1, n + 1))
         pool.starmap(process_clip, args)
 
     if "profile" in config:
