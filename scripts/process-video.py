@@ -17,7 +17,7 @@ from PIL import Image, ImageOps
 import yaml
 
 QnA = namedtuple("QnA", ["q", "a"], defaults=(None,))
-HERE = os.path.dirname(os.path.basename(__file__))
+HERE = os.path.dirname(os.path.abspath(__file__))
 LOGO_FILE = os.path.join(HERE, "..", "logo.png")
 PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
 FFMPEG_CMD = ["ffmpeg", "-y"]
