@@ -69,28 +69,25 @@ python script/process-video.py --help
    bounding box you are using to crop the video. `width_offset` and
    `height_offset`, define where to place the box on the original video. `ih`
    and `iw` are height and width of the original video.
-   
 
 TODO: More description needs to be added for the rest of the process...
 
-# Checklists
+# Notes for the "Human of TIKS"
 
-## Interview Preparation
-
--   Shortlist next people to interview
--   Contact them and fix a time for the interview
--   Share Video Recording checklist with them
--   Prepare questions, ask team mates/instagram for questions
--   Do the interview and collect the video for editing
-
-## Video Recording
-
+-   This is just a conversation, where we are trying to get to know you and your
+    journey with Ultimate.
+-   We'd like to have a free-wheeling conversation with you, where you share
+    everything that matters to you! Don't feel obliged to stay on topic or
+    answer questions succintly.
+-   Obviously, we are only going to publish things from the conversation, that
+    you are comfortable sharing with the "world". We'll ask you to review the
+    edited version of this conversation, before we publish it.
 -   Use your phone to record your video.
 -   Make sure you have enough space on your phone to be able to record for half
     an hour to an hour. You'll need about 3-4GB of space if you are recording at
     1920x1080. We can also record via Zoom, if that is not possible for you.
--   Put your phone in airplane more or in DND mode for the next hour or so.
 -   Record the video in landscape mode.
+-   Put your phone in airplane more or in DND mode for the next hour or so.
 -   Make sure there is adequate lighting where you are sitting.
 -   Make sure you are sitting so that you appear in roughly the same portion of
     the screen , for most part of the video. This would make it easier to
@@ -104,7 +101,17 @@ TODO: More description needs to be added for the rest of the process...
 -   Use headphones for talking over video chat. Hearing sounds of pings on your
     computer, or other people typing, makes the audio quality poor.
 -   Ensure that your headphones are charged, if they are bluetooth headphones.
--   Have a bottle of water next to you.
+-   It would help to have a bottle of water handy. :)
+
+# Checklists
+
+## Interview Preparation
+
+-   Shortlist next people to interview
+-   Contact them and fix a time for the interview
+-   Share Video Recording checklist with them
+-   Prepare questions, ask team mates/instagram for questions
+-   Do the interview and collect the video for editing
 
 ## Video Publishing
 
