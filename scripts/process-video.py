@@ -481,7 +481,7 @@ def cli(ctx, config_file, use_original, profile, loglevel):
     process_config(config_data, use_original)
     name = os.path.basename(os.path.splitext(config_file.name)[0])
     config_data["name"] = name
-    input_dir = os.path.join(os.path.abspath('media'), name)
+    input_dir = os.path.join(os.path.abspath("media"), name)
     os.chdir(input_dir)
     if profile:
         profile = cProfile.Profile()
