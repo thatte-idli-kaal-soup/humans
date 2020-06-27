@@ -32,7 +32,7 @@ clips:
     - 00:04:51.033-00:04:58.900
     - 00:46:51.800-00:47:05.667
     - 00:04:59.367-00:05:12.800
-- question: Which players to you look up to? Who inspires you?
+- question: Which players do you look up to? Who inspires you?
   timings:
     - 00:05:43.067-00:05:57.367
     - video: VID_20200621_121559.mp4
@@ -49,7 +49,7 @@ clips:
       time: 00:04:37.533-00:04:45.000
     - 00:06:04.300-00:06:09.467
     - 00:06:12.233-00:06:22.267
-- question: How did you get from not having played any sport to playing for India?
+- question: How did you get from not having played any sport to representing India?
   crop: ih:ih:ih/1.75:0
   timings:
     - 00:14:36.133-00:14:41.200
@@ -70,7 +70,7 @@ clips:
       crop: ih:ih:ih/2:0
       time: 00:00:35.533-00:00:40.833
     - 00:16:49.533-00:16:58.100
-- question: How did you feel being a captain of the team?
+- question: How was the experience of captaining the team?
   timings:
     - 00:19:16.833-00:19:19.933
     - 00:19:24.000-00:19:37.867
@@ -112,7 +112,7 @@ clips:
     - 00:25:09.667-00:25:26.800
     - 00:25:29.767-00:25:34.267
     - 00:26:20.700-00:26:43.000
-- question: On handling the loss of Tarle, with support from TIKS and the Ultimate community...
+- question: On handling the loss of Tarle, with support from TIKS and the Ultimate community ...
   crop: ih:ih:ih/1.75:0
   video: VID_20200621_121559.mp4
   timings:
@@ -120,7 +120,7 @@ clips:
     - 00:30:10.767-00:30:25.767
     - 00:31:07.933-00:31:49.267
     - 00:31:54.667-00:31:57.900
-- question: What will you do after the pandemic ends?
+- question: What are you really looking forward to do after the pandemic ends?
   timings:
     - 00:44:10.533-00:44:25.067
     - 00:44:35.033-00:44:45.967
