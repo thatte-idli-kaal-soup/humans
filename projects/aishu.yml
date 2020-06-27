@@ -7,12 +7,11 @@ bgm:
   audio: "../bensound-adaytoremember-truncated.mp3"
   fg_volume: 0.45
   bg_volume: 0.18
-# audio_threshold: "highpass=f=300,lowpass=f=2500"
 alt_low_res:
   VID_20200621_111615.mp4: aishu-01.mp4
   VID_20200621_121559.mp4: aishu-02.mp4
   VID_20200621_125310.mp4: aishu-03.mp4
-clips: 
+clips:
 - question: How did you start playing Ultimate?
   timings:
     - 00:01:03.800-00:01:18.300
@@ -21,11 +20,11 @@ clips:
     - 00:03:33.433-00:03:53.900
     - 00:03:57.667-00:04:13.400
     - 00:01:56.867-00:02:09.400
-- question: Did you play any other sport before?
+- question: Did you play any other sport before you started playing Ultimate?
   timings:
     - 00:02:25.700-00:02:31.800
     - 00:02:36.833-00:02:47.767
-- question: What keeps you going? Why do you continue to play Ultimate?
+- question: Why do you continue to play Ultimate?
   timings:
     - video: VID_20200621_121559.mp4
       crop: ih:ih:ih/1.5:0
@@ -33,7 +32,7 @@ clips:
     - 00:04:51.033-00:04:58.900
     - 00:46:51.800-00:47:05.667
     - 00:04:59.367-00:05:12.800
-- question: Who do you look up to? Who inspires you?
+- question: Which players to you look up to? Who inspires you?
   timings:
     - 00:05:43.067-00:05:57.367
     - video: VID_20200621_121559.mp4
@@ -50,7 +49,7 @@ clips:
       time: 00:04:37.533-00:04:45.000
     - 00:06:04.300-00:06:09.467
     - 00:06:12.233-00:06:22.267
-- question: How did you go from not playing any sports growing up, to playing for India?
+- question: How did you get from not having played any sport to playing for India?
   crop: ih:ih:ih/1.75:0
   timings:
     - 00:14:36.133-00:14:41.200
@@ -71,7 +70,7 @@ clips:
       crop: ih:ih:ih/2:0
       time: 00:00:35.533-00:00:40.833
     - 00:16:49.533-00:16:58.100
-- question: How did you feel captaining the team?
+- question: How did you feel being a captain of the team?
   timings:
     - 00:19:16.833-00:19:19.933
     - 00:19:24.000-00:19:37.867
@@ -80,7 +79,7 @@ clips:
     - 00:20:20.400-00:20:33.300
     - 00:20:33.300-00:20:37.433
     - 00:20:44.067-00:20:48.400
-- question: As one of the youngest players on the team, who did you look-up to as a captain for help and guidance?
+- question: As a young captain, who did you look-up to, for help and guidance?
   crop: ih:ih:ih/1.8:0
   timings:
     - 00:52:50.333-00:52:52.233
@@ -92,7 +91,7 @@ clips:
       crop: ih:ih:ih/1.5:0
       time: 00:01:43.233-00:01:49.633
     - 00:53:26.733-00:53:35.167
-- question: Most memorable time with the team
+- question: What are some of you most memorable on-field moments?
   timings:
     - 00:27:41.200-00:27:45.300
     - 00:29:21.867-00:30:00.800
@@ -113,15 +112,15 @@ clips:
     - 00:25:09.667-00:25:26.800
     - 00:25:29.767-00:25:34.267
     - 00:26:20.700-00:26:43.000
-- question: On dealing with Tarle's demise, with support from TIKS and the Ultimate community...
-  crop: ih:ih:ih/1.6:0
+- question: On handling the loss of Tarle, with support from TIKS and the Ultimate community...
+  crop: ih:ih:ih/1.75:0
   video: VID_20200621_121559.mp4
   timings:
     - 00:29:37.170-00:30:08.300
     - 00:30:10.767-00:30:25.767
     - 00:31:07.933-00:31:49.267
     - 00:31:54.667-00:31:57.900
-- question: What will you do after the lockdown?
+- question: What will you do after the pandemic ends?
   timings:
     - 00:44:10.533-00:44:25.067
     - 00:44:35.033-00:44:45.967
