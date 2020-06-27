@@ -1,5 +1,8 @@
 video: VID_20200621_111615.mp4
 crop: ih:ih:ih/2:0
+cover:
+  image: cover.jpg
+  time: 3
 bgm:
   audio: "../bensound-adaytoremember-truncated.mp3"
   fg_volume: 0.45
@@ -12,110 +15,113 @@ alt_low_res:
 clips: 
 - question: How did you start playing Ultimate?
   timings:
-    - 00:01:03.800-00:02:09.300
+    - 00:01:03.800-00:01:18.300
+    - 00:01:34.133-00:01:38.500
+    - 00:01:50.733-00:01:54.433
+    - 00:03:33.433-00:03:53.900
+    - 00:03:57.667-00:04:13.400
+    - 00:01:56.867-00:02:09.400
 - question: Did you play any other sport before?
   timings:
     - 00:02:25.700-00:02:31.800
     - 00:02:36.833-00:02:47.767
-- question: What about the first day excited you?
-  timings:
-    - 00:03:01.867-00:04:17.900
 - question: What keeps you going? Why do you continue to play Ultimate?
   timings:
-    - 00:04:26.800-00:05:12.800
-    - 00:46:18.167-00:47:25.667
+    - video: VID_20200621_121559.mp4
+      crop: ih:ih:ih/1.5:0
+      time: 00:11:55.667-00:12:01.633
+    - 00:04:51.033-00:04:58.900
+    - 00:46:51.800-00:47:05.667
+    - 00:04:59.367-00:05:12.800
 - question: Who do you look up to? Who inspires you?
   timings:
-    - 00:05:40.067-00:05:59.500
-    - 00:06:03.867-00:06:34.700
-    - 00:03:32.600-00:03:57.900
-    - 00:04:27.233-00:04:47.633
-- question: Is the team as welcoming as before?
+    - 00:05:43.067-00:05:57.367
+    - video: VID_20200621_121559.mp4
+      crop: ih:ih:ih/1.6:0
+      time: 00:03:32.600-00:03:39.900
+    - video: VID_20200621_121559.mp4
+      crop: ih:ih:ih/1.6:0
+      time: 00:03:48.133-00:03:56.700
+    - video: VID_20200621_121559.mp4
+      crop: ih:ih:ih/1.6:0
+      time: 00:04:27.967-00:04:30.633
+    - video: VID_20200621_121559.mp4
+      crop: ih:ih:ih/1.6:0
+      time: 00:04:37.533-00:04:45.000
+    - 00:06:04.300-00:06:09.467
+    - 00:06:12.233-00:06:22.267
+- question: How did you go from not playing any sports growing up, to playing for India?
+  crop: ih:ih:ih/1.75:0
   timings:
-    - 00:09:20.900-00:11:03.400
-- question: How did you go from not playing a sport to playing for India?
-  timings:
-    - 00:14:36.133-00:17:18.700
+    - 00:14:36.133-00:14:41.200
+    - 00:14:49.033-00:14:51.200
+    - 00:14:58.967-00:15:10.467
+    - 00:15:13.200-00:15:16.100
+    - 00:15:49.133-00:15:55.400
+    - 00:16:01.133-00:16:05.600
+    - 00:16:15.700-00:16:22.467
+    - 00:16:22.800-00:16:29.300
+    - 00:16:31.300-00:16:40.767
+    - 00:16:59.167-00:17:10.833
+    - 00:17:11.600-00:17:14.233
+    - video: VID_20200621_125310.mp4
+      crop: ih:ih:ih/2:0
+      time: 00:00:26.400-00:00:32.500
+    - video: VID_20200621_125310.mp4
+      crop: ih:ih:ih/2:0
+      time: 00:00:35.533-00:00:40.833
+    - 00:16:49.533-00:16:58.100
 - question: How did you feel captaining the team?
   timings:
-    - 00:19:17.500-00:20:50.533
-    - 00:22:26.800-00:22:56.167
-- question: How do you build trust with your team?
+    - 00:19:16.833-00:19:19.933
+    - 00:19:24.000-00:19:37.867
+    - 00:19:57.700-00:20:06.833
+    - 00:20:09.800-00:20:13.800
+    - 00:20:20.400-00:20:33.300
+    - 00:20:33.300-00:20:37.433
+    - 00:20:44.067-00:20:48.400
+- question: As one of the youngest players on the team, who did you look-up to as a captain for help and guidance?
+  crop: ih:ih:ih/1.8:0
   timings:
-    - 00:24:02.267-00:25:41.567
-    - 00:26:01.100-00:26:51.533
+    - 00:52:50.333-00:52:52.233
+    - 00:53:02.000-00:53:07.700
+    - video: VID_20200621_121559.mp4
+      crop: ih:ih:ih/1.5:0
+      time: 00:01:38.233-00:01:41.633
+    - video: VID_20200621_121559.mp4
+      crop: ih:ih:ih/1.5:0
+      time: 00:01:43.233-00:01:49.633
+    - 00:53:26.733-00:53:35.167
 - question: Most memorable time with the team
   timings:
-    - 00:27:39.833-00:30:03.600
-    - 00:35:39.700-00:36:28.533
-    - 00:36:40.900-00:37:27.833
-    - 00:39:43.700-00:40:42.900
-- question: Fights with Tarle
+    - 00:27:41.200-00:27:45.300
+    - 00:29:21.867-00:30:00.800
+    - 00:36:45.400-00:36:48.500
+    - 00:36:56.167-00:37:01.367
+    - 00:37:04.200-00:37:19.167
+    - 00:39:53.767-00:39:59.000
+    - 00:40:18.333-00:40:40.967
+- question: What are your current Ultimate related goals?
+  crop: ih:ih:ih/1.5:0
+  video: VID_20200621_121559.mp4
   timings:
-    - 00:21:20.800-00:21:35.200
-    - 00:22:56.300-00:23:24.333
-- question: FAvorite times with the team
+    - 00:12:32.800-00:12:52.867
+- question: What has the sport given you?
+  crop: ih:ih:ih/1.8:0
+  video: VID_20200621_121559.mp4
   timings:
-    - 00:41:26.833-00:42:29.900
+    - 00:25:09.667-00:25:26.800
+    - 00:25:29.767-00:25:34.267
+    - 00:26:20.700-00:26:43.000
+- question: On dealing with Tarle's demise, with support from TIKS and the Ultimate community...
+  crop: ih:ih:ih/1.6:0
+  video: VID_20200621_121559.mp4
+  timings:
+    - 00:29:37.170-00:30:08.300
+    - 00:30:10.767-00:30:25.767
+    - 00:31:07.933-00:31:49.267
+    - 00:31:54.667-00:31:57.900
 - question: What will you do after the lockdown?
   timings:
-    - 00:44:10.533-00:44:45.967
-- question: Advice for new captains
-  timings:
-    - 00:51:48.867-00:52:33.633
-- question: People who helped with captaincy
-  timings:
-    - 00:52:50.200-00:53:35.400
-    - video: VID_20200621_111615.mp4
-      time: 00:01:37.767-00:02:12.267
-- question: perspective on the game now?
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:10:24.300-00:10:48.767
-    - 00:10:50.000-00:11:13.400
-- question: Goals?
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:11:21.233-00:12:08.633
-- question: Personal Goals?
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:12:33.200-00:12:52.867
-- question: Life goals, consistency
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:13:30.500-00:13:55.367
-- question: Advertisement for Academy of Strength
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:14:36.767-00:15:15.533
-    - 00:15:35.367-00:15:58.000
-- question: BNI Adv
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:23:00.767-00:23:13.900
-- question: 91 Ultimate
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:20:04.400-00:21:05.500
-    - 00:21:31.433-00:21:48.100
-- question: Biggest contribution to the team
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:23:51.200-00:23:59.900
-- question: What did the sport give you?
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:25:05.033-00:26:43.033
-    - 00:26:44.533-00:27:15.367
-- question: Thanks to the community for the support
-  video: VID_20200621_111615.mp4
-  timings:
-    - 00:29:14.600-00:30:41.800
-    - 00:30:41.867-00:32:01.100
-- question: Yogi
-  video: VID_20200621_125310.mp4
-  timings:
-    - 00:00:26.400-00:00:44.533
-    - 00:00:45.500-00:01:19.300
-    - 00:01:19.333-00:01:29.333
+    - 00:44:10.533-00:44:25.067
+    - 00:44:35.033-00:44:45.967
