@@ -82,7 +82,7 @@ clips:
     - 00:29:21.867-00:30:00.800
     - 00:39:53.767-00:39:59.000
     - 00:40:18.333-00:40:40.967
-- question: How was the experience of captaining the team?
+- question: How was the experience of captaining TIKS?
   timings:
     - 00:19:16.833-00:19:19.933
     - 00:19:24.000-00:19:37.867
@@ -103,7 +103,7 @@ clips:
     - 00:25:09.667-00:25:26.800
     - 00:25:29.767-00:25:34.267
     - 00:26:20.700-00:26:43.000
-- question: On handling the loss of Tarle, with support from TIKS and the Ultimate community ...
+- question: On handling the loss of Tarle, with support the Ultimate community ...
   crop: ih:ih:ih/1.75:0
   video: VID_20200621_121559.mp4
   timings:
