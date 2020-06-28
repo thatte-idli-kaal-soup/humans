@@ -675,5 +675,17 @@ def clean_workdir(ctx):
         os.remove(path)
 
 
+@cli.command()
+@click.pass_context
+@click.argument("video", type=click.File())
+def project_add_video(ctx, video):
+    config = ctx.obj
+    ext = os.path.splitext(video.name)[-1]
+    n = len(config["alt_low_res"]) + 1
+    name = config["name"]
+    output_file = f"{name}-{n:02d}{ext}"
+    create_low_res(video.name, output_file)
+
+
 if __name__ == "__main__":
     cli(obj={})
