@@ -70,7 +70,7 @@ clips:
       crop: ih:ih:ih/2:0
       time: 00:00:35.533-00:00:40.833
     - 00:16:49.533-00:16:58.100
-- question: What are some of you most memorable on-field moments?
+- question: What are some of your most memorable on-field moments?
   timings:
     - video: VID_20200628_133558.mp4
       crop: ih:ih:ih/2:0
@@ -97,7 +97,7 @@ clips:
   timings:
     - 00:12:32.800-00:12:52.867
 - question: What has the sport given you?
-  crop: ih:ih:ih/1.8:0
+  crop: ih:ih:ih/1.7:0
   video: VID_20200621_121559.mp4
   timings:
     - 00:25:09.667-00:25:26.800
