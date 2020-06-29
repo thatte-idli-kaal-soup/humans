@@ -72,14 +72,14 @@ clips:
     - 00:16:49.533-00:16:58.100
 - question: What are some of your most memorable on-field moments?
   timings:
+    - 00:27:41.200-00:27:45.300
+    - 00:29:21.867-00:30:00.800
     - video: VID_20200628_133558.mp4
       crop: ih:ih:ih/2:0
       time: 00:00:01.408-00:00:08.975
     - video: VID_20200628_133558.mp4
       crop: ih:ih:ih/2:0
       time: 00:00:11.442-00:00:18.625
-    - 00:27:41.200-00:27:45.300
-    - 00:29:21.867-00:30:00.800
     - 00:39:53.767-00:39:59.000
     - 00:40:18.333-00:40:40.967
 - question: How was the experience of captaining TIKS?
@@ -103,14 +103,14 @@ clips:
     - 00:25:09.667-00:25:26.800
     - 00:25:29.767-00:25:34.267
     - 00:26:20.700-00:26:43.000
-- question: On handling the loss of Tarle, with support the Ultimate community ...
+- question: On handling the loss of Tarle, with support from the Ultimate community ...
   crop: ih:ih:ih/1.75:0
   video: VID_20200621_121559.mp4
   timings:
+    - 00:29:37.170-00:30:08.300
     - video: VID_20200628_134043.mp4
       crop: ih:ih:ih/1.75:0
       time: 00:00:05.233-00:00:18.333
-    - 00:29:37.170-00:30:08.300
     - 00:30:10.767-00:30:25.767
     - 00:31:07.933-00:31:49.267
     - 00:31:54.667-00:31:57.900
