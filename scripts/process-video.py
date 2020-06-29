@@ -646,13 +646,14 @@ def print_index(ctx):
 
 @cli.command()
 @click.pass_context
-def add_music(ctx):
+@click.argument("video", type=click.File())
+def add_music(ctx, video):
     config = ctx.obj
     if "bgm" not in config:
         print("No audio file found in config!")
         return
 
-    add_background_music(config)
+    add_background_music(video.name, config)
 
 
 @cli.command()
