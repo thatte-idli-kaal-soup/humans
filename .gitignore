@@ -140,5 +140,5 @@ dmypy.json
 # Audio files
 *.mp3
 
-# YouTube upload
-/client_secret.json
+# Ignore everything in /media
+/media
