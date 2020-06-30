@@ -105,6 +105,46 @@ def create_cover_video(cover_config, ext):
     return output_file
 
 
+def get_credits_text(config):
+    entries = []
+    for key, value in config.items():
+        if key == "time":
+            continue
+        title = key.replace("_", " ").title()
+        entry = f"{title:>12}\t{value:<32}".expandtabs(2)
+        entries.append(entry)
+    return "\n".join(entries)
+
+
+def create_credits_video(input_file, credits_config):
+    w, h = map(int, video_dimensions(input_file))
+    time = credits_config["time"]
+    text = get_credits_text(credits_config)
+    ext = os.path.splitext(input_file)[-1]
+    background_file = create_black_background(input_file)
+    font_height = int(h / 28)
+    logo_size = int(h / 7.5)
+    sha1 = hashlib.sha1(text.encode("utf-8")).hexdigest()
+    text_file = f"intro-{sha1}-{w}x{h}{ext}"
+    text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
+    FADE_OUT = get_fade_out(time)
+    drawtext_param = compute_drawtext_param(
+        text, fontsize=font_height, fontfile="UbuntuMono-B.ttf", disable_wrap=True,
+    )
+    command = FFMPEG_CMD + [
+        "-i",
+        background_file,
+        "-vf",
+        f"trim=0:{time},{drawtext_param},{FADE_IN},{FADE_OUT}",
+        "-af",
+        f"atrim=0:{time}",
+        text_file,
+    ]
+    subprocess.check_call(command)
+    draw_logo(text_file, text_logo_file, logo_size, time)
+    return text_logo_file
+
+
 def draw_text(input_file, output_file, text, font_height, time):
     drawtext_param = compute_drawtext_param(text.q, fontsize=font_height)
     FADE_OUT = get_fade_out(time)
@@ -457,6 +497,7 @@ def add_music_to_video(input_video, input_audio, output_video):
 
 def get_keyframe_timings(config):
     cover_time = config.get("cover", {}).get("time", 0)
+    credits_time = config.get("credits", {}).get("time", 0)
     timings = []
     for idx, clip in enumerate(config["clips"], start=1):
         video = f"part-{idx:02d}-{clip['timings'][0]['video']}"
@@ -471,6 +512,7 @@ def get_keyframe_timings(config):
         timings.append(round(start, 3))
         timings.append(round(end, 3))
     timings.insert(0, 0)
+    timings.append(round(end + credits_time, 3))
     if config["debug"]:
         print(timings)
     return timings
@@ -592,6 +634,12 @@ def combine_clips(ctx):
         create_igtv_video(cover_image, igtv_cover)
     else:
         print(BOLDRED, "WARNING: No cover image has been specified!", ENDC, sep="")
+
+    credits = config.get("credits")
+    if credits:
+        print("Creating credits video...")
+        credits_video = create_credits_video(first, credits)
+        video_names.append(credits_video)
 
     concat_videos(output_file, *video_names)
     path = os.path.abspath(output_file)
