@@ -78,7 +78,7 @@ def create_cover_video(cover_config, ext):
     w, h = cover_config["width"], cover_config["height"]
     background_file = f"black-{w}x{h}{ext}"
     input_file = cover_config["image"]
-    output_file = f"cover{ext}"
+    output_file = f"cover-{w}x{h}{ext}"
     time = cover_config["time"]
     FADE_OUT = get_fade_out(time)
     command = FFMPEG_CMD + [
