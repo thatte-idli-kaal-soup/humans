@@ -4,11 +4,11 @@ cover:
   image: cover.jpg
   time: 3
 credits:
-  date: 21 June, 2020
-  interviewers: Ranjan, Saqqu, Punch
-  cover_design: Akash Raja
+  recorded_on: 21 June, 2020
+  interviewers: Ranjan, Saqqu & Punch
   editing: Punch
-  music: A Day to Remember (bensound.com)
+  cover_design: Akash Raja
+  music: A Day to Remember (Bensound)
   time: 5
 bgm:
   audio: "../bensound-adaytoremember-truncated.mp3"
