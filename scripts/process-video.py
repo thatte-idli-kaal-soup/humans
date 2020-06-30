@@ -445,6 +445,8 @@ def get_keyframe_timings(config):
         timings.append(round(start, 3))
         timings.append(round(end, 3))
     timings.insert(0, 0)
+    if config["debug"]:
+        print(timings)
     return timings
 
 
@@ -508,7 +510,7 @@ def process_clips(ctx, n, with_intro, multi_process):
         print("Intros will be generated even though --with-intro is off ...")
         with_intro = True
         # Generate black background before processing the clips
-        timing = clips[0]['timings'][0]
+        timing = clips[0]["timings"][0]
         input_file = timing["video"]
         output_file = f"black-input-{input_file}"
         split_video(input_file, output_file, "0:0", "0:20", timing["crop"])
