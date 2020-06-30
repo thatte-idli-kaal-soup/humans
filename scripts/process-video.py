@@ -125,12 +125,16 @@ def create_credits_video(input_file, credits_config):
     font_height = int(h / 28)
     logo_size = int(h / 7.5)
     sha1 = hashlib.sha1(text.encode("utf-8")).hexdigest()
-    text_file = f"intro-{sha1}-{w}x{h}{ext}"
-    text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
     FADE_OUT = get_fade_out(time)
     drawtext_param = compute_drawtext_param(
-        text, fontsize=font_height, fontfile="UbuntuMono-B.ttf", disable_wrap=True, h_offset=-2
+        text,
+        fontsize=font_height,
+        fontfile="UbuntuMono-B.ttf",
+        disable_wrap=True,
+        h_offset=-2,
     )
+
+    text_file = f"intro-{sha1}-{w}x{h}{ext}"
     command = FFMPEG_CMD + [
         "-i",
         background_file,
@@ -141,7 +145,10 @@ def create_credits_video(input_file, credits_config):
         text_file,
     ]
     subprocess.check_call(command)
+
+    text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
     draw_logo(text_file, text_logo_file, logo_size, time)
+
     return text_logo_file
 
 
