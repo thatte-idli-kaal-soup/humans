@@ -457,6 +457,12 @@ def create_background_music_file(config):
         f"[0:a]aloop=-1:2e+09,atrim=0:{trim},volume={ev}:enable='{enabled}',"
         f"volume={dv}:enable='{disabled}'"
     )
+    # Fade out the music at the end
+    st = timings[-2]
+    d = timings[-1] - timings[-2]
+    afade = f"afade=t=out:st={st}:d={d}"
+    af += f",{afade}"
+
     cmd = FFMPEG_CMD + [
         "-i",
         audio_file,
