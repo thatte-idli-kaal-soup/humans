@@ -7,7 +7,6 @@ import hashlib
 import io
 import multiprocessing
 import os
-import shutil
 import subprocess
 import tempfile
 from textwrap import wrap
