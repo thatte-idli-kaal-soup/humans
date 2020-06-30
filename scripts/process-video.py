@@ -460,7 +460,7 @@ def create_background_music_file(config):
     # Fade out the music at the end
     st = timings[-2]
     d = timings[-1] - timings[-2]
-    afade = f"afade=t=out:st={st}:d={d}"
+    afade = f"afade=t=out:st={st}:d={d}:curve=cub"
     af += f",{afade}"
 
     cmd = FFMPEG_CMD + [
