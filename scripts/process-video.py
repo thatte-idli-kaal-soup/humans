@@ -453,13 +453,20 @@ def create_background_music_file(config):
     ev = bgm["fg_volume"]
     dv = bgm["bg_volume"]
     background = "background.m4a"
+
+    # Fade in the music at the start
+    st = timings[0]
+    d = timings[1] - st
+    afade = f"afade=t=in:st={st}:d={d}:curve=cbr"
+
     af = (
-        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},volume={ev}:enable='{enabled}',"
+        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},{afade},volume={ev}:enable='{enabled}',"
         f"volume={dv}:enable='{disabled}'"
     )
+
     # Fade out the music at the end
     st = timings[-2]
-    d = timings[-1] - timings[-2]
+    d = timings[-1] - st
     afade = f"afade=t=out:st={st}:d={d}:curve=cub"
     af += f",{afade}"
 
