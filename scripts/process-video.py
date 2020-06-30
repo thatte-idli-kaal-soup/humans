@@ -185,6 +185,23 @@ def video_dimensions(video):
     return width, height
 
 
+def video_duration(video):
+    cmd = [
+        "ffprobe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-show_entries",
+        "stream=duration",
+        "-of",
+        "csv=p=0",
+        video,
+    ]
+    output = subprocess.check_output(cmd)
+    return float(output.decode("utf8").strip())
+
+
 def get_time(text):
     # Show questions based on reading speed of 2.5 words per second
     word_count = len(text.split())
@@ -433,15 +450,16 @@ def add_music_to_video(input_video, input_audio, output_video):
 def get_keyframe_timings(config):
     cover_time = config.get("cover", {}).get("time", 0)
     timings = []
-    for clip in config["clips"]:
-        duration = get_clip_duration(clip)
+    for idx, clip in enumerate(config["clips"], start=1):
+        video = f"part-{idx:02d}-{clip['timings'][0]['video']}"
+        duration = video_duration(video)  # includes intro slide time
         q = clip.get("question", "")
         a = clip.get("answer", "")
         text = f"{q} {a}".strip()
         q_time = get_time(text)
         previous = timings[-1] if len(timings) > 0 else cover_time
         start = previous + q_time
-        end = start + duration
+        end = previous + duration
         timings.append(round(start, 3))
         timings.append(round(end, 3))
     timings.insert(0, 0)
