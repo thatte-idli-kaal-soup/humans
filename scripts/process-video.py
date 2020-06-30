@@ -110,8 +110,8 @@ def get_credits_text(config):
     for key, value in config.items():
         if key == "time":
             continue
-        title = key.replace("_", " ").title()
-        entry = f"{title:>12}\t{value:<32}".expandtabs(2)
+        title = key.replace("_", " ").upper()
+        entry = f"{title:>12}\t{value:<28}".expandtabs(3)
         entries.append(entry)
     return "\n".join(entries)
 
@@ -129,7 +129,7 @@ def create_credits_video(input_file, credits_config):
     text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
     FADE_OUT = get_fade_out(time)
     drawtext_param = compute_drawtext_param(
-        text, fontsize=font_height, fontfile="UbuntuMono-B.ttf", disable_wrap=True,
+        text, fontsize=font_height, fontfile="UbuntuMono-B.ttf", disable_wrap=True, h_offset=-2
     )
     command = FFMPEG_CMD + [
         "-i",
