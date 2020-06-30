@@ -188,16 +188,23 @@ def resize_logo(logo, size):
     return new_path
 
 
-def draw_logo(input_file, output_file, size=48, time=3):
+def draw_logo(
+    input_file,
+    output_file,
+    size=48,
+    time=3,
+    logo_file=LOGO_FILE,
+    location="(main_w-overlay_w):10",
+):
     FADE_OUT = get_fade_out(time)
-    logo_file = resize_logo(LOGO_FILE, size)
+    logo_file = resize_logo(logo_file, size)
     command = FFMPEG_CMD + [
         "-i",
         input_file,
         "-i",
         logo_file,
         "-filter_complex",
-        f"overlay=(main_w-overlay_w):10,{FADE_IN},{FADE_OUT}",
+        f"overlay={location},{FADE_IN},{FADE_OUT}",
         output_file,
     ]
     subprocess.check_call(command)
