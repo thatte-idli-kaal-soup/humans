@@ -38,6 +38,7 @@ def compute_drawtext_param(
     fontfile="Ubuntu-R.ttf",
     h_offset=0,
     disable_wrap=False,
+    animate=False,
 ):
     # Special character escapes are like violence: if they're not solving your
     # problem, you're not using enough. https://stackoverflow.com/a/10729560
@@ -59,7 +60,11 @@ def compute_drawtext_param(
         # ... alone would have a very small height, compared to a "normal"
         # sentence. Use font-size instead.
         th = fontsize
-        return f"drawtext={fontconfig}:text=\\'{text}\\':x='(w-tw)/2':y='(h+({th} * {d}))/2'"
+        x = "(w-tw)/2"
+        y = f"(h+({th} * {d}))/2"
+        T = idx if animate else 0
+        a = f"if(gte(t,{T}),min(1, t - {T}),0)"
+        return f"drawtext={fontconfig}:text=\\'{text}\\':x='{x}':y='{y}':alpha='{a}'"
 
     return ",".join(format_line(line, i) for i, line in enumerate(lines))
 
@@ -125,13 +130,14 @@ def create_credits_video(input_file, credits_config):
     font_height = int(h / 28)
     logo_size = int(h / 7.5)
     sha1 = hashlib.sha1(text.encode("utf-8")).hexdigest()
-    FADE_OUT = get_fade_out(time)
+    FADE_OUT = get_fade_out(time + 0.3)
     drawtext_param = compute_drawtext_param(
         text,
         fontsize=font_height,
         fontfile="UbuntuMono-B.ttf",
         disable_wrap=True,
         h_offset=-2,
+        animate=True,
     )
 
     text_file = f"intro-{sha1}-{w}x{h}{ext}"
