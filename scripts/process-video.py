@@ -797,5 +797,29 @@ def project_add_video(ctx, video):
     create_low_res(video.name, output_file)
 
 
+@cli.command()
+@click.pass_context
+def create_flac_audio(ctx):
+    config = ctx.obj
+    for key in config["alt_low_res"]:
+        command = FFMPEG_CMD + ["-i", key, "-ac", "1", "-vn", f"{key}.flac"]
+        print(f"Creating Flac audio for {key}...")
+        subprocess.check_call(command)
+
+
+@cli.command()
+@click.pass_context
+def gs_upload_flac_audio(ctx):
+    config = ctx.obj
+    command = [
+        "gsutil",
+        "-m",
+        "cp",
+        "*.flac",
+        "gs://transcription-audio-humans-of-tiks/",
+    ]
+    subprocess.check_call(command)
+
+
 if __name__ == "__main__":
     cli(obj={})
