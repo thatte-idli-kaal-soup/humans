@@ -43,7 +43,6 @@ clips:
       - 00:05:07.767-00:05:20.900
       - 00:05:51.883-00:05:58.033
       - 00:05:35.308-00:05:46.367
-      - 00:05:21.758-00:05:25.433
   - question: What are some of your most memorable Ultimate related events?
     video: VID_20200529_174603-003.mp4
     crop: ih:ih:ih/4:0
@@ -56,7 +55,7 @@ clips:
       - 00:02:58.175-00:03:02.200
       - 00:03:06.758-00:03:19.900
       - 00:03:26.242-00:03:35.117
-  - question: What other things have you tried because of your love for adventure?
+  - question: Tell us about your love for adventure, and your bike ride in the Himalayas...
     timings:
       # Love for trying new things
       - 00:06:24.633-00:06:42.667
