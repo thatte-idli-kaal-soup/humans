@@ -35,26 +35,6 @@ clips:
       - time: 00:09:23.900-00:09:31.633
         crop: ih:ih:ih/3.5:0
       - 00:05:24.000-00:05:30.600
-  - question: What is your favorite position to play in?
-    video: VID_20200529_183113.mp4
-    crop: ih:ih:ih/4:0
-    timings:
-      - 00:04:58.550-00:05:02.733
-      - 00:05:07.767-00:05:20.900
-      - 00:05:51.883-00:05:58.033
-      - 00:05:35.308-00:05:46.367
-  - question: What are some of your most memorable Ultimate related events?
-    video: VID_20200529_174603-003.mp4
-    crop: ih:ih:ih/4:0
-    timings:
-      - 00:03:55.742-00:04:25.017
-      - 00:04:58.942-00:05:13.992
-      - 00:04:32.192-00:04:37.800
-      - 00:04:47.283-00:04:52.300
-      - 00:02:51.090-00:02:52.683
-      - 00:02:58.175-00:03:02.200
-      - 00:03:06.758-00:03:19.900
-      - 00:03:26.242-00:03:35.117
   - question: Tell us about your love for adventure, and your bike ride in the Himalayas...
     timings:
       # Love for trying new things
@@ -70,7 +50,11 @@ clips:
       - video: VID_20200529_174603-003.mp4
         time: 00:13:51.742-00:13:54.058
       - video: VID_20200529_174603-003.mp4
-        time: 00:14:00.742-00:14:41.342
+        time: 00:14:00.742-00:14:05.017
+      - video: VID_20200529_174603-003.mp4
+        time: 00:14:08.717-00:14:23.092
+      - video: VID_20200529_174603-003.mp4
+        time: 00:14:27.867-00:14:41.342
       # Paragliding
       - video: VID_20200529_180519-004.mp4
         crop: ih:ih:ih/3.2:0
@@ -81,6 +65,27 @@ clips:
       # Marriage
       - 00:07:17.200-00:07:23.200
       - 00:07:29.467-00:07:34.800
+  - question: What are some of your most memorable Ultimate related events?
+    video: VID_20200529_174603-003.mp4
+    crop: ih:ih:ih/4:0
+    timings:
+      - 00:03:55.742-00:04:25.017
+      - 00:04:58.942-00:05:13.992
+      - 00:04:32.192-00:04:37.800
+      - 00:04:47.283-00:04:52.300
+      - 00:02:51.090-00:02:52.683
+      - 00:02:58.175-00:03:02.200
+      - 00:03:06.758-00:03:19.900
+      - 00:03:26.242-00:03:35.117
+  - question: What is your favorite position to play in?
+    video: VID_20200529_183113.mp4
+    crop: ih:ih:ih/4:0
+    timings:
+      - 00:04:58.550-00:05:02.733
+      - 00:05:07.767-00:05:20.900
+      - 00:05:51.883-00:05:58.033
+      - 00:05:35.308-00:05:40.533
+      - 00:05:42.333-00:05:46.367
   - question: Have you recovered from the injury that forced you to take a break from Ultimate?
     video: VID_20200529_174603-003.mp4
     crop: ih:ih:ih/4:0
