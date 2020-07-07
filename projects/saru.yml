@@ -1,4 +1,5 @@
 video: VID_20200529_172958.mp4
+crop: ih:ih:ih/3.2:0
 alt_low_res:
   VID_20200529_172958.mp4: saru-02.mp4
   VID_20200529_174603-003.mp4: saru-03.mp4
@@ -8,7 +9,7 @@ cover:
   image: cover.jpg
   time: 3
 credits:
-  recorded_on: 21 June, 2020
+  recorded_on: 29 May, 2020
   cover_design: Akash Raja
   interviewers: Ranjan, Saqqu & Punch
   editing: Punch
@@ -18,4 +19,97 @@ bgm:
   audio: "../bensound-adaytoremember-truncated.mp3"
   fg_volume: 0.75
   bg_volume: 0.25
-clips: []
+clips:
+  - question: For how long have you been playing Ultimate? How did you start playing?
+    timings:
+      - 00:00:25.600-00:00:32.000
+      - 00:00:36.000-00:00:41.567
+      - 00:00:51.833-00:01:30.033
+      - 00:01:33.167-00:02:22.033
+  - question: What other sports did you play before Ultimate?
+    timings:
+      - 00:05:04.133-00:05:09.233
+      - time: 00:11:00.633-00:11:10.967
+        crop: ih:ih:ih/4.2:0
+      - 00:05:12.400-00:05:23.500
+      - time: 00:09:23.900-00:09:31.633
+        crop: ih:ih:ih/3.5:0
+      - 00:05:24.000-00:05:30.600
+  - question: What is your favorite position to play in?
+    video: VID_20200529_183113.mp4
+    crop: ih:ih:ih/4:0
+    timings:
+      - 00:04:58.550-00:05:02.733
+      - 00:05:07.767-00:05:20.900
+      - 00:05:51.883-00:05:58.033
+      - 00:05:35.308-00:05:46.367
+      - 00:05:21.758-00:05:25.433
+  - question: What are some of your most memorable Ultimate related events?
+    video: VID_20200529_174603-003.mp4
+    crop: ih:ih:ih/4:0
+    timings:
+      - 00:03:55.742-00:04:25.017
+      - 00:04:58.942-00:05:13.992
+      - 00:04:32.192-00:04:37.800
+      - 00:04:47.283-00:04:52.300
+      - 00:02:51.090-00:02:52.683
+      - 00:02:58.175-00:03:02.200
+      - 00:03:06.758-00:03:19.900
+      - 00:03:26.242-00:03:35.117
+  - question: What other things have you tried because of your love for adventure?
+    timings:
+      # Love for trying new things
+      - 00:06:24.633-00:06:42.667
+      # Himalayas
+      - video: VID_20200529_174603-003.mp4
+        crop: ih:ih:ih/4.2:0
+        time: 00:13:08.242-00:13:13.000
+      - video: VID_20200529_174603-003.mp4
+        time: 00:13:23.100-00:13:26.900
+      - video: VID_20200529_174603-003.mp4
+        time: 00:13:43.950-00:13:49.033
+      - video: VID_20200529_174603-003.mp4
+        time: 00:13:51.742-00:13:54.058
+      - video: VID_20200529_174603-003.mp4
+        time: 00:14:00.742-00:14:41.342
+      # Paragliding
+      - video: VID_20200529_180519-004.mp4
+        crop: ih:ih:ih/3.2:0
+        time: 00:06:52.600-00:07:16.133
+      - video: VID_20200529_180519-004.mp4
+        crop: ih:ih:ih/3.2:0
+        time: 00:07:22.200-00:07:25.167
+      # Marriage
+      - 00:07:17.200-00:07:23.200
+      - 00:07:29.467-00:07:34.800
+  - question: Have you recovered from the injury that forced you to take a break from Ultimate?
+    video: VID_20200529_174603-003.mp4
+    crop: ih:ih:ih/4:0
+    timings:
+      - 00:12:17.500-00:12:20.675
+      - 00:08:21.008-00:08:42.308
+      - 00:11:17.650-00:11:24.367
+      - 00:11:35.983-00:11:46.000
+  - question: Who are the Ultimate players that you really like or look up to?
+    video: VID_20200529_180519-004.mp4
+    crop: ih:ih:ih/4:0
+    timings:
+      - 00:04:34.400-00:04:35.433
+      - 00:04:37.233-00:04:45.500
+      - 00:04:53.133-00:05:00.967
+      - crop: ih:ih:ih/3.5:0
+        time: 00:05:05.833-00:05:12.000
+  - question: What have the team and the sport given you?
+    video: VID_20200529_180519-004.mp4
+    crop: ih:ih:ih/3.2:0
+    timings:
+      - time: 00:10:24.900-00:10:29.100
+        crop: ih:ih:ih/4:0
+      - time: 00:13:11.600-00:13:14.767
+      - time: 00:13:19.567-00:13:23.400
+      - time: 00:13:34.067-00:13:49.400
+      - time: 00:08:13.033-00:08:17.833
+      - time: 00:10:43.300-00:10:47.867
+        crop: ih:ih:ih/4:0
+      - time: 00:12:25.300-00:13:03.900
+      - time: 00:13:07.133-00:13:10.667
