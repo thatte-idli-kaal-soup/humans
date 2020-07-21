@@ -1,0 +1,85 @@
+video: WIN_20200705_12_40_36_Pro.mp4
+crop: ih:ih:ih/2.2:0
+alt_low_res:
+  WIN_20200705_12_40_36_Pro.mp4: varun-01.mp4
+credits:
+  recorded_on: 05 July, 2020
+  cover_design: Akash Raja
+  interviewers: Ranjan, Saqqu & Punch
+  editing: Punch
+  music: A Day to Remember (Bensound)
+  time: 8
+# FIXME: Figure out a better way to remove the noise. May be allow the
+# thresholding to be during a specific duration, like image replacements?
+audio_threshold: "dynaudnorm=r=1:m=20:g=3:f=100"
+bgm:
+  audio: "../bensound-adaytoremember-truncated.mp3"
+  fg_volume: 0.75
+  bg_volume: 0.25
+clips:
+  - question: For how long have you been playing Ultimate? How did you start playing?
+    timings:
+      - 00:08:09.092-00:08:19.332
+      - 00:08:23.556-00:08:44.996
+      - 00:09:43.669-00:10:11.525
+      - 00:10:27.093-00:10:34.885
+      - 00:10:37.109-00:10:43.333
+      - 00:10:48.949-00:10:52.853
+      - 00:10:57.221-00:10:59.525
+  # - question: Did you play any other sport?
+  #   timings:
+  #     - 00:11:11.158-00:11:19.525
+  #     - 00:11:51.926-00:12:33.078
+  #     - 00:12:39.686-00:12:50.870
+  #     - 00:12:55.142-00:13:37.127
+  # - question: Goals?
+  #   timings:
+  #     - 00:17:30.777-00:21:52.219
+  # - question: Captaincy?
+  #   timings:
+  #     - 00:22:25.227-00:27:23.085
+  # - question: Game time issues?
+  #   timings:
+  #     - 00:28:14.462-00:30:14.127
+  # - question: Consistency???
+  #   timings:
+  #     - 00:30:50.191-00:33:01.040
+  # - question: 2018 vs 2019
+  #   timings:
+  #     - 00:34:08.097-00:36:21.906
+  # - question: Last season
+  #   timings:
+  #     - 01:00:18.381-01:03:27.215
+  # - question: Advice for beginners?
+  #   timings:
+  #     - 00:37:05.298-00:40:01.332
+  # - question: Favorite team?
+  #   timings:
+  #     - 00:47:21.159-00:49:05.496
+  # - question: TIKS? Favorite Team?
+  #   timings:
+  #     - 00:49:44.265-00:50:23.033
+  # - question: Ultimate favorite players?
+  #   timings:
+  #     - 00:50:39.977-00:52:14.841
+  #     - 00:52:41.706-00:53:20.794
+  #     - 00:54:51.979-00:57:14.300
+  #     - 00:57:52.285-00:59:17.549
+  # - question: Most memorable?
+  #   timings:
+  #     - 01:03:58.288-01:07:14.337
+  # - question: What does TIKS mean to you?
+  #   timings:
+  #     - 01:10:53.411-01:13:42.980
+  # - question: What is your objective?
+  #   timings:
+  #     - 01:15:21.861-01:17:54.742
+  # - question: how are you so calm on the field?
+  #   timings:
+  #     - 01:18:28.039-01:21:17.128
+  # - question: on the mountaineering club?
+  #   timings:
+  #     - 01:22:42.745-01:24:22.521
+  # - question: Message?
+  #   timings:
+  #     - 01:24:56.522-01:29:56.700
