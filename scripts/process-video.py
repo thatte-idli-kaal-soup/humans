@@ -10,6 +10,7 @@ import os
 import subprocess
 import tempfile
 from textwrap import wrap
+import time
 
 import click
 from PIL import Image, ImageOps
@@ -818,6 +819,17 @@ def gs_upload_flac_audio(ctx):
         "gs://transcription-audio-humans-of-tiks/",
     ]
     subprocess.check_call(command)
+
+
+@cli.command()
+@click.pass_context
+def youtube_chapters(ctx):
+    config = ctx.obj
+    start_timings = get_keyframe_timings(config)[::2][:-1]
+    for idx, seconds in enumerate(start_timings):
+        question = config["clips"][idx]["question"]
+        start = time.strftime("%M:%S", time.gmtime(seconds))
+        print(f"{start} - {question}")
 
 
 if __name__ == "__main__":
