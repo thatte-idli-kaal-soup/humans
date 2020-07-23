@@ -810,7 +810,6 @@ def create_flac_audio(ctx):
 @cli.command()
 @click.pass_context
 def gs_upload_flac_audio(ctx):
-    config = ctx.obj
     command = [
         "gsutil",
         "-m",
