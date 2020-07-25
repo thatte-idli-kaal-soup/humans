@@ -5,6 +5,7 @@ from collections import namedtuple
 import glob
 import hashlib
 import io
+import math
 import multiprocessing
 import os
 import subprocess
@@ -371,9 +372,8 @@ def replace_frames(input_file, output_file, start, end, img):
 
 def to_seconds(timestamp):
     times = [float(x) for x in timestamp.split(":")]
-    # Ignore hours, if present
-    times = times[-2:]
-    return times[0] * 60 + times[1]
+    seconds = [math.pow(60, idx) * t for idx, t in enumerate(times[::-1])]
+    return sum(seconds)
 
 
 def process_config(config, use_original):
