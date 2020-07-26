@@ -294,7 +294,7 @@ def prepare_question_video(input_file, q_a):
     return text_logo_file
 
 
-def split_video(input_file, output_file, start, end, crop):
+def split_video(input_file, output_file, start, end, crop, audio_filters=None):
     start_seconds = to_seconds(start)
     end_seconds = to_seconds(end)
     duration = end_seconds - start_seconds
@@ -313,6 +313,9 @@ def split_video(input_file, output_file, start, end, crop):
     if crop:
         command.insert(-1, "-filter:v")
         command.insert(-1, f"crop={crop}")
+    if audio_filters:
+        command.insert(-1, "-af")
+        command.insert(-1, audio_filters)
     subprocess.check_call(command)
 
 
@@ -322,9 +325,10 @@ def create_video_segments(timings, idx, replacements):
         video_name = params["video"]
         timing = params["time"]
         crop = params["crop"]
+        audio_filters = params.get("audio_filters")
         start, end = timing.strip().split("-")
         segment_file = f"segment-{idx:02d}-{sub_idx:02d}-{video_name}"
-        split_video(video_name, segment_file, start, end, crop)
+        split_video(video_name, segment_file, start, end, crop, audio_filters)
         replacements = params.get("replacements", [])
         segment_file = do_all_replacements(segment_file, replacements)
         segments.append(segment_file)
