@@ -510,22 +510,23 @@ def create_background_music_file(config):
 
 
 def add_music_to_video(input_video, input_audio, output_video):
-    # https://superuser.com/a/712921
     cmd = FFMPEG_CMD + [
         "-i",
         input_video,
         "-i",
         input_audio,
+        "-async",
+        "1",
         "-filter_complex",
-        "[1:a]apad[bg],[0:a][bg]amerge=inputs=2[a]",
+        "[0][1]amix=inputs=2[a]",
         "-map",
         "[a]",
-        "-ac",
-        "2",
         "-map",
         "0:v",
         "-c:v",
         "copy",
+        "-c:a",
+        "aac",
         output_video,
     ]
     print("Adding background music to video...")
