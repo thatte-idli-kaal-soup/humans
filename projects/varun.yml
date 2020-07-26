@@ -19,19 +19,26 @@ clips:
       - 00:08:09.092-00:08:19.332
       - 00:08:23.556-00:08:44.996
       - 00:09:43.669-00:09:46.917
-      - 00:10:27.093-00:10:34.885
-      - 00:10:37.109-00:10:43.333
+      - time: 00:10:27.093-00:10:34.885
+        audio_filters: "dynaudnorm=r=1:m=2:g=3"
+      - time: 00:10:37.109-00:10:43.333
+        audio_filters: "dynaudnorm=r=1:m=2:g=3"
       - 00:10:48.949-00:10:52.853
       - 00:10:57.221-00:10:59.525
   - question: What sports did you play growing up, and before getting into Ultimate?
     timings:
       - 00:11:11.158-00:11:19.525
-      - 00:11:51.926-00:12:06.582
+      - time: 00:11:51.926-00:12:06.582
+        audio_filters: "dynaudnorm=r=1:m=2:g=3"
       - 00:12:38.342-00:12:50.999
       - 00:12:55.542-00:12:58.582
-      - 00:13:00.902-00:13:14.854
-      - 00:13:16.743-00:13:19.047
-      - 00:13:24.007-00:13:27.559
+      - 00:13:00.902-00:13:08.183
+      - time: 00:13:08.183-00:13:14.854
+        audio_filters: "dynaudnorm=r=1:m=2:g=3"
+      - time: 00:13:16.743-00:13:19.047
+        audio_filters: "dynaudnorm=r=1:m=2:g=3"
+      - time: 00:13:24.007-00:13:27.559
+        audio_filters: "dynaudnorm=r=1:m=2:g=3"
   - question: What is your most memorable Ultimate tournament?
     timings:
       - 01:04:03.552-01:04:58.928
