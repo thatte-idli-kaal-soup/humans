@@ -340,7 +340,8 @@ def create_video_segments(timings, idx, replacements):
         segment_file = f"segment-{idx:02d}-{sub_idx:02d}-{video_name}"
         split_video(video_name, segment_file, start, end, crop, audio_filters)
         replacements = params.get("replacements", [])
-        segment_file = do_all_replacements(segment_file, replacements)
+        if replacements:
+            segment_file = do_all_replacements(segment_file, replacements)
         segments.append(segment_file)
     return segments
 
@@ -350,38 +351,39 @@ def do_all_replacements(input_file, replacements):
         time = replacement["time"]
         replace_img = replacement.get("image", replacement.get("position", "start"))
         start, end = [to_seconds(x) for x in time.strip().split("-")]
+        if replace_img in {"start", "end"}:
+            position = start if replace_img == "start" else end
+            replace_img = capture_screenshot(input_file, start, end, position)
         output_file = f"replaced-{start}-{end}-{input_file}"
-        input_file = replace_frames(input_file, output_file, start, end, replace_img)
-    return input_file
-
-
-def replace_frames(input_file, output_file, start, end, img):
-    if img in {"start", "end"}:
-        img = f"{output_file}.png"
-        position = start if img == "start" else end
-        select = FFMPEG_CMD + [
+        replace = FFMPEG_CMD + [
             "-i",
             input_file,
-            "-vf",
-            f"select=gte(t\\,{position})",
-            "-vframes",
-            "1",
-            img,
+            "-i",
+            replace_img,
+            "-filter_complex",
+            f"[1][0]scale2ref[i][v];[v][i]overlay=x='if(gte(t,{start})*lte(t,{end}),0,NAN)'",
+            "-c:a",
+            "copy",
+            output_file,
         ]
-        subprocess.check_call(select)
-    replace = FFMPEG_CMD + [
+        subprocess.check_call(replace)
+        input_file = output_file
+    return output_file
+
+
+def capture_screenshot(input_file, start, end, position):
+    img = f"{input_file}-{position}.png"
+    select = FFMPEG_CMD + [
         "-i",
         input_file,
-        "-i",
+        "-vf",
+        f"select=gte(t\\,{position})",
+        "-vframes",
+        "1",
         img,
-        "-filter_complex",
-        f"[1][0]scale2ref[i][v];[v][i]overlay=x='if(gte(t,{start})*lte(t,{end}),0,NAN)'",
-        "-c:a",
-        "copy",
-        output_file,
     ]
-    subprocess.check_call(replace)
-    return output_file
+    subprocess.check_call(select)
+    return img
 
 
 def to_seconds(timestamp):
