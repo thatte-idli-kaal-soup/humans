@@ -485,7 +485,7 @@ def create_background_music_file(config):
     afade = f"afade=t=in:st={st}:d={d}:curve=cbr"
 
     af = (
-        f"[0:a]aloop=-1:2e+09,atrim=0:{trim},{afade},volume={ev}:enable='{enabled}',"
+        f"[0:a]atrim=0:{trim},{afade},volume={ev}:enable='{enabled}',"
         f"volume={dv}:enable='{disabled}'"
     )
 
@@ -496,6 +496,8 @@ def create_background_music_file(config):
     af += f",{afade}"
 
     cmd = FFMPEG_CMD + [
+        "-stream_loop",
+        "100",
         "-i",
         audio_file,
         "-af",
