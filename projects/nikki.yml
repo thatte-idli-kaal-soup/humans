@@ -3,6 +3,17 @@ video: nikki.mp4
 cover:
   image: river.jpg
   time: 3
+credits:
+  recorded_on: 19 April, 2020
+  cover_design: Akash Raja
+  interviewers: Ranjan, Saqqu & Punch
+  editing: Ranjan, Saqqu & Punch
+  music: A Day to Remember (Bensound)
+  time: 8
+bgm:
+  audio: "../bensound-adaytoremember-truncated.mp3"
+  fg_volume: 0.75
+  bg_volume: 0.2
 clips:
 - question: How did you start playing Ultimate?
   timings:
@@ -23,7 +34,7 @@ clips:
 - question: What are your thoughts on the last nationals?
   timings:
   - 12:27.3-12:37.5
-- question: What's your most memorable thing in all these years of playing?
+- question: What is your most memorable thing in all these years of playing?
   timings:
   - 16:04-16:13.85
   - 16:20.5-16:45
@@ -37,6 +48,6 @@ clips:
   - 23:05.7-23:17
   - 24:17.5-24:28
   - 4:23.4-4:35.2
-- question: What's the first thing you want to do after the lockdown ends?
+- question: What is the first thing you want to do after the lockdown ends?
   timings:
   - 27:48-27:55
