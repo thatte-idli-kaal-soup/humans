@@ -282,6 +282,10 @@ def prepare_question_video(input_file, q_a):
     w, h = map(int, video_dimensions(input_file))
     text = f"{q_a.q} {q_a.a}"
     time = get_time(text)
+    duration = video_duration(input_file)
+    assert (
+        duration >= time
+    ), f"Too short segment for question slide: {input_file}, {text}"
     ext = os.path.splitext(input_file)[-1]
     background_file = create_black_background(input_file)
     font_height = int(h / 20)
@@ -451,7 +455,11 @@ def process_clip(clip, with_intro, idx):
             q_n_a = QnA(*q_n_a)
         else:
             q_n_a = QnA("...")
-        intro_file = prepare_question_video(segments[0], q_n_a)
+        segment_timings = zip(
+            [get_segment_duration(s) for s in clip["timings"]], segments
+        )
+        longest_segment = sorted(segment_timings, reverse=True)[0][-1]
+        intro_file = prepare_question_video(longest_segment, q_n_a)
         segments.insert(0, intro_file)
 
     concat_videos(output_file, *segments)
@@ -459,10 +467,14 @@ def process_clip(clip, with_intro, idx):
     print(f"Created {path}")
 
 
+def get_segment_duration(segment):
+    timing = segment["time"]
+    start, end = timing.strip().split("-")
+    return to_seconds(end) - to_seconds(start)
+
+
 def get_clip_duration(clip):
-    timings = [x["time"] for x in clip["timings"]]
-    durations = [timing.strip().split("-") for timing in timings]
-    durations = [(to_seconds(end) - to_seconds(start)) for start, end in durations]
+    durations = [get_segment_duration(segment) for segment in clip["timings"]]
     return sum(durations)
 
 
