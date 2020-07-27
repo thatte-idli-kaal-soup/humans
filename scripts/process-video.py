@@ -371,6 +371,39 @@ def do_all_replacements(input_file, replacements):
     return output_file
 
 
+def overlay_photos(input_file, photos):
+    overlay_videos = []
+
+    # Create scaled images
+    w, _ = video_dimensions(input_file)
+    for photo in photos:
+        print(f"Resizing {photo['photo']}")
+        # FIXME: May be "pad" instead of resizing?
+        image = resize_logo(photo["photo"], w)
+        photo["image"] = image
+        T = photo["time"]
+        start, end = [to_seconds(x) for x in T.strip().split("-")]
+        photo["start"] = start
+        photo["end"] = end
+
+    # Overlay videos
+    n = len(photos)
+    print(f"Overlaying {n} photos on video")
+    output_file = f"photos-{input_file}"
+    overlay_filter = [
+        f"overlay=enable='between(t,{photo['start']},{photo['end']})'"
+        for photo in photos
+    ]
+    command = (
+        FFMPEG_CMD
+        + ["-i", input_file]
+        + [arg for photo in photos for arg in ["-i", photo["image"]]]
+        + ["-filter_complex", ",".join(overlay_filter), output_file]
+    )
+    subprocess.check_call(command)
+    return output_file
+
+
 def capture_screenshot(input_file, start, end, position):
     img = f"{input_file}-{position}.png"
     select = FFMPEG_CMD + [
@@ -705,6 +738,13 @@ def combine_clips(ctx):
     concat_videos(output_file, *video_names)
     path = os.path.abspath(output_file)
     print(f"Created {path}")
+
+    # Add image slideshow
+    photos = config.get("photos")
+    if photos:
+        output_file = overlay_photos(output_file, photos)
+        print(f"Created {os.path.abspath(output_file)}")
+
     # Threshold audio, if required
     if "audio_threshold" in config:
         threshold_file = f"thresholded-{output_file}"
