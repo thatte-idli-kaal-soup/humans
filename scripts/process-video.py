@@ -24,7 +24,10 @@ PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
 FFMPEG_CMD = ["ffmpeg", "-y"]
 ENDC = "\033[0m"
 BOLDRED = "\x1B[1;31m"
-FADE_IN = "fade=t=in:st=0:d=0.5"
+
+
+def get_fade_in(time):
+    return f"fade=t=in:st={time}:d=0.5"
 
 
 def get_fade_out(time):
@@ -96,6 +99,7 @@ def create_cover_video(cover_config, ext):
     input_file = cover_config["image"]
     output_file = f"cover-{w}x{h}{ext}"
     time = cover_config["time"]
+    FADE_IN = get_fade_in(0)
     FADE_OUT = get_fade_out(time)
     command = FFMPEG_CMD + [
         "-i",
@@ -134,6 +138,7 @@ def create_credits_video(input_file, credits_config):
     font_height = int(h / 28)
     logo_size = int(h / 7.5)
     sha1 = hashlib.sha1(text.encode("utf-8")).hexdigest()
+    FADE_IN = get_fade_in(0)
     FADE_OUT = get_fade_out(time + 0.3)
     drawtext_param = compute_drawtext_param(
         text,
@@ -166,6 +171,7 @@ def create_credits_video(input_file, credits_config):
 
 def draw_text(input_file, output_file, text, font_height, time):
     drawtext_param = compute_drawtext_param(text.q, fontsize=font_height)
+    FADE_IN = get_fade_in(0)
     FADE_OUT = get_fade_out(time)
     if text.a:
         h_offset = drawtext_param.count("drawtext") + 1
@@ -210,6 +216,7 @@ def draw_logo(
     logo_file=LOGO_FILE,
     location="(main_w-overlay_w):10",
 ):
+    FADE_IN = get_fade_in(0)
     FADE_OUT = get_fade_out(time)
     logo_file = resize_logo(logo_file, size)
     command = FFMPEG_CMD + [
