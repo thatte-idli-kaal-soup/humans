@@ -45,7 +45,7 @@ def compute_drawtext_param(
     # Special character escapes are like violence: if they're not solving your
     # problem, you're not using enough. https://stackoverflow.com/a/10729560
     text = text.replace("'", "\\\\\\'")
-    text = text.replace(",", r"\,").replace(":", r"\\\\\\:")
+    text = text.replace(",", r"\,").replace(":", r"\:")
     if not disable_wrap:
         lines = [
             wrapped_line
