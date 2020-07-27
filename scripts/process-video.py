@@ -390,8 +390,8 @@ def overlay_photos(input_file, photos):
         photo["image"] = image
         T = photo["time"]
         start, end = [to_seconds(x) for x in T.strip().split("-")]
-        photo["start"] = start
-        photo["end"] = end
+        photo["start"] = round(start, 2)
+        photo["end"] = round(end, 2)
 
     # Overlay videos
     n = len(photos)
