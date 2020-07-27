@@ -106,6 +106,8 @@ def create_cover_video(cover_config, ext):
         f"[0]trim=0:{time}[bg],[1]scale={w}:{h}[ovrl],[bg][ovrl]overlay=0:0,{FADE_IN},{FADE_OUT}",
         "-af",
         f"atrim=0:{time}",
+        "-to",
+        str(time),
         output_file,
     ]
     subprocess.check_call(command)
@@ -150,6 +152,8 @@ def create_credits_video(input_file, credits_config):
         f"trim=0:{time},{drawtext_param},{FADE_IN},{FADE_OUT}",
         "-af",
         f"atrim=0:{time}",
+        "-to",
+        str(time),
         text_file,
     ]
     subprocess.check_call(command)
@@ -177,6 +181,8 @@ def draw_text(input_file, output_file, text, font_height, time):
         f"trim=0:{time},{drawtext_param},{FADE_IN},{FADE_OUT}",
         "-af",
         f"atrim=0:{time}",
+        "-to",
+        str(time),
         output_file,
     ]
     subprocess.check_call(command)
