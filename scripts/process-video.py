@@ -378,34 +378,53 @@ def do_all_replacements(input_file, replacements):
     return output_file
 
 
-def overlay_photos(input_file, photos):
-    overlay_videos = []
+def create_overlay_video(input_file, photo, size):
+    time = photo["time"]
+    start, end = [to_seconds(x) for x in time.strip().split("-")]
+    duration = end - start
+    image = photo["photo"]
+    print(f"Creating overlay video for {image}")
+    ext = os.path.splitext(input_file)[-1]
+    overlay_video = f"overlay-{os.path.basename(image)}{ext}"
+    # FIXME: Figure out padding vs crop
+    image = resize_logo(image, size)
+    FADE_IN = get_fade_in(0)
+    FADE_OUT = get_fade_out(duration)
+    command = (
+        FFMPEG_CMD
+        + ["-i", input_file, "-i", image]
+        + ["-filter_complex", f"overlay=0,{FADE_IN},{FADE_OUT}"]
+        + ["-t", str(duration), "-an", overlay_video]
+    )
+    subprocess.check_call(command)
+    photo["video"] = overlay_video
+    photo["start"] = start
+    photo["end"] = end
 
+
+def overlay_photos(input_file, photos):
     # Create scaled images
     w, _ = video_dimensions(input_file)
     for photo in photos:
-        print(f"Resizing {photo['photo']}")
-        # FIXME: May be "pad" instead of resizing?
-        image = resize_logo(photo["photo"], w)
-        photo["image"] = image
-        T = photo["time"]
-        start, end = [to_seconds(x) for x in T.strip().split("-")]
-        photo["start"] = round(start, 2)
-        photo["end"] = round(end, 2)
+        create_overlay_video(input_file, photo, w)
 
     # Overlay videos
     n = len(photos)
     print(f"Overlaying {n} photos on video")
     output_file = f"photos-{input_file}"
     overlay_filter = [
-        f"overlay=enable='between(t,{photo['start']},{photo['end']})'"
-        for photo in photos
+        f"[{idx}]setpts=PTS-STARTPTS+{P['start']}/TB[v{idx}];"
+        f"[out{idx-1}][v{idx}]overlay=enable='between(t,{P['start']},{P['end']})'[out{idx}]"
+        for idx, P in enumerate(photos, start=1)
     ]
+    filter_complex = (
+        ";".join(overlay_filter).replace("out0", "0").replace(f"[out{n}]", "")
+    )
     command = (
         FFMPEG_CMD
         + ["-i", input_file]
-        + [arg for photo in photos for arg in ["-i", photo["image"]]]
-        + ["-filter_complex", ",".join(overlay_filter), output_file]
+        + [arg for photo in photos for arg in ["-i", photo["video"]]]
+        + ["-filter_complex", filter_complex, output_file]
     )
     subprocess.check_call(command)
     return output_file
