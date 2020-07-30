@@ -2,6 +2,7 @@
 
 import cProfile
 from collections import namedtuple
+import functools
 import glob
 import hashlib
 import io
@@ -24,6 +25,17 @@ PART_FILENAME_FMT = "part-{idx:02d}-{video_name}"
 FFMPEG_CMD = ["ffmpeg", "-y"]
 ENDC = "\033[0m"
 BOLDRED = "\x1B[1;31m"
+
+
+def log_output_file(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        output = fn(*args, **kwargs)
+        if output:
+            print(f"Created {os.path.abspath(output)}")
+        return output
+
+    return wrapper
 
 
 def get_fade_in(time):
@@ -230,6 +242,7 @@ def draw_logo(
     subprocess.check_call(command)
 
 
+@log_output_file
 def concat_videos(output_file, *inputs):
     with tempfile.NamedTemporaryFile("w", delete=False) as f:
         for input_file in inputs:
@@ -241,6 +254,7 @@ def concat_videos(output_file, *inputs):
         + [output_file]
     )
     subprocess.check_call(concat_command)
+    return output_file
 
 
 def video_dimensions(video):
@@ -376,6 +390,7 @@ def create_overlay_video(input_file, photo, size):
     photo["end"] = end
 
 
+@log_output_file
 def overlay_photos(input_file, photos):
     # Create scaled images
     w, _ = video_dimensions(input_file)
@@ -462,6 +477,7 @@ def create_low_res(input_file, output_file):
     subprocess.check_call(cmd)
 
 
+@log_output_file
 def create_igtv_video(input_file, output_file):
     w, h = video_dimensions(input_file)
     new_h = int(h * 21 / 9)
@@ -474,6 +490,7 @@ def create_igtv_video(input_file, output_file):
     subprocess.check_call(cmd)
 
 
+@log_output_file
 def process_clip(clip, with_intro, idx):
     print(f"Creating part {idx}")
     replacements = clip.get("replacements")
@@ -498,8 +515,7 @@ def process_clip(clip, with_intro, idx):
         segments.insert(0, intro_file)
 
     concat_videos(output_file, *segments)
-    path = os.path.abspath(output_file)
-    print(f"Created {path}")
+    return output_file
 
 
 def get_segment_duration(segment):
@@ -552,6 +568,7 @@ def create_background_music_file(config):
     return background
 
 
+@log_output_file
 def add_music_to_video(input_video, input_audio, output_video):
     cmd = (
         FFMPEG_CMD
@@ -561,7 +578,7 @@ def add_music_to_video(input_video, input_audio, output_video):
     )
     print("Adding background music to video...")
     subprocess.check_call(cmd)
-    print(f"Created {output_video}")
+    return output_video
 
 
 def get_keyframe_timings(config):
@@ -587,6 +604,7 @@ def get_keyframe_timings(config):
     return timings
 
 
+@log_output_file
 def add_background_music(input_video, config):
     background = create_background_music_file(config)
     first_video = config["clips"][0]["timings"][0]["video"]
@@ -595,6 +613,7 @@ def add_background_music(input_video, config):
     return output_video
 
 
+@log_output_file
 def threshold_audio(input_file, output_file, config):
     audio_threshold = config["audio_threshold"]
     cmd = (
@@ -707,33 +726,24 @@ def combine_clips(ctx):
         video_names.append(credits_video)
 
     concat_videos(output_file, *video_names)
-    path = os.path.abspath(output_file)
-    print(f"Created {path}")
 
     # Add image slideshow
     photos = config.get("photos")
     if photos:
         output_file = overlay_photos(output_file, photos)
-        print(f"Created {os.path.abspath(output_file)}")
 
     # Threshold audio, if required
     if "audio_threshold" in config:
         threshold_file = f"thresholded-{output_file}"
         output_file = threshold_audio(output_file, threshold_file, config)
-        threshold_path = os.path.abspath(threshold_file)
-        print(f"Created {threshold_path}")
-        output_file = threshold_file
 
     # Create musical version of video
     if "bgm" in config:
         output_file = add_background_music(output_file, config)
-        output_path = os.path.abspath(output_file)
-        print(f"Created {output_path}")
 
     print("Creating IGTV video...")
     igtv_file = os.path.abspath(f"IGTV-{output_file}")
     create_igtv_video(output_file, igtv_file)
-    print(f"Created {igtv_file}")
 
 
 @cli.command()
@@ -750,9 +760,7 @@ def make_trailer(ctx):
     concat_videos(output_file, *segments)
     if "audio_threshold" in config:
         threshold_file = f"thresholded-{output_file}"
-        output_file = threshold_audio(output_file, threshold_file, config)
-    path = os.path.abspath(output_file)
-    click.echo(f"Created {path}")
+        threshold_audio(output_file, threshold_file, config)
 
 
 @cli.command()
