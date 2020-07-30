@@ -632,6 +632,16 @@ def threshold_audio(input_file, output_file, config):
     return output_file
 
 
+def get_youtube_chapters(config):
+    start_timings = get_keyframe_timings(config)[::2][:-1]
+    chapters = []
+    for idx, seconds in enumerate(start_timings):
+        question = config["clips"][idx]["question"]
+        start = time.strftime("%M:%S", time.gmtime(seconds))
+        chapters.append(f"{start} - {question}")
+    return "\n".join(chapters)
+
+
 @click.group()
 @click.option("--loglevel", default="error")
 @click.option("--profile/--no-profile", default=False)
@@ -872,11 +882,8 @@ def gs_upload_flac_audio(ctx):
 @click.pass_context
 def youtube_chapters(ctx):
     config = ctx.obj
-    start_timings = get_keyframe_timings(config)[::2][:-1]
-    for idx, seconds in enumerate(start_timings):
-        question = config["clips"][idx]["question"]
-        start = time.strftime("%M:%S", time.gmtime(seconds))
-        print(f"{start} - {question}")
+    chapters = get_youtube_chapters(config)
+    print(chapters)
 
 
 if __name__ == "__main__":
