@@ -80,15 +80,12 @@ def create_black_background(input_file, time=10):
     background_file = f"black-{w}x{h}{ext}"
     if os.path.isfile(background_file):
         return background_file
-    command = FFMPEG_CMD + [
-        "-i",
-        input_file,
-        "-vf",
-        f"trim=0:{time},geq=0:128:128",
-        "-af",
-        f"atrim=0:{time},volume=0",
-        background_file,
-    ]
+    command = (
+        FFMPEG_CMD
+        + ["-i", input_file]
+        + ["-vf", f"trim=0:{time},geq=0:128:128", "-af", f"atrim=0:{time},volume=0"]
+        + [background_file]
+    )
     subprocess.check_call(command)
     return background_file
 
@@ -101,19 +98,15 @@ def create_cover_video(cover_config, ext):
     time = cover_config["time"]
     FADE_IN = get_fade_in(0)
     FADE_OUT = get_fade_out(time)
-    command = FFMPEG_CMD + [
-        "-i",
-        background_file,
-        "-i",
-        input_file,
-        "-filter_complex",
-        f"[0]trim=0:{time}[bg],[1]scale={w}:{h}[ovrl],[bg][ovrl]overlay=0:0,{FADE_IN},{FADE_OUT}",
-        "-af",
-        f"atrim=0:{time}",
-        "-to",
-        str(time),
-        output_file,
-    ]
+    command = (
+        FFMPEG_CMD
+        + ["-i", background_file, "-i", input_file]
+        + [
+            "-filter_complex",
+            f"[0]trim=0:{time}[bg],[1]scale={w}:{h}[ovrl],[bg][ovrl]overlay=0:0,{FADE_IN},{FADE_OUT}",
+        ]
+        + ["-af", f"atrim=0:{time}", "-to", str(time), output_file]
+    )
     subprocess.check_call(command)
     return output_file
 
@@ -150,17 +143,13 @@ def create_credits_video(input_file, credits_config):
     )
 
     text_file = f"intro-{sha1}-{w}x{h}{ext}"
-    command = FFMPEG_CMD + [
-        "-i",
-        background_file,
-        "-vf",
-        f"trim=0:{time},{drawtext_param},{FADE_IN},{FADE_OUT}",
-        "-af",
-        f"atrim=0:{time}",
-        "-to",
-        str(time),
-        text_file,
-    ]
+    command = (
+        FFMPEG_CMD
+        + ["-i", background_file]
+        + ["-vf", f"trim=0:{time},{drawtext_param},{FADE_IN},{FADE_OUT}"]
+        + ["-af", f"atrim=0:{time}"]
+        + ["-to", str(time), text_file]
+    )
     subprocess.check_call(command)
 
     text_logo_file = f"intro-logo-{sha1}-{w}x{h}{ext}"
@@ -180,17 +169,13 @@ def draw_text(input_file, output_file, text, font_height, time):
             text.a, fontsize=ans_font_height, fontcolor="FF7F00", h_offset=h_offset,
         )
         drawtext_param += f",{ans}"
-    command = FFMPEG_CMD + [
-        "-i",
-        input_file,
-        "-vf",
-        f"trim=0:{time},{drawtext_param},{FADE_IN},{FADE_OUT}",
-        "-af",
-        f"atrim=0:{time}",
-        "-to",
-        str(time),
-        output_file,
-    ]
+    command = (
+        FFMPEG_CMD
+        + ["-i", input_file]
+        + ["-vf", f"trim=0:{time},{drawtext_param},{FADE_IN},{FADE_OUT}"]
+        + ["-af", f"atrim=0:{time}"]
+        + ["-to", str(time), output_file]
+    )
     subprocess.check_call(command)
 
 
@@ -236,15 +221,12 @@ def draw_logo(
     FADE_IN = get_fade_in(0)
     FADE_OUT = get_fade_out(time)
     logo_file = resize_logo(logo_file, size)
-    command = FFMPEG_CMD + [
-        "-i",
-        input_file,
-        "-i",
-        logo_file,
-        "-filter_complex",
-        f"overlay={location},{FADE_IN},{FADE_OUT}",
-        output_file,
-    ]
+    command = (
+        FFMPEG_CMD
+        + ["-i", input_file, "-i", logo_file]
+        + ["-filter_complex", f"overlay={location},{FADE_IN},{FADE_OUT}"]
+        + [output_file]
+    )
     subprocess.check_call(command)
 
 
@@ -253,51 +235,31 @@ def concat_videos(output_file, *inputs):
         for input_file in inputs:
             p = os.path.abspath(input_file)
             f.write(f"file '{p}'\n")
-    concat_command = FFMPEG_CMD + [
-        "-f",
-        "concat",
-        "-safe",
-        "0",
-        "-i",
-        f.name,
-        "-c",
-        "copy",
-        output_file,
-    ]
+    concat_command = (
+        FFMPEG_CMD
+        + ["-f", "concat", "-safe", "0", "-i", f.name, "-c", "copy"]
+        + [output_file]
+    )
     subprocess.check_call(concat_command)
 
 
 def video_dimensions(video):
-    cmd = [
-        "ffprobe",
-        "-v",
-        "error",
-        "-select_streams",
-        "v:0",
-        "-show_entries",
-        "stream=width,height",
-        "-of",
-        "csv=p=0",
-        video,
-    ]
+    cmd = (
+        ["ffprobe", "-v", "error"]
+        + ["-select_streams", "v:0", "-show_entries", "stream=width,height"]
+        + ["-of", "csv=p=0", video]
+    )
     output = subprocess.check_output(cmd)
     width, height = [int(x) for x in output.decode("utf8").strip().split(",")]
     return width, height
 
 
 def video_duration(video):
-    cmd = [
-        "ffprobe",
-        "-v",
-        "error",
-        "-select_streams",
-        "v:0",
-        "-show_entries",
-        "stream=duration",
-        "-of",
-        "csv=p=0",
-        video,
-    ]
+    cmd = (
+        ["ffprobe", "-v", "error"]
+        + ["-select_streams", "v:0", "-show_entries", "stream=duration"]
+        + ["-of", "csv=p=0", video]
+    )
     output = subprocess.check_output(cmd)
     return float(output.decode("utf8").strip())
 
@@ -332,18 +294,14 @@ def split_video(input_file, output_file, start, end, crop, audio_filters=None):
     start_seconds = to_seconds(start)
     end_seconds = to_seconds(end)
     duration = end_seconds - start_seconds
-    command = FFMPEG_CMD + [
+    command = (
+        FFMPEG_CMD
         # NOTE: Moving -ss before -i makes the cut super fast.
         # Note, -to is now the time in the output file (so duration of the cut)
         # See https://stackoverflow.com/a/49080616
-        "-ss",
-        str(start_seconds),
-        "-i",
-        input_file,
-        "-to",
-        str(duration),
-        output_file,
-    ]
+        + ["-ss", str(start_seconds), "-i", input_file, "-to", str(duration)]
+        + [output_file]
+    )
     if crop:
         command.insert(-1, "-filter:v")
         command.insert(-1, f"crop={crop}")
@@ -379,17 +337,15 @@ def do_all_replacements(input_file, replacements):
             position = start if replace_img == "start" else end
             replace_img = capture_screenshot(input_file, start, end, position)
         output_file = f"replaced-{start}-{end}-{input_file}"
-        replace = FFMPEG_CMD + [
-            "-i",
-            input_file,
-            "-i",
-            replace_img,
-            "-filter_complex",
-            f"[1][0]scale2ref[i][v];[v][i]overlay=x='if(gte(t,{start})*lte(t,{end}),0,NAN)'",
-            "-c:a",
-            "copy",
-            output_file,
-        ]
+        replace = (
+            FFMPEG_CMD
+            + ["-i", input_file, "-i", replace_img]
+            + [
+                "-filter_complex",
+                f"[1][0]scale2ref[i][v];[v][i]overlay=x='if(gte(t,{start})*lte(t,{end}),0,NAN)'",
+            ]
+            + ["-c:a", "copy", output_file]
+        )
         subprocess.check_call(replace)
         input_file = output_file
     return output_file
@@ -450,15 +406,11 @@ def overlay_photos(input_file, photos):
 
 def capture_screenshot(input_file, start, end, position):
     img = f"{input_file}-{position}.png"
-    select = FFMPEG_CMD + [
-        "-i",
-        input_file,
-        "-vf",
-        f"select=gte(t\\,{position})",
-        "-vframes",
-        "1",
-        img,
-    ]
+    select = (
+        FFMPEG_CMD
+        + ["-i", input_file]
+        + ["-vf", f"select=gte(t\\,{position})", "-vframes", "1", img]
+    )
     subprocess.check_call(select)
     return img
 
@@ -514,13 +466,11 @@ def create_igtv_video(input_file, output_file):
     w, h = video_dimensions(input_file)
     new_h = int(h * 21 / 9)
     pad_h = int((new_h - h) / 2)
-    cmd = FFMPEG_CMD + [
-        "-i",
-        input_file,
-        "-vf",
-        f"pad={w}:{new_h}:0:{pad_h}",
-        output_file,
-    ]
+    cmd = (
+        FFMPEG_CMD
+        + ["-i", input_file]
+        + ["-vf", f"pad={w}:{new_h}:0:{pad_h}", output_file]
+    )
     subprocess.check_call(cmd)
 
 
@@ -592,42 +542,23 @@ def create_background_music_file(config):
     afade = f"afade=t=out:st={st}:d={d}:curve=qsin"
     af += f",{afade}"
 
-    cmd = FFMPEG_CMD + [
-        "-stream_loop",
-        "100",
-        "-i",
-        audio_file,
-        "-af",
-        af,
-        "-c:a",
-        "aac",
-        background,
-    ]
+    cmd = (
+        FFMPEG_CMD
+        + ["-stream_loop", "100", "-i", audio_file]
+        + ["-af", af, "-c:a", "aac", background]
+    )
     print("Creating audio with volume enabled/disabled...")
     subprocess.check_call(cmd)
     return background
 
 
 def add_music_to_video(input_video, input_audio, output_video):
-    cmd = FFMPEG_CMD + [
-        "-i",
-        input_video,
-        "-i",
-        input_audio,
-        "-async",
-        "1",
-        "-filter_complex",
-        "[0][1]amix=inputs=2[a]",
-        "-map",
-        "[a]",
-        "-map",
-        "0:v",
-        "-c:v",
-        "copy",
-        "-c:a",
-        "aac",
-        output_video,
-    ]
+    cmd = (
+        FFMPEG_CMD
+        + ["-i", input_video, "-i", input_audio, "-async", "1",]
+        + ["-filter_complex", "[0][1]amix=inputs=2[a]"]
+        + ["-map", "[a]", "-map", "0:v", "-c:v", "copy", "-c:a", "aac", output_video]
+    )
     print("Adding background music to video...")
     subprocess.check_call(cmd)
     print(f"Created {output_video}")
@@ -666,15 +597,11 @@ def add_background_music(input_video, config):
 
 def threshold_audio(input_file, output_file, config):
     audio_threshold = config["audio_threshold"]
-    cmd = FFMPEG_CMD + [
-        "-i",
-        input_file,
-        "-af",
-        audio_threshold,
-        "-c:v",
-        "copy",
-        output_file,
-    ]
+    cmd = (
+        FFMPEG_CMD
+        + ["-i", input_file]
+        + ["-af", audio_threshold, "-c:v", "copy", output_file]
+    )
     subprocess.check_call(cmd)
     return output_file
 
