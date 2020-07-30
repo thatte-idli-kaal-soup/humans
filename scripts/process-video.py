@@ -604,14 +604,18 @@ def get_keyframe_timings(config):
     return timings
 
 
+def get_music_filename(config):
+    first_video = config["clips"][0]["timings"][0]["video"]
+    return f"ALL-music-{first_video}"
+
+
 @log_output_file
 def add_background_music(input_video, config):
     if "bgm" not in config:
         return input_video
 
     background = create_background_music_file(config)
-    first_video = config["clips"][0]["timings"][0]["video"]
-    output_video = f"ALL-music-{first_video}"
+    output_video = get_music_filename(config)
     add_music_to_video(input_video, background, output_video)
     return output_video
 
