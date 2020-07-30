@@ -106,3 +106,25 @@ clips:
       - 00:41:58.309-00:42:14.197
       - 01:23:47.209-01:24:03.929
       - 01:24:05.065-01:24:22.954
+photos:
+  - time: 02:01-00:02:07.067
+    photo: photos/running-varun.jpeg
+  - time: 02:14-02:19
+    photo: photos/college-team.jpeg
+  - time: 00:02:45.500-00:02:50.567
+    photo: photos/IIMB_SOTG.jpg
+    pad: True
+  - time: 00:05:00.433-00:05:10.133
+    photo: photos/tiks-2.jpg
+    pad: True
+  - time: 00:08:58.200-00:09:01.833
+    photo: photos/family.jpg
+    pad: True
+  - time: 00:05:53.033-00:05:58.033
+    photo: photos/flywild.jpg
+    pad: True
+  - time: 00:05:58.033-00:06:03.033
+    photo: photos/dod.jpg
+    pad: True
+  - time: 00:08:26.333-00:08:31.767
+    photo: photos/varun-throw.png
