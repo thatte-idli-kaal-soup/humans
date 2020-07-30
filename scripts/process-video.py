@@ -208,6 +208,23 @@ def resize_logo(logo, size):
     return new_path
 
 
+def create_square_image(image):
+    img = Image.open(image)
+    if img.height == img.width:
+        return image
+
+    size = max(img.height, img.width)
+    new_img = Image.new("RGB", (size, size), color=None)
+    padding = int(abs(img.height - img.width) / 2)
+    position = (0, padding) if img.height < img.width else (padding, 0)
+    new_img.paste(img, position)
+
+    name, ext = os.path.splitext(image)
+    output_file = f"{name}-padded{ext}"
+    new_img.save(output_file, format="jpeg")
+    return output_file
+
+
 def draw_logo(
     input_file,
     output_file,
@@ -386,7 +403,8 @@ def create_overlay_video(input_file, photo, size):
     print(f"Creating overlay video for {image}")
     ext = os.path.splitext(input_file)[-1]
     overlay_video = f"overlay-{os.path.basename(image)}{ext}"
-    # FIXME: Figure out padding vs crop
+    if photo.get("pad", False):
+        image = create_square_image(image)
     image = resize_logo(image, size)
     FADE_IN = get_fade_in(0)
     FADE_OUT = get_fade_out(duration)
