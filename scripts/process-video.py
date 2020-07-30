@@ -606,6 +606,9 @@ def get_keyframe_timings(config):
 
 @log_output_file
 def add_background_music(input_video, config):
+    if "bgm" not in config:
+        return input_video
+
     background = create_background_music_file(config)
     first_video = config["clips"][0]["timings"][0]["video"]
     output_video = f"ALL-music-{first_video}"
@@ -738,8 +741,7 @@ def combine_clips(ctx):
         output_file = threshold_audio(output_file, threshold_file, config)
 
     # Create musical version of video
-    if "bgm" in config:
-        output_file = add_background_music(output_file, config)
+    output_file = add_background_music(output_file, config)
 
     print("Creating IGTV video...")
     igtv_file = os.path.abspath(f"IGTV-{output_file}")
@@ -804,12 +806,7 @@ def print_index(ctx):
 @click.pass_context
 @click.argument("video", type=click.File())
 def add_music(ctx, video):
-    config = ctx.obj
-    if "bgm" not in config:
-        print("No audio file found in config!")
-        return
-
-    add_background_music(video.name, config)
+    add_background_music(video.name, ctx.obj)
 
 
 @cli.command()
