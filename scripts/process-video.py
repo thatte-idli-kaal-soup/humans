@@ -677,6 +677,24 @@ def upload_to_youtube(upload_file, cover_image, title, description):
     # h.click(h.RadioButton("No, it's not made for kids"))
 
 
+def upload_to_instagram(upload_file, cover_image, title, description):
+    options = FirefoxOptions()
+    profile_dir = os.environ["FF_PROFILE"]
+    options.profile = FirefoxProfile(profile_dir)
+    driver = h.start_firefox("instagram.com/tiks_ultimate/channel", options=options)
+    h.click(h.Button("Upload"))
+    h.write(title, into="Title")
+    h.write(description, into="Description")
+
+    file_input = "//input[@type='file']"
+    element = driver.find_element_by_xpath(file_input)
+    element.send_keys(upload_file)
+
+    time.sleep(3)
+    element = driver.find_elements_by_xpath(file_input)[-1]
+    element.send_keys(cover_image)
+
+
 @click.group()
 @click.option("--loglevel", default="error")
 @click.option("--profile/--no-profile", default=False)
@@ -937,6 +955,25 @@ def youtube_upload(ctx):
     cover_image = os.path.abspath(config["cover"]["image"])
     # FIXME: Check that file size is less than 2MB
     upload_to_youtube(upload_file, cover_image, title, description)
+
+
+@cli.command()
+@click.pass_context
+def instagram_upload(ctx):
+    config = ctx.obj
+    assert ctx.parent.params[
+        "use_original"
+    ], "Please call the command with use original"
+    # FIXME: We assume we are only going to upload videos with music, which is
+    # good enough for now!
+    music_file = get_music_filename(config)
+    upload_file = os.path.abspath(f"IGTV-{music_file}")
+    print(f"Uploading {upload_file} ...")
+    name = config["name"].capitalize()
+    title = f"{name} - Humans of TIKS"
+    description = instagram_caption(config)
+    cover_image = os.path.abspath(f'IGTV-{config["cover"]["image"]}')
+    upload_to_instagram(upload_file, cover_image, title, description)
 
 
 if __name__ == "__main__":
