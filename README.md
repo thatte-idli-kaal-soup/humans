@@ -180,5 +180,4 @@ Some ideas and suggestions provided by various people, that we could try to
 incorporate in future videos. Ideally, our tool should incorporate these
 features, rather than us adding anything manually.
 
--   [ ] See if we can embed video/pictures of people playing/practicing
 -   [ ] Captions on videos may be nice, especially when the audio is noisy.
