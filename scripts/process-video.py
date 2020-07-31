@@ -15,7 +15,9 @@ from textwrap import wrap
 import time
 
 import click
+import helium as h
 from PIL import Image, ImageOps
+from selenium.webdriver import FirefoxProfile, FirefoxOptions
 import yaml
 
 QnA = namedtuple("QnA", ["q", "a"], defaults=(None,))
@@ -632,7 +634,21 @@ def threshold_audio(input_file, output_file, config):
     return output_file
 
 
-def get_youtube_chapters(config):
+def instagram_caption(config):
+    description = config.get("description", "")
+    keywords = " ".join(config.get("keywords", [])).strip()
+    caption = f"{description}\n\n{keywords}".strip()
+    return caption
+
+
+def youtube_description(config):
+    description = config.get("description", "")
+    chapters = youtube_chapters_text(config)
+    text = f"{description}\n\n{chapters}".strip()
+    return text
+
+
+def youtube_chapters_text(config):
     start_timings = get_keyframe_timings(config)[::2][:-1]
     chapters = []
     for idx, seconds in enumerate(start_timings):
@@ -640,6 +656,25 @@ def get_youtube_chapters(config):
         start = time.strftime("%M:%S", time.gmtime(seconds))
         chapters.append(f"{start} - {question}")
     return "\n".join(chapters)
+
+
+def upload_to_youtube(upload_file, cover_image, title, description):
+    options = FirefoxOptions()
+    profile_dir = os.environ["FF_PROFILE"]
+    options.profile = FirefoxProfile(profile_dir)
+    driver = h.start_firefox("studio.youtube.com", options=options)
+    h.click("Upload videos")
+    file_input = "//input[@name='Filedata']"
+    element = driver.find_element_by_xpath(file_input)
+    element.send_keys(upload_file)
+    h.write(title, into=h.TextField("Title (required)"))
+    h.write(description, into=h.TextField("Description"))
+    element = driver.find_element_by_id("file-loader")
+    element.send_keys(cover_image)
+    # FIXME: Figure out this... or just use selenium
+    # h.click(h.Text("Playlists"))
+    # h.click(h.CheckBox("Humans of TIKS"))
+    # h.click(h.RadioButton("No, it's not made for kids"))
 
 
 @click.group()
@@ -882,8 +917,26 @@ def gs_upload_flac_audio(ctx):
 @click.pass_context
 def youtube_chapters(ctx):
     config = ctx.obj
-    chapters = get_youtube_chapters(config)
+    chapters = youtube_chapters_text(config)
     print(chapters)
+
+
+@cli.command()
+@click.pass_context
+def youtube_upload(ctx):
+    config = ctx.obj
+    assert ctx.parent.params[
+        "use_original"
+    ], "Please call the command with use original"
+    # FIXME: We assume we are only going to upload videos with music, which is
+    # good enough for now!
+    upload_file = os.path.abspath(get_music_filename(config))
+    name = config["name"].capitalize()
+    title = f"{name} - Humans of TIKS"
+    description = youtube_description(config)
+    cover_image = os.path.abspath(config["cover"]["image"])
+    # FIXME: Check that file size is less than 2MB
+    upload_to_youtube(upload_file, cover_image, title, description)
 
 
 if __name__ == "__main__":
