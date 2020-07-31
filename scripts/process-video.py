@@ -461,7 +461,7 @@ def process_config(config, use_original):
             params.setdefault("crop", clip_crop)
 
     for each in config.get("trailer", []):
-        video = each["video"]
+        video = each.get("video", config["video"])
         each["video"] = alt_low_res.get(video, video)
         each.setdefault("crop", config["crop"])
 
