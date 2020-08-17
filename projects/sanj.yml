@@ -1,0 +1,102 @@
+alt_low_res:
+  IMG_4891-003.MOV: sanj-01.MOV
+  IMG_4895-001.MOV: sanj-02.MOV
+  IMG_4896-002.MOV: sanj-03.MOV
+crop: ih:ih:ih/3.2:0
+debug: false
+video: IMG_4891-003.MOV
+cover:
+  image: cover.jpg
+  time: 3
+credits:
+  recorded_on: 12 July, 2020
+  cover_design: Akash Raja
+  interviewers: Ranjan, Saqqu & Punch
+  editing: Punch
+  music: A Day to Remember (Bensound)
+  time: 8
+bgm:
+  audio: "../bensound-adaytoremember-truncated.mp3"
+  fg_volume: 0.75
+  bg_volume: 0.2
+clips:
+  - question: For how long have you been playing Ultimate? How did you start playing?
+    timings:
+      - 00:02:34.867-00:02:55.100
+      - 00:02:56.100-00:03:19.433
+      - 00:03:27.500-00:03:50.500
+  - question: Did you play any other sports growing up?
+    timings:
+      - 00:04:22.267-00:04:54.300
+      - 00:06:20.967-00:06:23.933
+      - 00:06:26.833-00:06:49.767
+  - question: How did you get into dancing? Are you professionally trained? Why do you dance?
+    timings:
+      - 00:06:57.000-00:07:02.300
+      - 00:07:26.467-00:07:37.933
+      - 00:07:45.267-00:07:53.000
+      - 00:07:59.833-00:08:07.540
+  - question: What is Ashoka University's Young India Fellowship?
+    timings:
+      - 00:10:41.900-00:11:32.800
+      - 00:11:48.167-00:11:54.367
+      - 00:14:58.200-00:15:14.600
+      - 00:15:24.500-00:15:32.333
+      - 00:15:38.467-00:15:46.733
+      - 00:15:49.233-00:16:05.033
+  - question: How does playing with TIKS compare to playing in Ashoka University?
+    timings:
+      - 00:20:54.133-00:21:24.367
+      - 00:22:19.500-00:22:27.200
+      - 00:22:42.267-00:23:07.167
+      - 00:23:10.267-00:23:38.267
+  - question: What's your most memorable Ultimate moment so far?
+    video: IMG_4895-001.MOV
+    timings:
+      - 00:10:56.000-00:11:38.367
+      - 00:11:46.600-00:11:58.700
+  - question: Who inspires you to be a better Ultimate player?
+    video: IMG_4895-001.MOV
+    timings:
+      - 00:16:21.100-00:16:28.867
+      # Sangee
+      - 00:16:32.467-00:16:41.967
+      # Jaidip
+      - 00:16:46.267-00:17:09.700
+      # Ananya
+      - 00:17:11.500-00:17:20.467
+      # Birdie
+      - 00:17:27.633-00:17:35.933
+  - question: What do you look forward to doing, the most, post pandemic?
+    video: IMG_4895-001.MOV
+    timings:
+      - 00:09:09.467-00:09:24.933
+      - 00:09:42.467-00:09:49.100
+photos:
+  - time: 00:00:51.367-00:01:00.600
+    photo: photos/hammer-heads-1.jpg
+    pad: True
+  - time: 00:01:22.720-00:01:27.754
+    photo: photos/instagram/13473259_258930837815238_494630172_n.jpg
+  - time: 00:01:53.033-00:01:58.067
+    photo: photos/instagram/15624161_1294147120648665_1877556695886987264_n.jpg
+  - time: 00:02:37.633-00:02:42.933
+    photo: photos/instagram/84159237_924423954639006_4560371074295442135_n.jpg
+  - time: 00:02:47.267-00:02:55.133
+    photo: photos/instagram/94874807_2428788620556326_5807290472582327816_n.jpg
+  - time: 00:03:43.933-00:03:48.167
+    photo: photos/prof-1.jpg
+  - time: 00:03:48.167-00:03:52.500
+    photo: photos/prof-2.jpg
+  - time: 00:03:56.400-00:04:03.867
+    photo: photos/art.jpg
+  - time: 00:04:16.067-00:04:24.167
+    photo: photos/cakeman.jpg
+  - time: 00:04:24.167-00:04:30.733
+    photo: photos/cake-sale.jpg
+  - time: 00:04:54.600-00:05:01.800
+    photo: photos/ashoka-practice.jpg
+  - time: 00:06:14.700-00:06:19.700
+    photo: photos/tiks.jpg
+  - time: 00:07:12.167-00:07:18.267
+    photo: photos/ku-tryouts.jpg
