@@ -1,0 +1,99 @@
+alt_low_res:
+  VID_20200712_110739.mp4: dose-01.mp4
+  VID_20200712_114000.mp4: dose-02.mp4
+  VID_20200712_115317.mp4: dose-03.mp4
+  VID_20200712_121654.mp4: dose-04.mp4
+video: VID_20200712_110739.mp4
+cover:
+  image: cover.jpg
+  time: 3
+credits:
+  recorded_on: 12 July, 2020
+  cover_design: Akash Raja
+  interviewers: Ranjan, Saqqu & Punch
+  editing: Punch
+  music: A Day to Remember (Bensound)
+  time: 8
+crop: ih:ih:ih/2:0
+clips:
+  - question: How did you start playing Ultimate?
+    crop: ih:ih:ih/3.5:0
+    timings:
+      - 00:03:38.230-00:03:42.236
+      - 00:03:44.200-00:03:57.395
+      - 00:04:06.777-00:04:17.495
+      - 00:04:22.804-00:04:28.280
+      - 00:04:37.028-00:04:45.842
+      - 00:04:49.849-00:04:54.356
+      - 00:04:55.558-00:05:01.134
+  - question: Have you played any other sports before Ultimate?
+    crop: ih:ih:ih/3.5:0
+    timings:
+      - 00:05:10.650-00:05:12.186
+      - 00:05:17.094-00:05:41.936
+  - question: How is Ultimate different from other sports you have played?
+    crop: ih:ih:ih/3.5:0
+    timings:
+      - 00:05:59.932-00:06:06.810
+      - 00:06:08.580-00:06:20.466
+      - 00:06:28.947-00:06:37.695
+      - 00:08:28.580-00:08:32.987
+      - 00:08:36.526-00:08:40.499
+      - 00:08:47.611-00:09:03.037
+      - 00:09:19.865-00:09:26.543
+  - question: Could you share some of your memorable moments playing Ultimate?
+    video: VID_20200712_114000.mp4
+    timings:
+      - 00:04:19.426-00:04:21.895
+      - 00:04:56.763-00:05:08.909
+      - 00:05:12.846-00:05:36.903
+      - 00:05:37.704-00:05:55.956
+  - question: Who are the players who inspire you to get better at the sport?
+    video: VID_20200712_114000.mp4
+    timings:
+      - 00:01:51.778-00:02:05.726
+      - 00:02:09.429-00:02:14.434
+      - 00:02:21.875-00:02:22.809
+      - 00:02:24.244-00:02:31.451
+      - 00:02:51.805-00:02:54.174
+      - 00:03:25.806-00:03:41.388
+      - 00:03:43.090-00:03:49.996
+      - 00:03:52.933-00:03:58.905
+  - question: How did Tarle's mentorship help you grow as a player?
+    video: VID_20200712_114000.mp4
+    timings:
+      - 00:08:04.384-00:08:15.261
+      - 00:08:23.603-00:08:41.187
+      - 00:06:49.242-00:06:50.644
+      - 00:07:00.086-00:07:17.837
+      - 00:08:49.963-00:08:54.434
+      - 00:09:19.459-00:09:32.038
+  - question: Could you share your experiences during the Leh bike trip?
+    video: VID_20200712_121654.mp4
+    timings:
+      - 00:01:57.562-00:02:12.721
+      - 00:02:15.626-00:02:17.763
+      - 00:02:19.332-00:02:25.041
+      - 00:02:26.344-00:02:30.918
+      - 00:02:35.091-00:02:39.265
+      - 00:02:41.035-00:02:52.387
+      - 00:04:04.874-00:04:22.403
+      - 00:04:25.508-00:04:32.253
+      - 00:04:50.183-00:05:07.445
+      - 00:03:32.120-00:03:39.933
+      - 00:05:25.208-00:05:35.124
+  - question: Volunteering during COVID crisis and lockdowns
+    video: VID_20200712_115317.mp4
+    timings:
+    - 00:11:05.040-00:11:12.653
+    - 00:11:46.342-00:12:13.955
+    - 00:12:17.060-00:12:34.956
+    - 00:13:02.235-00:13:05.874
+  - question: What do you look forward to doing, the most, post pandemic?
+    video: VID_20200712_121654.mp4
+    timings:
+      - 00:00:23.472-00:00:30.083
+      - 00:00:34.057-00:00:54.057
+trailer:
+  - video: VID_20200712_121654.mp4
+    time: 00:08:20.366-00:08:22.302
