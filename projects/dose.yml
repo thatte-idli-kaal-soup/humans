@@ -86,18 +86,18 @@ clips:
       - 00:04:50.183-00:05:07.445
       - 00:03:32.120-00:03:39.933
       - 00:05:25.208-00:05:35.124
-  - question: Volunteering during COVID crisis and lockdowns
+  - question: Volunteering during COVID crisis and lockdowns (Summer 2020)
     video: VID_20200712_115317.mp4
     timings:
     - 00:11:05.040-00:11:12.653
     - 00:11:46.342-00:12:13.955
     - 00:12:17.060-00:12:34.956
-    - 00:13:02.235-00:13:05.874
+    - 00:13:02.235-00:13:06.200
   - question: What do you look forward to doing, the most, post pandemic?
     video: VID_20200712_121654.mp4
     timings:
       - 00:00:23.472-00:00:30.083
-      - 00:00:34.057-00:00:54.057
+      - 00:00:34.057-00:00:52.434
 trailer:
   - video: VID_20200712_121654.mp4
     time: 00:08:20.366-00:08:22.302
