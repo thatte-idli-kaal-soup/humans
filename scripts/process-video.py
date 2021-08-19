@@ -873,6 +873,15 @@ def add_music(ctx, video):
 
 @cli.command()
 @click.pass_context
+@click.argument("video", type=click.File())
+def add_photos(ctx, video):
+    photos = ctx.obj.get("photos")
+    if photos:
+        output_file = overlay_photos(video.name, photos)
+
+
+@cli.command()
+@click.pass_context
 def clean_workdir(ctx):
     paths = [
         path
