@@ -246,7 +246,7 @@ def draw_logo(
 
 
 @log_output_file
-def concat_videos(output_file, *inputs):
+def concat_videos(output_file, inputs):
     with tempfile.NamedTemporaryFile("w", delete=False) as f:
         for input_file in inputs:
             p = os.path.abspath(input_file)
@@ -503,7 +503,7 @@ def process_clip(clip, with_intro, idx):
         intro_file = prepare_question_video(longest_segment, q_n_a)
         segments.insert(0, intro_file)
 
-    concat_videos(output_file, *segments)
+    concat_videos(output_file, segments)
     return output_file
 
 
@@ -778,7 +778,7 @@ def combine_clips(ctx):
         credits_video = create_credits_video(first, credits)
         video_names.append(credits_video)
 
-    concat_videos(output_file, *video_names)
+    concat_videos(output_file, video_names)
 
     # Add image slideshow
     photos = config.get("photos")
@@ -809,7 +809,7 @@ def make_trailer(ctx):
     segments = create_video_segments(config["trailer"], 0, [])
     video = config["video"]
     output_file = f"trailer-{video}"
-    concat_videos(output_file, *segments)
+    concat_videos(output_file, segments)
     if "audio_threshold" in config:
         threshold_file = f"thresholded-{output_file}"
         threshold_audio(output_file, threshold_file, config)
