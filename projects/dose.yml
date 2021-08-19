@@ -98,6 +98,39 @@ clips:
     timings:
       - 00:00:23.472-00:00:30.083
       - 00:00:34.057-00:00:52.434
+photos:
+  - time: 00:00:13.514-00:00:19.620
+    photo: photos/badami.jpg
+  - time: 00:03:24.698-00:03:33.394
+    photo: photos/chennai-heat.jpg
+    pad: True
+  - time: 00:02:38.825-00:02:44.231
+    photo: photos/dabaki-1.jpg
+    pad: True
+  - time: 00:02:44.231-00:02:50.070
+    photo: photos/dabaki-2.jpg
+    pad: True
+  - time: 00:01:17.344-00:01:24.084
+    photo: photos/handball-1.jpg
+    pad: True
+  - time: 00:01:24.084-00:01:30.057
+    photo: photos/dabaki-3.jpg
+  - time: 00:04:58.765-00:05:06.007
+    pad: True
+    photo: photos/tarle-2.jpg
+  - time: 00:05:32.299-00:05:38.170
+    photo: photos/tarle.jpg
+  - time: 00:06:07.195-00:06:17.143
+    photo: photos/leh-3-people.jpg
+  - time: 00:06:50.076-00:06:57.050
+    photo: photos/leh-kids.jpg
+  - time: 00:07:07.434-00:07:14.434
+    photo: photos/leh-introspect.jpg
+  - time: 00:08:37.550-00:08:43.990
+    photo: photos/long-ride.jpg
+    pad: True
+  - time: 00:08:49.496-00:08:54.934
+    photo: photos/trek.jpg
 trailer:
   - video: VID_20200712_121654.mp4
     time: 00:08:20.366-00:08:22.302
