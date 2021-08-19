@@ -14,6 +14,10 @@ credits:
   editing: Punch
   music: A Day to Remember (Bensound)
   time: 8
+bgm:
+  audio: "../bensound-adaytoremember-truncated.mp3"
+  fg_volume: 0.75
+  bg_volume: 0.1
 crop: ih:ih:ih/2:0
 clips:
   - question: How did you start playing Ultimate?
