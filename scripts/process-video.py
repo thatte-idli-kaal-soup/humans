@@ -546,7 +546,7 @@ def create_background_music_file(config):
     # Fade in the music at the start
     st = timings[0]
     d = timings[1] - st
-    afade = f"afade=t=in:st={st}:d={d}:curve=cbr"
+    afade = f"afade=t=in:st={st}:d={d}:curve=squ"
 
     af = (
         f"[0:a]atrim=0:{trim},{afade},volume={ev}:enable='{enabled}',"
