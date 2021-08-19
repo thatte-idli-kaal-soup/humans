@@ -65,9 +65,7 @@ def compute_drawtext_param(
     text = text.replace(",", r"\,").replace(":", r"\:")
     if not disable_wrap:
         lines = [
-            wrapped_line
-            for each in text.splitlines()
-            for wrapped_line in wrap(each, width=width)
+            wrapped_line for each in text.splitlines() for wrapped_line in wrap(each, width=width)
         ]
     else:
         lines = text.splitlines()
@@ -180,7 +178,10 @@ def draw_text(input_file, output_file, text, font_height, time):
         h_offset = drawtext_param.count("drawtext") + 1
         ans_font_height = round(font_height * 1.1)
         ans = compute_drawtext_param(
-            text.a, fontsize=ans_font_height, fontcolor="FF7F00", h_offset=h_offset,
+            text.a,
+            fontsize=ans_font_height,
+            fontcolor="FF7F00",
+            h_offset=h_offset,
         )
         drawtext_param += f",{ans}"
     command = (
@@ -251,9 +252,7 @@ def concat_videos(output_file, *inputs):
             p = os.path.abspath(input_file)
             f.write(f"file '{p}'\n")
     concat_command = (
-        FFMPEG_CMD
-        + ["-f", "concat", "-safe", "0", "-i", f.name, "-c", "copy"]
-        + [output_file]
+        FFMPEG_CMD + ["-f", "concat", "-safe", "0", "-i", f.name, "-c", "copy"] + [output_file]
     )
     subprocess.check_call(concat_command)
     return output_file
@@ -291,9 +290,7 @@ def prepare_question_video(input_file, q_a):
     text = f"{q_a.q} {q_a.a}"
     time = get_time(text)
     duration = video_duration(input_file)
-    assert (
-        duration >= time
-    ), f"Too short segment for question slide: {input_file}, {text}"
+    assert duration >= time, f"Too short segment for question slide: {input_file}, {text}"
     ext = os.path.splitext(input_file)[-1]
     background_file = create_black_background(input_file)
     font_height = int(h / 20)
@@ -408,9 +405,7 @@ def overlay_photos(input_file, photos):
         f"[out{idx-1}][v{idx}]overlay=enable='between(t,{P['start']},{P['end']})'[out{idx}]"
         for idx, P in enumerate(photos, start=1)
     ]
-    filter_complex = (
-        ";".join(overlay_filter).replace("out0", "0").replace(f"[out{n}]", "")
-    )
+    filter_complex = ";".join(overlay_filter).replace("out0", "0").replace(f"[out{n}]", "")
     command = (
         FFMPEG_CMD
         + ["-i", input_file]
@@ -484,11 +479,7 @@ def create_igtv_video(input_file, output_file):
     w, h = video_dimensions(input_file)
     new_h = int(h * 21 / 9)
     pad_h = int((new_h - h) / 2)
-    cmd = (
-        FFMPEG_CMD
-        + ["-i", input_file]
-        + ["-vf", f"pad={w}:{new_h}:0:{pad_h}", output_file]
-    )
+    cmd = FFMPEG_CMD + ["-i", input_file] + ["-vf", f"pad={w}:{new_h}:0:{pad_h}", output_file]
     subprocess.check_call(cmd)
 
 
@@ -497,9 +488,7 @@ def process_clip(clip, with_intro, idx):
     print(f"Creating part {idx}")
     replacements = clip.get("replacements")
     segments = create_video_segments(clip["timings"], idx, replacements)
-    output_file = PART_FILENAME_FMT.format(
-        idx=idx, video_name=clip["timings"][0]["video"]
-    )
+    output_file = PART_FILENAME_FMT.format(idx=idx, video_name=clip["timings"][0]["video"])
 
     if with_intro:
         q = clip.get("question", "")
@@ -509,9 +498,7 @@ def process_clip(clip, with_intro, idx):
             q_n_a = QnA(*q_n_a)
         else:
             q_n_a = QnA("...")
-        segment_timings = zip(
-            [get_segment_duration(s) for s in clip["timings"]], segments
-        )
+        segment_timings = zip([get_segment_duration(s) for s in clip["timings"]], segments)
         longest_segment = sorted(segment_timings, reverse=True)[0][-1]
         intro_file = prepare_question_video(longest_segment, q_n_a)
         segments.insert(0, intro_file)
@@ -625,11 +612,7 @@ def add_background_music(input_video, config):
 @log_output_file
 def threshold_audio(input_file, output_file, config):
     audio_threshold = config["audio_threshold"]
-    cmd = (
-        FFMPEG_CMD
-        + ["-i", input_file]
-        + ["-af", audio_threshold, "-c:v", "copy", output_file]
-    )
+    cmd = FFMPEG_CMD + ["-i", input_file] + ["-af", audio_threshold, "-c:v", "copy", output_file]
     subprocess.check_call(cmd)
     return output_file
 
@@ -943,9 +926,7 @@ def youtube_chapters(ctx):
 @click.pass_context
 def youtube_upload(ctx):
     config = ctx.obj
-    assert ctx.parent.params[
-        "use_original"
-    ], "Please call the command with use original"
+    assert ctx.parent.params["use_original"], "Please call the command with use original"
     # FIXME: We assume we are only going to upload videos with music, which is
     # good enough for now!
     upload_file = os.path.abspath(get_music_filename(config))
@@ -961,9 +942,7 @@ def youtube_upload(ctx):
 @click.pass_context
 def instagram_upload(ctx):
     config = ctx.obj
-    assert ctx.parent.params[
-        "use_original"
-    ], "Please call the command with use original"
+    assert ctx.parent.params["use_original"], "Please call the command with use original"
     # FIXME: We assume we are only going to upload videos with music, which is
     # good enough for now!
     music_file = get_music_filename(config)
