@@ -88,8 +88,8 @@ def compute_drawtext_param(
 
 def create_black_background(input_file, time=10):
     w, h = map(int, video_dimensions(input_file))
-    ext = os.path.splitext(input_file)[-1]
-    background_file = f"black-{w}x{h}{ext}"
+    name, ext = os.path.splitext(input_file)
+    background_file = f"black-{name}-{w}x{h}{ext}"
     if os.path.isfile(background_file):
         return background_file
     command = (
@@ -104,7 +104,7 @@ def create_black_background(input_file, time=10):
 
 def create_cover_video(cover_config, ext):
     w, h = cover_config["width"], cover_config["height"]
-    background_file = f"black-{w}x{h}{ext}"
+    background_file = glob.glob(f"black-*-{w}x{h}{ext}")[0]
     input_file = cover_config["image"]
     output_file = f"cover-{w}x{h}{ext}"
     time = cover_config["time"]
