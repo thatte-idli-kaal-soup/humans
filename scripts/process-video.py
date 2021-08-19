@@ -246,15 +246,27 @@ def draw_logo(
 
 
 @log_output_file
-def concat_videos(output_file, inputs):
-    with tempfile.NamedTemporaryFile("w", delete=False) as f:
-        for input_file in inputs:
-            p = os.path.abspath(input_file)
-            f.write(f"file '{p}'\n")
-    concat_command = (
-        FFMPEG_CMD + ["-f", "concat", "-safe", "0", "-i", f.name, "-c", "copy"] + [output_file]
-    )
-    subprocess.check_call(concat_command)
+def concat_videos(output_file, inputs, use_container=False):
+    # FIXME: Should we use this option everywhere?
+    if use_container:
+        n = len(inputs)
+        f_i = "".join(f"[{i}:v:0][{i}:a:0]" for i in range(n))
+        f_o = f"concat=n={n}:v=1:a=1[outv][outa]"
+        f_args = [arg for f in inputs for arg in ("-i", f)]
+        args = f_args + ["-filter_complex", f"{f_i}{f_o}", "-map", "[outv]", "-map", "[outa]"]
+        if not output_file.endswith(".mkv"):
+            output_file = f"{output_file}.mkv"
+        concat_command = FFMPEG_CMD + args + [output_file]
+        subprocess.check_call(concat_command)
+    else:
+        with tempfile.NamedTemporaryFile("w", delete=False) as f:
+            for input_file in inputs:
+                p = os.path.abspath(input_file)
+                f.write(f"file '{p}'\n")
+        concat_command = (
+            FFMPEG_CMD + ["-f", "concat", "-safe", "0", "-i", f.name, "-c", "copy"] + [output_file]
+        )
+        subprocess.check_call(concat_command)
     return output_file
 
 
@@ -778,7 +790,7 @@ def combine_clips(ctx):
         credits_video = create_credits_video(first, credits)
         video_names.append(credits_video)
 
-    concat_videos(output_file, video_names)
+    output_file = concat_videos(output_file, video_names, use_container=True)
 
     # Add image slideshow
     photos = config.get("photos")
