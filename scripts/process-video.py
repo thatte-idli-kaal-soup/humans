@@ -138,7 +138,7 @@ def get_credits_text(config):
 
 def create_credits_video(input_file, credits_config):
     w, h = map(int, video_dimensions(input_file))
-    time = credits_config["time"]
+    time = credits_config.get("time", 2 + len(credits_config) * 2)
     text = get_credits_text(credits_config)
     ext = os.path.splitext(input_file)[-1]
     background_file = create_black_background(input_file)
