@@ -125,11 +125,13 @@ def create_cover_video(cover_config, ext):
 
 def get_credits_text(config):
     entries = []
+    n = max(map(len, map(str, config.keys())))
+    m = max(map(len, map(str, config.values())))
     for key, value in config.items():
         if key == "time":
             continue
         title = key.replace("_", " ").upper()
-        entry = f"{title:>12}\t{value:<28}".expandtabs(3)
+        entry = f"{title:>{n}}\t{value:<{m}}".expandtabs(3)
         entries.append(entry)
     return "\n".join(entries)
 
