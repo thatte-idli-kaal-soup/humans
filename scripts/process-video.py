@@ -204,7 +204,7 @@ def resize_logo(logo, size):
 
     with open(logo, "rb") as f:
         img = Image.open(io.BytesIO(f.read()))
-    img = ImageOps.fit(img, (size, size), Image.ANTIALIAS)
+    img = ImageOps.fit(img, (size, size))
     with open(new_path, "wb") as out:
         img.save(out, format="png")
     return new_path
